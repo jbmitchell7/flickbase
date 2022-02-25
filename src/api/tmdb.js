@@ -1,31 +1,26 @@
 import axios from 'axios';
 
-const API_KEY = 'api_key=77b900a63178190d255023eee38b9168';
+const apiKey = '?api_key=77b900a63178190d255023eee38b9168';
+//const apiKey = process.env['API_KEY'];
 const API_URL = 'https://api.themoviedb.org/3';
 
-async function tmdbFetch(url, method = 'GET', payload = {}) {
+const tmdbFetch = async (url, method = 'GET', payload = {}) => {
     try {
         const headers = {
             'Content-Type': 'application/json',
             Accept: 'application/json',
         }
-
-        // // if (jwt) {
-        // //     headers.Authorization = `Bearer ${jwt}`
-        // // }
+        //use AsyncStorage instead of localStorage for token storage
+        // if (jwt) {
+        //     headers.Authorization = `Bearer ${jwt}`
+        // }
 
         const options = {
             headers,
             method,
-            url: API_URL + url + API_KEY,
-            body: payload,
+            url: API_URL + url + apiKey,
+            data: payload,
         }
-
-        // if (method === 'GET') {
-        //     options.params = payload
-        // } else {
-        //     [options.data](http://options.data) = payload
-        // }
 
         const response = await axios(options)
 
