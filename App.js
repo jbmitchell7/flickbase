@@ -1,22 +1,16 @@
 import React from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { devToolsEnhancer } from 'redux-devtools-extension';
 import { BottomNavigation } from "react-native-paper";
-import Movie from './src/components/Movie';
 import Watchlist from './src/components/Watchlist';
 import Account from './src/components/Account';
 import Home from './src/components/Home';
 import flickbaseApp from './src/reducers/reducers';
 
 const store = createStore(flickbaseApp, devToolsEnhancer());
-
-const HomeRoute = () => <Home />
-const MovieRoute = () => <Movie />
-const WatchlistRoute = () => <Watchlist />
-const AccountRoute = () => <Account />
 
 const theme = {
   ...DefaultTheme,
@@ -28,21 +22,20 @@ const theme = {
   },
 };
 
-export const windowWidth = Dimensions.get('window').width;
-export const windowHeight = Dimensions.get('window').height;
+const HomeRoute = () => <Home />
+const WatchlistRoute = () => <Watchlist />
+const AccountRoute = () => <Account />
 
 export default function App() {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'home', title: 'Home', icon: 'home' },
-    { key: 'movie', title: 'Movie', icon: 'movie' },
     { key: 'watchlist', title: 'Watchlist', icon: 'playlist-check' },
     { key: 'account', title: 'Account', icon: 'account' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     home: HomeRoute,
-    movie: MovieRoute,
     watchlist: WatchlistRoute,
     account: AccountRoute,
   });
