@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -25,9 +25,11 @@ const theme = {
     ...DefaultTheme.colors,
     primary: '#01C6AC',
     background: '#032541',
-    text: 'yellow'
   },
 };
+
+export const windowWidth = Dimensions.get('window').width;
+export const windowHeight = Dimensions.get('window').height;
 
 export default function App() {
   const [index, setIndex] = React.useState(0);

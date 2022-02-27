@@ -3,6 +3,8 @@ import { fetchGet } from '../api/tmdb';
 import { setPopular } from '../actions/actions';
 import { connect } from 'react-redux';
 import Movie from './Movie';
+import { ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 class Home extends React.Component {
     constructor() {
@@ -14,20 +16,26 @@ class Home extends React.Component {
     }
 
     getPopular = () => {
-        this.props.setPopular(fetchGet("/movie/popular", {}));
+        fetchGet("/movie/popular")
+            .then(response => {
+                this.props.setPopular(response.results);
+            })
+            .catch(error => {
+                console.log(`error getting popular movies`);
+                console.log(error);
+            })
     }
 
     render() {
         const { popular } = this.props;
-        console.log(popular);
 
         return (
-            <>
+            <ScrollView style={styles.header}>
                 <h1>Popular Movies</h1>
-                {/* {popular.map(m => (
-                    <Movie movie={m} />
-                ))} */}
-            </ >
+                {popular.map(m => (
+                    <Movie movie={m} key={m.id} />
+                ))}
+            </ScrollView>
         )
     }
 };
@@ -37,5 +45,11 @@ let mapStateToProps = state => {
         popular: state.popular,
     }
 }
+
+const styles = StyleSheet.create({
+    header: {
+        color: 'yellow',
+    }
+});
 
 export default connect(mapStateToProps, { setPopular })(Home);
