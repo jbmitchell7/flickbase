@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "flickbase",
+    "description": "movie app using the tmdb api",
     "slug": "flickbase",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "cloud.jakemitchell.flickbase"
     },
     "web": {
       "favicon": "./assets/favicon.png"
