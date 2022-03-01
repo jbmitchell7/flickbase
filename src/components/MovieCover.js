@@ -1,26 +1,14 @@
 import React from 'react';
-import { TouchableOpacity, View, StyleSheet, Text, Image } from 'react-native';
-import { Card } from 'react-native-paper';
-import { windowHeight } from '../../App';
+import { TouchableOpacity, View, StyleSheet, Image } from 'react-native';
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-const Movie = (props) => (
-  // <Card>
-  //   <Card.Title title={props.movie.title} />
-  //   <Card.Cover source={{ uri: `${IMAGE_URL}${props.movie.poster_path}` }} />
-  // </Card>
-
-  <TouchableOpacity>
+const MovieCover = (props) => (
+  <TouchableOpacity onPress={() => {
+    props.navigation.navigate('MovieInfo')
+  }}>
     <View style={styles.container}>
       <Image style={styles.image} source={`${IMAGE_URL}${props.movie.poster_path}`} />
-
-
-      {/* <View style={styles.textContainer}>
-        <Text style={styles.text}>
-          {props.movie.title}
-        </Text>
-      </View> */}
     </View>
   </TouchableOpacity>
 );
@@ -31,7 +19,6 @@ const styles = StyleSheet.create({
     height: 500,
     marginBottom: 25,
     borderRadius: 15,
-    backgroundColor: '#032541',
     overflow: 'hidden'
   },
 
@@ -54,4 +41,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Movie;
+export default MovieCover;
