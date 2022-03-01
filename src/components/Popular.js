@@ -1,5 +1,6 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import MovieCover from './MovieCover';
@@ -33,7 +34,7 @@ class Popular extends React.Component {
         const { popular } = this.props;
 
         return (
-            <ScrollView>
+            <ScrollView style={styles.background}>
                 <Text style={styles.header}>Popular Movies</Text>
                 {popular.map(m => (
                     <MovieCover movie={m} key={m.id} navigation={this.props.navigation} />
@@ -51,8 +52,10 @@ let mapStateToProps = state => {
 }
 
 const styles = StyleSheet.create({
+    background: {
+        backgroundColor: '#032541',
+    },
     header: {
-        color: 'yellow',
         padding: 20,
         fontSize: 30,
     }

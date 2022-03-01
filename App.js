@@ -14,9 +14,10 @@ const theme = {
   ...DefaultTheme,
   dark: true,
   colors: {
-    ...DefaultTheme.colors,
     primary: '#01C6AC',
     background: '#032541',
+    surface: '#032541',
+    text: 'yellow',
   },
 };
 

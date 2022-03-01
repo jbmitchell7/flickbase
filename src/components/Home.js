@@ -21,4 +21,5 @@ const Home = () => (
     </Stack.Navigator>
 );
 
+
 export default Home;
