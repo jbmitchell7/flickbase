@@ -1,24 +1,43 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import { setSearch } from '../actions/actions';
-import colors from '../assets/colors';
+import { fetchGet } from '../api/tmdb';
+import SearchForm from './SearchForm';
 
 const Search = (props) => {
-    const onChangeSearch = query => props.setSearch(query);
+    const { searchItem } = props;
+    let searchResults = [];
+
+    const getResults = () => {
+        fetchGet(`/search/multi/?query=${searchItem}&`)
+            .then(response => {
+                searchResults = response.results;
+            })
+            .catch(error => {
+                console.log('error getting results');
+                console.log(error);
+            })
+    }
+
+    if (searchItem !== '') {
+        getResults();
+    }
 
     return (
         <ScrollView>
-            <Searchbar
-                placeholder='Find a Movie'
-                onChangeText={onChangeSearch}
-                value={props.searchItem}
-                style={{ backgroundColor: colors.primaryBlue }}
-            />
+            <SearchForm />
+            {searchResults.map(item => (
+                <Text key={item.id}>{item.id}</Text>
+            ))}
         </ScrollView>
-    )
+    );
 };
 
-export default connect(null, { setSearch })(Search);
+const mapStateToProps = state => {
+    const { searchItem } = state;
+    return { searchItem };
+}
+
+export default connect(mapStateToProps)(Search);

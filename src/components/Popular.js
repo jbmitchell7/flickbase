@@ -18,7 +18,7 @@ class Popular extends React.Component {
     }
 
     getPopular = () => {
-        fetchGet("/movie/popular")
+        fetchGet("/movie/popular/?")
             .then(response => {
                 this.props.setPopular(response.results);
             })
@@ -43,7 +43,7 @@ class Popular extends React.Component {
 };
 
 
-let mapStateToProps = state => {
+const mapStateToProps = state => {
     return {
         popular: state.popular,
     }
