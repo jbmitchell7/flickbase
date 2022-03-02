@@ -7,8 +7,6 @@ import MovieCover from './MovieCover';
 import { setPopular } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 
-const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-
 class Popular extends React.Component {
 
     constructor(props) {
@@ -35,7 +33,7 @@ class Popular extends React.Component {
 
         return (
             <ScrollView style={styles.background}>
-                <Text style={styles.header}>Popular Movies</Text>
+                <Text style={styles.header}>Most Popular</Text>
                 {popular.map(m => (
                     <MovieCover movie={m} key={m.id} navigation={this.props.navigation} />
                 ))}
@@ -52,9 +50,6 @@ let mapStateToProps = state => {
 }
 
 const styles = StyleSheet.create({
-    background: {
-        backgroundColor: '#032541',
-    },
     header: {
         padding: 20,
         fontSize: 30,

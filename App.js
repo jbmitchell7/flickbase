@@ -1,10 +1,11 @@
 import React from 'react';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme as DefaultPaper, Provider as PaperProvider } from 'react-native-paper';
 import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
 import { devToolsEnhancer } from 'redux-devtools-extension';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
+import colors from './src/assets/colors';
 import flickbaseApp from './src/reducers/reducers';
 import BottomNav from './src/components/BottomNav';
 
@@ -14,18 +15,29 @@ const theme = {
   ...DefaultTheme,
   dark: true,
   colors: {
-    primary: '#01C6AC',
-    background: '#032541',
-    surface: '#032541',
-    text: 'yellow',
+    ...DefaultTheme.colors,
+    background: colors.backgroundBlue,
+    text: 'white',
+  },
+};
+
+const paperTheme = {
+  ...DefaultPaper,
+  dark: true,
+  colors: {
+    ...DefaultPaper.colors,
+    primary: colors.blueGreen,
+    background: colors.backgroundBlue,
+    text: 'white',
+    placeholder: '#F8F9FA'
   },
 };
 
 const App = () => {
   return (
     <ReduxProvider store={store}>
-      <PaperProvider theme={theme}>
-        <NavigationContainer>
+      <PaperProvider theme={paperTheme}>
+        <NavigationContainer theme={theme}>
           <BottomNav />
         </NavigationContainer>
       </PaperProvider>
