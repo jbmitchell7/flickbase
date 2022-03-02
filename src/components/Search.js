@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { useEffect } from 'react';
 
 import { setSearchResult } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
@@ -12,15 +13,19 @@ const Search = (props) => {
     let filteredResult = searchResult;
 
     if (searchItem !== '') {
-        fetchGet(`/search/multi/?query=${searchItem}&`)
-            .then(response => {
-                props.setSearchResult(response.results);
-                console.log('got here');
-            })
-            .catch(error => {
-                console.log('error getting results');
-                console.log(error);
-            })
+        useEffect(() => {
+            fetchGet(`/search/multi/?query=${searchItem}&`)
+                .then(response => {
+                    props.setSearchResult(response.results);
+                    console.log('got here');
+                    searchItem = '';
+                })
+                .catch(error => {
+                    console.log('error getting results');
+                    console.log(error);
+                }),
+                [searchItem]
+        })
     }
 
     if (!filteredResult || filteredResult.length == 0) {
