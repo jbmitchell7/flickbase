@@ -3,17 +3,19 @@ import { ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 
+import { setSearchResult } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import SearchForm from './SearchForm';
 
 const Search = (props) => {
-    const { searchItem } = props;
-    let searchResults = [];
+    const { searchItem, searchResult } = props;
+    let filteredResult = searchResult;
 
-    const getResults = () => {
+    if (searchItem !== '') {
         fetchGet(`/search/multi/?query=${searchItem}&`)
             .then(response => {
-                searchResults = response.results;
+                props.setSearchResult(response.results);
+                console.log('got here');
             })
             .catch(error => {
                 console.log('error getting results');
@@ -21,23 +23,31 @@ const Search = (props) => {
             })
     }
 
-    if (searchItem !== '') {
-        getResults();
+    if (!filteredResult || filteredResult.length == 0) {
+        return (
+            <ScrollView>
+                <SearchForm />
+                <Text> No Results</Text>
+            </ScrollView>
+        )
     }
 
     return (
         <ScrollView>
             <SearchForm />
-            {searchResults.map(item => (
-                <Text key={item.id}>{item.id}</Text>
+            {filteredResult.map(item => (
+                <Text key={item.id}>{item.media_type}</Text>
             ))}
         </ScrollView>
     );
+
+
+
 };
 
 const mapStateToProps = state => {
-    const { searchItem } = state;
-    return { searchItem };
+    const { searchItem, searchResult } = state;
+    return { searchItem, searchResult };
 }
 
-export default connect(mapStateToProps)(Search);
+export default connect(mapStateToProps, { setSearchResult })(Search);

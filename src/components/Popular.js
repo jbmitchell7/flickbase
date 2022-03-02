@@ -9,10 +9,6 @@ import { fetchGet } from '../api/tmdb';
 
 class Popular extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.getPopular();
     }

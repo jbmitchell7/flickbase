@@ -7,12 +7,11 @@ import { setSearch } from '../actions/actions';
 import colors from '../assets/colors';
 
 const SearchForm = (props) => {
-    const onChangeSearch = query => props.setSearch(query);
 
     return (
         <Searchbar
             placeholder='Find a Movie'
-            onIconPress={onChangeSearch}
+            onChangeText={query => props.setSearch(query)}
             value={props.searchItem}
             style={styles.searchBar}
         />
