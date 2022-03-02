@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Watchlist from './Watchlist';
 import Account from './Account';
 import Home from './Home';
+import Search from './Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -22,6 +23,16 @@ const BottomNav = () => (
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="home" color={color} size={26} />
+                ),
+            }}
+        />
+        <Tab.Screen
+            name='Search'
+            component={Search}
+            options={{
+                tabBarLabel: 'Search',
+                tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons name="magnify" color={color} size={26} />
                 ),
             }}
         />

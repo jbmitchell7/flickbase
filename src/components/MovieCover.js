@@ -3,15 +3,19 @@ import { TouchableOpacity, View, StyleSheet, Image } from 'react-native';
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
-const MovieCover = (props) => (
-  <TouchableOpacity onPress={() => {
-    props.navigation.navigate('MovieInfo')
-  }}>
-    <View style={styles.container}>
-      <Image style={styles.image} source={`${IMAGE_URL}${props.movie.poster_path}`} />
-    </View>
-  </TouchableOpacity>
-);
+const MovieCover = (props) => {
+    const {navigation, movie} = props;
+    
+    return (
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('MovieInfo', {movie: movie})
+        }}>
+            <View style={styles.container}>
+                <Image style={styles.image} source={`${IMAGE_URL}${movie.poster_path}`} />
+            </View>
+        </TouchableOpacity>
+    )
+};
 
 const styles = StyleSheet.create({
   container: {
