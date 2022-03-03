@@ -2,8 +2,6 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
-//TODO pass ID as prop in order to get all data from item on info page
-
 const SearchResult = (props) => {
     const { item, navigation } = props;
 
@@ -11,7 +9,10 @@ const SearchResult = (props) => {
         return (
             <TouchableOpacity style={styles.cardContainer}
                 onPress={() => {
-                    navigation.navigate('MovieInfo', { movie: item })
+                    navigation.navigate(
+                        'MediaInfo',
+                        { mediaId: item.id, mediaType: item.media_type }
+                    )
                 }}>
                 <Card>
                     <Card.Content>
@@ -27,7 +28,10 @@ const SearchResult = (props) => {
         return (
             <TouchableOpacity style={styles.cardContainer}
                 onPress={() => {
-                    navigation.navigate('TvShowInfo', { tvshow: item })
+                    navigation.navigate(
+                        'MediaInfo',
+                        { mediaId: item.id, mediaType: item.media_type }
+                    )
                 }}>
                 <Card>
                     <Card.Content>
@@ -42,15 +46,22 @@ const SearchResult = (props) => {
     return (
         <TouchableOpacity style={styles.cardContainer}
             onPress={() => {
-                navigation.navigate('PersonInfo', { person: item })
+                navigation.navigate(
+                    'MediaInfo',
+                    { mediaId: item.id, mediaType: item.media_type }
+                )
             }}>
             <Card>
                 <Card.Content>
-                    <Title>{item.name} (Actor)</Title>
+                    <Title>{item.name} (Person)</Title>
                 </Card.Content>
             </Card>
         </TouchableOpacity>
     )
+
+
+
+
 }
 
 const styles = StyleSheet.create({

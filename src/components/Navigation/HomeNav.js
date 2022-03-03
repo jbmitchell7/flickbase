@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MovieInfo from '../Movie/MovieInfo';
+import MediaInfo from '../MediaInfo';
 import Popular from '../Movie/Popular';
 import colors from '../../assets/colors';
 
@@ -23,8 +23,8 @@ const HomeNav = () => (
             options={{ headerShown: false }}
         />
         <Stack.Screen
-            name="MovieInfo"
-            component={MovieInfo}
+            name="MediaInfo"
+            component={MediaInfo}
             options={{ title: '' }}
         />
     </Stack.Navigator>

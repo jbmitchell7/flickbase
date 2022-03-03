@@ -24,9 +24,6 @@ const Popular = (props) => {
     useFocusEffect(
         React.useCallback(() => {
             getPopular();
-            return () => {
-                props.setPopular([]);
-            };
         }, [])
     );
 

@@ -1,9 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MovieInfo from '../Movie/MovieInfo';
-import PersonInfo from '../Person/PersonInfo';
-import TvShowInfo from '../TvShow/TvShowInfo';
+import MediaInfo from '../MediaInfo';
 import Search from '../Search/Search';
 import colors from '../../assets/colors';
 
@@ -25,18 +23,8 @@ const SearchNav = () => (
             options={{ headerShown: false }}
         />
         <Stack.Screen
-            name="MovieInfo"
-            component={MovieInfo}
-            options={{ title: '' }}
-        />
-        <Stack.Screen
-            name="PersonInfo"
-            component={PersonInfo}
-            options={{ title: '' }}
-        />
-        <Stack.Screen
-            name="TvShowInfo"
-            component={TvShowInfo}
+            name="MediaInfo"
+            component={MediaInfo}
             options={{ title: '' }}
         />
     </Stack.Navigator>

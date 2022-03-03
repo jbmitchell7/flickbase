@@ -8,7 +8,9 @@ const MovieCover = (props) => {
 
   return (
     <TouchableOpacity onPress={() => {
-      navigation.navigate('MovieInfo', { movie: movie })
+      navigation.navigate('MediaInfo',
+        { mediaId: movie.id, mediaType: 'movie' }
+      )
     }}>
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: `${IMAGE_URL}${movie.poster_path}` }} />
