@@ -35,7 +35,7 @@ const MovieInfo = (props) => {
                 </Button>
             </View>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={`${IMAGE_URL}${movie.poster_path}`} />
+                <Image style={styles.image} source={{ uri: `${IMAGE_URL}${movie.poster_path}`}} />
             </View>
         </ScrollView>
     )

@@ -11,7 +11,7 @@ const MovieCover = (props) => {
             navigation.navigate('MovieInfo', {movie: movie})
         }}>
             <View style={styles.container}>
-                <Image style={styles.image} source={`${IMAGE_URL}${movie.poster_path}`} />
+                <Image style={styles.image} source={{ uri: `${IMAGE_URL}${movie.poster_path}`}} />
             </View>
         </TouchableOpacity>
     )

@@ -1,9 +1,10 @@
 import React from 'react';
+import { Text } from 'react-native-paper';
 
 const Watchlist = () => (
-  <div>
+  <Text>
     Watchlist Component
-  </div>
+  </Text>
 );
 
 export default Watchlist;

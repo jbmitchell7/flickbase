@@ -1,15 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Text } from 'react-native-paper';
 
 
 const Account = () => (
-  <div>
+  <Text>
     Account Component
-  </div>
+  </Text>
 );
-
-Account.propTypes = {};
-
-Account.defaultProps = {};
 
 export default Account;

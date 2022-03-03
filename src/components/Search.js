@@ -10,22 +10,20 @@ import SearchForm from './SearchForm';
 
 const Search = (props) => {
     const { searchItem, searchResult } = props;
+    
     let filteredResult = searchResult;
 
-    if (searchItem !== '') {
+     if (searchItem !== '') {
         useEffect(() => {
             fetchGet(`/search/multi/?query=${searchItem}&`)
                 .then(response => {
                     props.setSearchResult(response.results);
-                    console.log('got here');
-                    searchItem = '';
                 })
                 .catch(error => {
                     console.log('error getting results');
                     console.log(error);
-                }),
-                [searchItem]
-        })
+                })
+        }, [searchItem])
     }
 
     if (!filteredResult || filteredResult.length == 0) {

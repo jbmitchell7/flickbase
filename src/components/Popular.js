@@ -2,40 +2,44 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 import MovieCover from './MovieCover';
 import { setPopular } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 
-class Popular extends React.Component {
-
-    componentDidMount() {
-        this.getPopular();
-    }
-
-    getPopular = () => {
+const Popular = (props) => {
+    
+    const getPopular = () => {
         fetchGet("/movie/popular/?")
-            .then(response => {
-                this.props.setPopular(response.results);
-            })
-            .catch(error => {
-                console.log(`error getting popular movies`);
-                console.log(error);
-            })
+        .then(response => {
+            props.setPopular(response.results);
+        })
+        .catch(error => {
+            console.log(`error getting popular movies`);
+            console.log(error);
+        })
     }
 
-    render() {
-        const { popular } = this.props;
-
-        return (
-            <ScrollView style={styles.background}>
-                <Text style={styles.header}>Most Popular</Text>
-                {popular.map(m => (
-                    <MovieCover movie={m} key={m.id} navigation={this.props.navigation} />
-                ))}
-            </ScrollView>
-        )
-    }
+    useFocusEffect(
+        React.useCallback(() => {
+            getPopular();
+            return () => {
+                props.setPopular([]);
+            };
+        },[])
+    );
+    
+    const { popular } = props;
+    
+    return (
+        <ScrollView style={styles.background}>
+        <Text style={styles.header}>Most Popular</Text>
+        {popular.map(m => (
+            <MovieCover movie={m} key={m.id} navigation={props.navigation} />
+        ))}
+        </ScrollView>
+    )
 };
 
 
