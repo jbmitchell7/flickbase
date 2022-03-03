@@ -1,13 +1,13 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MovieInfo from './Movie/MovieInfo';
-import Popular from './Popular';
-import colors from '../assets/colors';
+import MovieInfo from '../Movie/MovieInfo';
+import Popular from '../Movie/Popular';
+import colors from '../../assets/colors';
 
 const Stack = createNativeStackNavigator();
 
-const Home = () => (
+const HomeNav = () => (
     <Stack.Navigator
         initialRouteName='Popular'
         screenOptions={{
@@ -31,4 +31,4 @@ const Home = () => (
 );
 
 
-export default Home;
+export default HomeNav;

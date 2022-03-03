@@ -40,7 +40,7 @@ const Search = (props) => {
         <ScrollView>
             <SearchForm />
             {filteredResult.map(item => (
-                <SearchResult key={item.id} item={item} />
+                <SearchResult key={item.id} item={item} navigation={props.navigation} />
             ))}
         </ScrollView>
     );

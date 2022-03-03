@@ -4,9 +4,9 @@ import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
-import MovieCover from './Movie/MovieCover';
-import { setPopular } from '../actions/actions';
-import { fetchGet } from '../api/tmdb';
+import MovieCover from './MovieCover';
+import { setPopular } from '../../actions/actions';
+import { fetchGet } from '../../api/tmdb';
 
 const Popular = (props) => {
 

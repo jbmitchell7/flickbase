@@ -39,7 +39,6 @@ const MovieInfo = (props) => {
             </View>
         </ScrollView>
     )
-
 };
 
 const styles = StyleSheet.create({
