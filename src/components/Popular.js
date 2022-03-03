@@ -4,21 +4,21 @@ import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
-import MovieCover from './MovieCover';
+import MovieCover from './Movie/MovieCover';
 import { setPopular } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 
 const Popular = (props) => {
-    
+
     const getPopular = () => {
         fetchGet("/movie/popular/?")
-        .then(response => {
-            props.setPopular(response.results);
-        })
-        .catch(error => {
-            console.log(`error getting popular movies`);
-            console.log(error);
-        })
+            .then(response => {
+                props.setPopular(response.results);
+            })
+            .catch(error => {
+                console.log(`error getting popular movies`);
+                console.log(error);
+            })
     }
 
     useFocusEffect(
@@ -27,17 +27,17 @@ const Popular = (props) => {
             return () => {
                 props.setPopular([]);
             };
-        },[])
+        }, [])
     );
-    
+
     const { popular } = props;
-    
+
     return (
         <ScrollView style={styles.background}>
-        <Text style={styles.header}>Most Popular</Text>
-        {popular.map(m => (
-            <MovieCover movie={m} key={m.id} navigation={props.navigation} />
-        ))}
+            <Text style={styles.header}>Most Popular</Text>
+            {popular.map(m => (
+                <MovieCover movie={m} key={m.id} navigation={props.navigation} />
+            ))}
         </ScrollView>
     )
 };

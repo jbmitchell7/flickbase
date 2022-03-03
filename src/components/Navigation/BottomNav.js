@@ -2,10 +2,10 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Watchlist from './Watchlist';
-import Account from './Account';
-import Home from './Home';
-import Search from './Search';
+import Watchlist from '../Account/Watchlist';
+import Account from '../Account/Account';
+import Home from '../Home';
+import Search from '../Search/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 

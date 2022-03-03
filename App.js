@@ -7,7 +7,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import colors from './src/assets/colors';
 import flickbaseApp from './src/reducers/reducers';
-import BottomNav from './src/components/BottomNav';
+import BottomNav from './src/components/Navigation/BottomNav';
 
 const store = createStore(flickbaseApp, devToolsEnhancer());
 

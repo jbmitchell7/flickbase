@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { useEffect } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
 
 import SearchResult from './SearchResult';
-import { setSearchResult } from '../actions/actions';
-import { fetchGet } from '../api/tmdb';
+import { setSearchResult } from '../../actions/actions';
+import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
 
 const Search = (props) => {
@@ -31,7 +31,7 @@ const Search = (props) => {
         return (
             <ScrollView>
                 <SearchForm />
-                <Text> No Results</Text>
+                <Text style={styles.text}> No Results</Text>
             </ScrollView>
         )
     }
@@ -48,6 +48,14 @@ const Search = (props) => {
 
 
 };
+
+const styles = StyleSheet.create({
+    text: {
+        paddingTop: 50,
+        fontSize: 20,
+        alignSelf: 'center'
+    }
+})
 
 const mapStateToProps = state => {
     const { searchItem, searchResult } = state;

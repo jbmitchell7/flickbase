@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import { setSearch } from '../actions/actions';
-import colors from '../assets/colors';
+import { setSearch } from '../../actions/actions';
+import colors from '../../assets/colors';
 
 const SearchForm = (props) => {
 

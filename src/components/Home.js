@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MovieInfo from './MovieInfo';
+import MovieInfo from './Movie/MovieInfo';
 import Popular from './Popular';
 import colors from '../assets/colors';
 

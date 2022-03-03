@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Image, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import colors from '../assets/colors';
+import colors from '../../assets/colors';
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w400";
 
@@ -35,7 +35,7 @@ const MovieInfo = (props) => {
                 </Button>
             </View>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: `${IMAGE_URL}${movie.poster_path}`}} />
+                <Image style={styles.image} source={{ uri: `${IMAGE_URL}${movie.poster_path}` }} />
             </View>
         </ScrollView>
     )
