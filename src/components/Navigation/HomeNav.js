@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MediaInfo from '../MediaInfo';
-import Popular from '../Movie/Popular';
+import Popular from '../Popular';
 import colors from '../../assets/colors';
 
 const Stack = createNativeStackNavigator();

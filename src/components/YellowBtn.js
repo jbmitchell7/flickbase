@@ -5,18 +5,19 @@ import { Button } from 'react-native-paper';
 import colors from '../assets/colors';
 
 const YellowBtn = (props) => {
-    const { label } = props;
+    const { label, setState, media } = props;
+
     return (
         <Button compact={true}
             color={colors.yellow}
             dark={true}
-            mode='contained'
-            style={styles.yellowBtn}>
+            mode='outlined'
+            style={styles.yellowBtn}
+            onPress={() => setState(media)}>
             {label}
         </Button>
     )
 }
-
 
 const styles = StyleSheet.create({
     yellowBtn: {
