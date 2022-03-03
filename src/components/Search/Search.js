@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
@@ -15,16 +15,28 @@ const Search = (props) => {
     let filteredResult = searchResult;
 
     if (searchItem !== '') {
-        useEffect(() => {
-            fetchGet(`/search/multi/?query=${searchItem}&`)
-                .then(response => {
-                    props.setSearchResult(response.results);
-                })
-                .catch(error => {
-                    console.log('error getting results');
+        useFocusEffect(
+            React.useCallback(() => {
+                let isActive = true;
+            const getMedia = async () => {
+                try {
+                    const getResponse = await fetchGet(`/search/multi/?query=${searchItem}&`);
+                    if (isActive) {
+                        props.setSearchResult(getResponse.results);
+                    }
+                }
+                catch (error) {
                     console.log(error);
-                })
+                }
+            }
+
+            getMedia();
+
+            return () => {
+                isActive = false;
+            }
         }, [searchItem])
+        )
     }
 
     if (!filteredResult || filteredResult.length == 0) {

@@ -14,20 +14,27 @@ const MediaInfo = (props) => {
     const { mediaId, mediaType } = props.route.params;
     const { choice } = props;
 
-    const getMedia = () => {
-        fetchGet(`/${mediaType}/${mediaId}?`)
-            .then(response => {
-                props.setChoice(response);
-            })
-            .catch(error => {
-                console.log('error getting movie');
-                console.log(error);
-            })
-    }
-
     useFocusEffect(
         React.useCallback(() => {
+            let isActive = true;
+
+            const getMedia = async () => {
+                try {
+                    const mediaResponse = await fetchGet(`/${mediaType}/${mediaId}?`);
+                    if (isActive) {
+                        props.setChoice(mediaResponse);
+                    }
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+
             getMedia();
+
+            return () => {
+                isActive = false;
+            }
         }, [])
     );
 
