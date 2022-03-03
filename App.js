@@ -29,7 +29,8 @@ const paperTheme = {
     primary: colors.blueGreen,
     background: colors.backgroundBlue,
     text: 'white',
-    placeholder: '#F8F9FA'
+    placeholder: 'white',
+    surface: colors.primaryBlue
   },
 };
 

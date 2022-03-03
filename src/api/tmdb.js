@@ -3,6 +3,7 @@ import axios from 'axios';
 //const apiKey = 'api_key=77b900a63178190d255023eee38b9168'
 const apiKey = process.env['API_KEY'];
 const API_URL = 'https://api.themoviedb.org/3';
+const langURL = '&language=en-US'
 
 const tmdbFetch = async (url, method = 'GET', payload = {}) => {
     try {
@@ -18,7 +19,7 @@ const tmdbFetch = async (url, method = 'GET', payload = {}) => {
         const options = {
             headers,
             method,
-            url: API_URL + url + apiKey,
+            url: API_URL + url + apiKey + langURL,
             data: payload,
         }
 

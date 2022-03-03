@@ -4,16 +4,17 @@ import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
 
+import SearchResult from './SearchResult';
 import { setSearchResult } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import SearchForm from './SearchForm';
 
 const Search = (props) => {
     const { searchItem, searchResult } = props;
-    
+
     let filteredResult = searchResult;
 
-     if (searchItem !== '') {
+    if (searchItem !== '') {
         useEffect(() => {
             fetchGet(`/search/multi/?query=${searchItem}&`)
                 .then(response => {
@@ -39,7 +40,7 @@ const Search = (props) => {
         <ScrollView>
             <SearchForm />
             {filteredResult.map(item => (
-                <Text key={item.id}>{item.media_type}</Text>
+                <SearchResult key={item.id} item={item} />
             ))}
         </ScrollView>
     );
