@@ -2,6 +2,8 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
+//TODO pass ID as prop in order to get all data from item on info page
+
 const SearchResult = (props) => {
     const { item, navigation } = props;
 
