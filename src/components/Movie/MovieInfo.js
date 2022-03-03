@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
-import colors from '../../assets/colors';
+import YellowBtn from '../YellowBtn';
 
 const MovieInfo = (props) => {
     const { movie, styles } = props
@@ -12,13 +12,7 @@ const MovieInfo = (props) => {
             <Text style={styles.bioText}>Synopsis: {movie.overview}</Text>
             <Text style={styles.bioText}>Release Date: {movie.release_date}</Text>
             <Text style={styles.bioText}>Budget: {movie.budget}</Text>
-            <Button mode='contained'
-                accessibilityLabel='add to watchlist'
-                dark={true}
-                style={styles.watchlistBtn}
-                color={colors.yellow}>
-                Add to Watchlist
-            </Button>
+            <YellowBtn label='Add to Watchlist' />
         </View>
     )
 }

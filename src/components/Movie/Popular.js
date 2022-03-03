@@ -7,6 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import MovieCover from './MovieCover';
 import { setPopular } from '../../actions/actions';
 import { fetchGet } from '../../api/tmdb';
+import YellowBtn from '../YellowBtn';
 
 const Popular = (props) => {
 
@@ -32,6 +33,9 @@ const Popular = (props) => {
     return (
         <ScrollView style={styles.background}>
             <Text style={styles.header}>Most Popular</Text>
+            <YellowBtn label='Movies' />
+            <YellowBtn label='TV Shows' />
+            <YellowBtn label='People' />
             {popular.map(m => (
                 <MovieCover movie={m} key={m.id} navigation={props.navigation} />
             ))}
