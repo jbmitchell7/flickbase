@@ -18,27 +18,27 @@ const Search = (props) => {
         useFocusEffect(
             React.useCallback(() => {
                 let isActive = true;
-            const getMedia = async () => {
-                try {
-                    const getResponse = await fetchGet(`/search/multi/?query=${searchItem}&`);
-                    if (isActive) {
-                        props.setSearchResult(getResponse.results);
+                const getMedia = async () => {
+                    try {
+                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}&`);
+                        if (isActive) {
+                            props.setSearchResult(getResponse.results);
+                        }
+                    }
+                    catch (error) {
+                        console.log(error);
                     }
                 }
-                catch (error) {
-                    console.log(error);
+
+                getMedia();
+
+                return () => {
+                    isActive = false;
+                    props.setSearchResult([]);
+                    props.setSearch('');
+                    console.log(searchItem);
                 }
-            }
-
-            getMedia();
-
-            return () => {
-                isActive = false;
-                props.setSearchResult([]);
-                props.setSearch('');
-                console.log(searchItem);
-            }
-        }, [searchItem])
+            }, [searchItem])
         )
     }
 

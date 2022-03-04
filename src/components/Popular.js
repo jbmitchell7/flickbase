@@ -19,7 +19,7 @@ const Popular = (props) => {
 
             const getPopular = async (mediaType) => {
                 try {
-                    const popResponse = await fetchGet(`/${mediaType}/popular/?`);
+                    const popResponse = await fetchGet(`/3/${mediaType}/popular/?`);
                     if (isActive) {
                         props.setPopular(popResponse.results);
                     }

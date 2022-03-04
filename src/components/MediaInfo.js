@@ -20,7 +20,7 @@ const MediaInfo = (props) => {
 
             const getMedia = async () => {
                 try {
-                    const mediaResponse = await fetchGet(`/${mediaType}/${mediaId}?`);
+                    const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}?`);
                     if (isActive) {
                         props.setChoice(mediaResponse);
                     }

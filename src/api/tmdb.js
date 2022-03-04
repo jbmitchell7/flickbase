@@ -1,25 +1,21 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//const apiKey = 'api_key=77b900a63178190d255023eee38b9168'
-const apiKey = process.env['API_KEY'];
-const API_URL = 'https://api.themoviedb.org/3';
-const langURL = '&language=en-US'
+const v4Key = process.env['V4_KEY'];
+const API_URL = 'https://api.themoviedb.org';
 
 const tmdbFetch = async (url, method = 'GET', payload = {}) => {
     try {
         const headers = {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            Authorization: `Bearer ${v4Key}`
         }
-        //use AsyncStorage instead of localStorage for token storage
-        // if (jwt) {
-        //     headers.Authorization = `Bearer ${jwt}`
-        // }
 
         const options = {
             headers,
             method,
-            url: API_URL + url + apiKey + langURL,
+            url: API_URL + url,
             data: payload,
         }
 

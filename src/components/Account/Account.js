@@ -3,40 +3,29 @@ import { View, StyleSheet, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, Button } from 'react-native-paper';
 
-import { fetchGet } from '../../api/tmdb';
+import { fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
-
-const REQUEST_TOKEN_URL = 'https://www.themoviedb.org/authenticate/';
 
 const Account = () => {
 
-  const getApiToken = async () => {
+  const createRequest = async () => {
     try {
-      const token = await fetchGet(`/authentication/token/new?`);
-      storeToken(token.request_token);
-      Linking.openURL(`${REQUEST_TOKEN_URL}${token.request_token}`);
+      const token = await fetchPost(`/4/auth/request_token`);
+      Linking.openURL(`https://www.themoviedb.org/auth/access?request_token=${token.request_token}`);
+      await AsyncStorage.setItem('token', token.request_token);
     }
     catch (error) {
-      console.log('error getting api token');
+      console.log('error getting request token');
       console.log(error);
     }
   };
 
-  const getToken = async () => {
+  const loginToken = async (token) => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      console.log(token);
-    }
-    catch {
-      console.log('error getting asyncstorage token')
-    }
-  }
-
-  const storeToken = async (token) => {
-    try {
-      await AsyncStorage.setItem(
-        'token', token
-      )
+      const asyncToken = await AsyncStorage.getItem('token');
+      const token = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
+      //TODO set to redirect to user account page
+      console.log(`logged in`);
     }
     catch {
       console.log('error saving token to asyncstorage');
@@ -59,15 +48,15 @@ const Account = () => {
         color={colors.yellow}
         mode='contained'
         style={styles.btn}
-        onPress={() => getApiToken()}>
+        onPress={() => createRequest()}>
         Approve Access
       </Button>
       <Button
         color={colors.yellow}
-        disabled={true}
+        // disabled={true}
         mode='contained'
         style={styles.btn}
-        onPress={() => null}>
+        onPress={() => loginToken()}>
         Login
       </Button>
     </View>
