@@ -34,6 +34,7 @@ const Popular = (props) => {
 
             return () => {
                 isActive = false;
+                props.setPopular([]);
             };
         }, [media])
     );

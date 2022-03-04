@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import SearchResult from './SearchResult';
-import { setSearchResult } from '../../actions/actions';
+import { setSearchResult, setSearch } from '../../actions/actions';
 import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
 
@@ -34,6 +34,9 @@ const Search = (props) => {
 
             return () => {
                 isActive = false;
+                props.setSearchResult([]);
+                props.setSearch('');
+                console.log(searchItem);
             }
         }, [searchItem])
         )
@@ -74,4 +77,4 @@ const mapStateToProps = state => {
     return { searchItem, searchResult };
 }
 
-export default connect(mapStateToProps, { setSearchResult })(Search);
+export default connect(mapStateToProps, { setSearchResult, setSearch })(Search);
