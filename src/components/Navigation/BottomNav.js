@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Watchlist from '../Account/Watchlist';
-import Account from '../Account/Account';
+import Login from '../Account/Login';
 import HomeNav from './HomeNav';
 import SearchNav from './SearchNav';
 
@@ -48,7 +48,7 @@ const BottomNav = () => (
         />
         <Tab.Screen
             name='Account'
-            component={Account}
+            component={Login}
             options={{
                 tabBarLabel: 'Account',
                 tabBarIcon: ({ color }) => (

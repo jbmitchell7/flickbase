@@ -8,6 +8,7 @@ import MediaCover from './MediaCover';
 import { setPopular } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import YellowBtn from './YellowBtn';
+import { apiV3Key } from '../api/tmdb';
 
 const Popular = (props) => {
     const [media, setMedia] = useState('movie');
@@ -19,7 +20,7 @@ const Popular = (props) => {
 
             const getPopular = async (mediaType) => {
                 try {
-                    const popResponse = await fetchGet(`/3/${mediaType}/popular/?`);
+                    const popResponse = await fetchGet(`/3/${mediaType}/popular/?${apiV3Key}`);
                     if (isActive) {
                         props.setPopular(popResponse.results);
                     }

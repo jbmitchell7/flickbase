@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Linking } from 'react-native';
+import { View, StyleSheet, Linking, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, Button } from 'react-native-paper';
 
 import { fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
 
-const Account = () => {
-  const [loginStatus, setLoginStatus] = useState(false);
+const Login = () => {
+  const [approvedToken, setApprovedToken] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const createRequest = async () => {
     try {
+      await AsyncStorage.setItem('loggedIn', false);
       const token = await fetchPost(`/4/auth/request_token`);
       Linking.openURL(`https://www.themoviedb.org/auth/access?request_token=${token.request_token}`);
       await AsyncStorage.setItem('token', token.request_token);
+      setApprovedToken(true);
     }
     catch (error) {
       //TODO add snack bar 
@@ -22,11 +25,13 @@ const Account = () => {
     }
   };
 
-  const loginToken = async (token) => {
+  const loginAccount = async () => {
     try {
       const asyncToken = await AsyncStorage.getItem('token');
-      await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
-      setLoginStatus(true);
+      const response = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
+      await AsyncStorage.setItem('userId', response.account_id);
+      await AsyncStorage.setItem('loggedIn', true);
+      setLoggedIn(true);
       //TODO add snack bar 
     }
     catch {
@@ -38,7 +43,9 @@ const Account = () => {
   const logout = async () => {
     try {
       await AsyncStorage.setItem('token', '');
-      setLoginStatus(false);
+      await AsyncStorage.setItem('loggedIn', false);
+      setLoggedIn(false);
+      setApprovedToken(false);
       //TODO add snack bar 
     }
     catch {
@@ -47,7 +54,7 @@ const Account = () => {
     }
   }
 
-  if (!loginStatus) {
+  if (!loggedIn) {
     return (
       <View>
         <Text style={styles.header}>Login</Text>
@@ -64,15 +71,16 @@ const Account = () => {
           color={colors.yellow}
           mode='contained'
           style={styles.btn}
+          disabled={approvedToken}
           onPress={() => createRequest()}>
           Approve Access
         </Button>
         <Button
           color={colors.yellow}
-          // disabled={true}
           mode='contained'
+          disabled={!approvedToken}
           style={styles.btn}
-          onPress={() => loginToken()}>
+          onPress={() => loginAccount()}>
           Login
         </Button>
       </View>
@@ -80,17 +88,16 @@ const Account = () => {
   }
 
   return (
-    <View>
+    <ScrollView>
       <Text style={styles.header}>Account</Text>
       <Button
         color={colors.yellow}
-        // disabled={true}
         mode='contained'
         style={styles.btn}
         onPress={() => logout()}>
         Logout
       </Button>
-    </View>
+    </ScrollView>
   )
 
 };
@@ -111,6 +118,6 @@ const styles = StyleSheet.create({
     width: 200,
     alignSelf: 'center',
   },
-})
+});
 
-export default Account;
+export default Login;
