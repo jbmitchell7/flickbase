@@ -61,7 +61,8 @@ const mapStateToProps = state => {
 
 const styles = StyleSheet.create({
     header: {
-        padding: 20,
+        marginVertical: 40,
+        marginHorizontal: 20,
         fontSize: 30,
     }
 });

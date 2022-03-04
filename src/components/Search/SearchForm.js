@@ -21,7 +21,7 @@ const SearchForm = (props) => {
 
 const styles = StyleSheet.create({
     searchBar: {
-        marginVertical: 20,
+        marginVertical: 40,
         backgroundColor: colors.primaryBlue,
         width: '90%',
         alignSelf: 'center',
