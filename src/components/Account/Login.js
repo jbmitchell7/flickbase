@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Linking, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, Button } from 'react-native-paper';
+import { connect } from 'react-redux';
 
+import { setWatchlist } from '../../actions/actions';
 import { fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
 
-const Login = () => {
+const Login = (props) => {
   const [approvedToken, setApprovedToken] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const createRequest = async () => {
     try {
-      await AsyncStorage.setItem('loggedIn', false);
+      await AsyncStorage.setItem('loggedIn', '');
       const token = await fetchPost(`/4/auth/request_token`);
+      console.log(token);
       Linking.openURL(`https://www.themoviedb.org/auth/access?request_token=${token.request_token}`);
       await AsyncStorage.setItem('token', token.request_token);
       setApprovedToken(true);
@@ -30,7 +33,7 @@ const Login = () => {
       const asyncToken = await AsyncStorage.getItem('token');
       const response = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
       await AsyncStorage.setItem('userId', response.account_id);
-      await AsyncStorage.setItem('loggedIn', true);
+      await AsyncStorage.setItem('loggedIn', 'true');
       setLoggedIn(true);
       //TODO add snack bar 
     }
@@ -43,7 +46,8 @@ const Login = () => {
   const logout = async () => {
     try {
       await AsyncStorage.setItem('token', '');
-      await AsyncStorage.setItem('loggedIn', false);
+      await AsyncStorage.setItem('loggedIn', '');
+      props.setWatchlist([]);
       setLoggedIn(false);
       setApprovedToken(false);
       //TODO add snack bar 
@@ -120,4 +124,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapStateToProps = state => {
+    return {
+        watchlist: state.watchlist,
+    }
+}
+
+export default connect(mapStateToProps, { setWatchlist })(Login);

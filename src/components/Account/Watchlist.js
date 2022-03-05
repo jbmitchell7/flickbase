@@ -34,7 +34,6 @@ const Watchlist = (props) => {
 
       return () => {
         isActive = false;
-        props.setWatchlist([]);
       };
     }, [])
   );
