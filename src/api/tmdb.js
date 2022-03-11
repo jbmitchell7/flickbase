@@ -34,7 +34,7 @@ const tmdbFetch = async (url, method = 'GET', payload = {}) => {
         return response.data
 
     } catch (err) {
-        console.error('Error retrieving data', err)
+        throw new Error("Error retrieving data")
     }
 }
 
