@@ -4,8 +4,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import Watchlist from '../Account/Watchlist';
 import Login from '../Account/Login';
-import HomeNav from './HomeNav';
-import SearchNav from './SearchNav';
+import Popular from '../Popular';
+import Search from '../Search/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -18,7 +18,7 @@ const BottomNav = () => (
     >
         <Tab.Screen
             name='Home'
-            component={HomeNav}
+            component={Popular}
             options={{
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (
@@ -28,7 +28,7 @@ const BottomNav = () => (
         />
         <Tab.Screen
             name='Search'
-            component={SearchNav}
+            component={Search}
             options={{
                 tabBarLabel: 'Search',
                 tabBarIcon: ({ color }) => (

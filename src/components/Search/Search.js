@@ -37,7 +37,6 @@ const Search = (props) => {
                     isActive = false;
                     props.setSearchResult([]);
                     props.setSearch('');
-                    console.log(searchItem);
                 }
             }, [searchItem])
         )
