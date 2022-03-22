@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native'
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,17 +12,17 @@ import colors from '../../assets/colors';
 
 const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
-  let myLists = [];
+  const [fbWatchlist, setFbWatchlist] = useState([]);
 
   const createFlickbaseList = async () => {
     try {
       const watchlistRes = await fetchPost(`/4/list`,
         {
           name: "Flickbase Watchlist",
-          iso_639_1: "eng"
+          iso_639_1: "en"
         }
       );
-      console.log(watchlistRes.results);
+      setFbWatchlist(watchlistRes.results)
     }
     catch (error) {
       console.log('error creating watchlist');
@@ -39,9 +39,15 @@ const Watchlist = (props) => {
           const id = await AsyncStorage.getItem('userId');
           const listRes = await fetchGet(`/4/account/${id}/lists`);
           let results = listRes.results;
-          let fbList = results.find(list => list.name === 'Flickbase Watchlist');
-          if (isActive && fbList) {
-            props.setWatchlist(fbList);
+          //searches for existing flickbase watchlist
+          let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
+          // if screen is active and a flickbase watchlist exists,
+          // sets watchlist state to existing watchlist
+          if (isActive && fbListData) {
+            let listId = fbListData.id;
+            const fbList = await fetchGet(`/4/list/${listId}`);
+            props.setWatchlist(fbList.results);
+            await AsyncStorage.setItem('watchlistId', listId);
           }
         }
         catch (error) {
@@ -55,7 +61,7 @@ const Watchlist = (props) => {
       return () => {
         isActive = false;
       };
-    }, [])
+    }, [fbWatchlist])
   );
 
   if (!loginStatus) {
@@ -87,9 +93,6 @@ const Watchlist = (props) => {
   return (
     <ScrollView>
       <Text style={styles.header}>Watchlist</Text>
-      {watchlist.map(m => (
-        <MediaCover key={m.id} media={m} navigation={props.navigation} />
-      ))}
       <FlatList
         data={watchlist}
         renderItem={({ item }) => (

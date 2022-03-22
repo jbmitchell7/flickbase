@@ -31,6 +31,7 @@ const Login = (props) => {
       const asyncToken = await AsyncStorage.getItem('token');
       const response = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
       await AsyncStorage.setItem('userId', response.account_id);
+      await AsyncStorage.setItem('token', response.access_token);
       props.setLoginStatus(true);
       //TODO add snack bar 
     }
