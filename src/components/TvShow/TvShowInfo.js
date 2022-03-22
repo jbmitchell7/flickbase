@@ -1,9 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Button } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
-import colors from '../../assets/colors';
-import YellowBtn from '../YellowBtn';
+import WatchlistBtn from '../WatchlistBtn';
 
 const TvShowInfo = (props) => {
     const { show, styles } = props
@@ -13,7 +12,7 @@ const TvShowInfo = (props) => {
             <Text style={styles.bioText}>Synopsis: {show.overview}</Text>
             <Text style={styles.bioText}>Debuted: {show.first_air_date}</Text>
             <Text style={styles.bioText}>Total Episodes: {show.number_of_episodes}</Text>
-            <YellowBtn label='Add to Watchlist' />
+            <WatchlistBtn label='Add to Watchlist' media={show} type="tv" />
         </View>
     )
 }

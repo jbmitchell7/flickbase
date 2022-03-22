@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import colors from '../assets/colors';
+import Popular from './Popular';
 
-const YellowBtn = (props) => {
+const PopularBtn = (props) => {
     const { label, setState, media } = props;
 
     return (
@@ -27,4 +28,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default YellowBtn;
+export default PopularBtn;

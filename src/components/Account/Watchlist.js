@@ -1,24 +1,33 @@
 import React from 'react';
 import { ScrollView, StyleSheet, FlatList } from 'react-native'
-import { Text } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { setWatchlist } from '../../actions/actions';
-import { fetchGet } from '../../api/tmdb';
+import { fetchGet, fetchPost } from '../../api/tmdb';
 import MediaCover from '../MediaCover';
+import colors from '../../assets/colors';
 
 const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
+  let myLists = [];
 
-  if (!loginStatus) {
-    return (
-      <ScrollView>
-        <Text style={styles.header}>Watchlist</Text>
-        <Text>Must be logged in to view watchlist</Text>
-      </ScrollView>
-    )
+  const createFlickbaseList = async () => {
+    try {
+      const watchlistRes = await fetchPost(`/4/list`,
+        {
+          name: "Flickbase Watchlist",
+          iso_639_1: "eng"
+        }
+      );
+      console.log(watchlistRes.results);
+    }
+    catch (error) {
+      console.log('error creating watchlist');
+      console.log(error);
+    }
   }
 
   useFocusEffect(
@@ -28,9 +37,11 @@ const Watchlist = (props) => {
       const getWatchlist = async () => {
         try {
           const id = await AsyncStorage.getItem('userId');
-          const watchlistRes = await fetchGet(`/4/account/${id}/movie/watchlist`);
-          if (isActive) {
-            props.setWatchlist(watchlistRes.results);
+          const listRes = await fetchGet(`/4/account/${id}/lists`);
+          let results = listRes.results;
+          let fbList = results.find(list => list.name === 'Flickbase Watchlist');
+          if (isActive && fbList) {
+            props.setWatchlist(fbList);
           }
         }
         catch (error) {
@@ -46,6 +57,32 @@ const Watchlist = (props) => {
       };
     }, [])
   );
+
+  if (!loginStatus) {
+    return (
+      <ScrollView>
+        <Text style={styles.header}>Watchlist</Text>
+        <Text>Must be logged in to view watchlist</Text>
+      </ScrollView>
+    )
+  }
+
+  if (watchlist.length == 0) {
+    return (
+      <ScrollView>
+        <Text style={styles.header}>Watchlist</Text>
+        <Text style={styles.watchlistMsg}>You have not created a watchlist for flickbase yet.</Text>
+        <Button
+          color={colors.yellow}
+          dark={true}
+          mode='outlined'
+          style={styles.yellowBtn}
+          onPress={() => createFlickbaseList()}>
+          Create Flickbase Watchlist
+        </Button>
+      </ScrollView>
+    )
+  }
 
   return (
     <ScrollView>
@@ -72,6 +109,14 @@ const styles = StyleSheet.create({
     marginVertical: 40,
     marginHorizontal: 20,
   },
+  yellowBtn: {
+    marginBottom: 20,
+    alignSelf: 'center'
+  },
+  watchlistMsg: {
+    marginBottom: 20,
+    marginHorizontal: 20
+  }
 });
 
 const mapStateToProps = state => {

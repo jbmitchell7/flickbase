@@ -8,14 +8,6 @@ export const apiV3Key = 'api_key=77b900a63178190d255023eee38b9168';
 const API_URL = 'https://api.themoviedb.org';
 
 const tmdbFetch = async (url, method = 'GET', payload = {}) => {
-
-    //TODO Currently breaks login, eventually need to view account data
-    // const status = await AsyncStorage.getItem('loggedIn');
-
-    // if (status) {
-    //     apiV4Key = await AsyncStorage.getItem('token');
-    // }
-
     try {
         const headers = {
             'Content-Type': 'application/json;charset=utf-8',

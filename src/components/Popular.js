@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, FlatList, View } from 'react-native';
+import { ScrollView, StyleSheet, FlatList } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import MediaCover from './MediaCover';
 import { setPopular, setLoginStatus } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
-import YellowBtn from './YellowBtn';
+import PopularBtn from './PopularBtn';
 import { apiV3Key } from '../api/tmdb';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -48,9 +48,9 @@ const Popular = (props) => {
     return (
         <ScrollView style={styles.background}>
             <Text style={styles.header}>Most Popular</Text>
-            <YellowBtn label='Movies' setState={setMedia} media='movie' />
-            <YellowBtn label='TV Shows' setState={setMedia} media='tv' />
-            <YellowBtn label='People' setState={setMedia} media='person' />
+            <PopularBtn label='Movies' setState={setMedia} media='movie' />
+            <PopularBtn label='TV Shows' setState={setMedia} media='tv' />
+            <PopularBtn label='People' setState={setMedia} media='person' />
             <FlatList
                 data={popular}
                 renderItem={({ item }) => (

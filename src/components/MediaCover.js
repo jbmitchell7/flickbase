@@ -1,6 +1,5 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet, Image } from 'react-native';
-import { Text } from 'react-native-paper';
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
