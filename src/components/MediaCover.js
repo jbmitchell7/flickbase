@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, StyleSheet, Image } from 'react-native';
+import { Text } from 'react-native-paper';
 
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -40,20 +41,18 @@ const MediaCover = (props) => {
       navigation.navigate('MediaInfo',
         { mediaId: media.id, mediaType: 'movie' }
       )
-    }}>
-      <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.poster_path}` }} />
-      </View>
+    }}
+      style={styles.imageContainer}>
+      <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.poster_path}` }} />
     </TouchableOpacity>
   )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: 500,
-    marginBottom: 25,
-    borderRadius: 15,
+  imageContainer: {
+    width: '50%',
+    height: 250,
+    marginBottom: 15,
     overflow: 'hidden'
   },
 
@@ -63,17 +62,6 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'contain'
   },
-
-  textContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  text: {
-    fontWeight: 'bold',
-    fontSize: 20
-  }
 });
 
 export default MediaCover;

@@ -1,5 +1,12 @@
 import { combineReducers } from "redux";
-import { SET_POPULAR, SET_SEARCH, SET_SEARCH_RESULT, SET_CHOICE, SET_WATCHLIST } from "../actions/actions";
+import {
+    SET_POPULAR,
+    SET_SEARCH,
+    SET_SEARCH_RESULT,
+    SET_CHOICE,
+    SET_WATCHLIST,
+    SET_LOGIN_STATUS,
+} from "../actions/actions";
 
 function popular(state = [], action) {
     switch (action.type) {
@@ -46,12 +53,22 @@ function searchItem(state = '', action) {
     }
 }
 
+function loginStatus(state = false, action) {
+    switch (action.type) {
+        case SET_LOGIN_STATUS:
+            return action.value;
+        default:
+            return state;
+    }
+}
+
 const flickbaseApp = combineReducers({
     popular,
     searchItem,
     searchResult,
     choice,
-    watchlist
+    watchlist,
+    loginStatus
 });
 
 export default flickbaseApp;

@@ -4,26 +4,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import { setWatchlist } from '../../actions/actions';
+import { setWatchlist, setLoginStatus } from '../../actions/actions';
 import { fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
 
 const Login = (props) => {
   const [approvedToken, setApprovedToken] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { loginStatus } = props;
 
   const createRequest = async () => {
     try {
-      await AsyncStorage.setItem('loggedIn', '');
       const token = await fetchPost(`/4/auth/request_token`);
-      console.log(token);
       Linking.openURL(`https://www.themoviedb.org/auth/access?request_token=${token.request_token}`);
       await AsyncStorage.setItem('token', token.request_token);
       setApprovedToken(true);
     }
     catch (error) {
       //TODO add snack bar 
-      console.log('error getting request token');
+      console.log('error getting token');
       console.log(error);
     }
   };
@@ -33,8 +31,7 @@ const Login = (props) => {
       const asyncToken = await AsyncStorage.getItem('token');
       const response = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
       await AsyncStorage.setItem('userId', response.account_id);
-      await AsyncStorage.setItem('loggedIn', 'true');
-      setLoggedIn(true);
+      props.setLoginStatus(true);
       //TODO add snack bar 
     }
     catch {
@@ -46,9 +43,9 @@ const Login = (props) => {
   const logout = async () => {
     try {
       await AsyncStorage.setItem('token', '');
-      await AsyncStorage.setItem('loggedIn', '');
+      await AsyncStorage.setItem('userId', '');
+      props.setLoginStatus(false);
       props.setWatchlist([]);
-      setLoggedIn(false);
       setApprovedToken(false);
       //TODO add snack bar 
     }
@@ -58,7 +55,7 @@ const Login = (props) => {
     }
   }
 
-  if (!loggedIn) {
+  if (!loginStatus) {
     return (
       <View>
         <Text style={styles.header}>Login</Text>
@@ -125,9 +122,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return {
-        watchlist: state.watchlist,
-    }
+  return {
+    watchlist: state.watchlist,
+    loginStatus: state.loginStatus
+  }
 }
 
-export default connect(mapStateToProps, { setWatchlist })(Login);
+export default connect(mapStateToProps, { setWatchlist, setLoginStatus })(Login);

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
 import MediaCover from './MediaCover';
-import { setPopular } from '../actions/actions';
+import { setPopular, setLoginStatus } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import YellowBtn from './YellowBtn';
 import { apiV3Key } from '../api/tmdb';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Popular = (props) => {
     const [media, setMedia] = useState('movie');
@@ -21,6 +22,10 @@ const Popular = (props) => {
             const getPopular = async (mediaType) => {
                 try {
                     const popResponse = await fetchGet(`/3/${mediaType}/popular/?${apiV3Key}`);
+                    const userLoggedIn = await AsyncStorage.getItem('token');
+                    if (userLoggedIn != '') {
+                        props.setLoginStatus(true);
+                    }
                     if (isActive) {
                         props.setPopular(popResponse.results);
                     }
@@ -46,9 +51,14 @@ const Popular = (props) => {
             <YellowBtn label='Movies' setState={setMedia} media='movie' />
             <YellowBtn label='TV Shows' setState={setMedia} media='tv' />
             <YellowBtn label='People' setState={setMedia} media='person' />
-            {popular.map(m => (
-                <MediaCover media={m} key={m.id} navigation={props.navigation} />
-            ))}
+            <FlatList
+                data={popular}
+                renderItem={({ item }) => (
+                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                )}
+                keyExtractor={item => item.id}
+                numColumns={2}
+            />
         </ScrollView>
     )
 };
@@ -57,6 +67,7 @@ const Popular = (props) => {
 const mapStateToProps = state => {
     return {
         popular: state.popular,
+        loginStatus: state.loginStatus
     }
 }
 
@@ -68,4 +79,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, { setPopular })(Popular);
+export default connect(mapStateToProps, { setPopular, setLoginStatus })(Popular);
