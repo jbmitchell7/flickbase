@@ -8,7 +8,6 @@ import SearchResult from './SearchResult';
 import { setSearchResult, setSearch } from '../../actions/actions';
 import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
-import { apiV3Key } from '../../api/tmdb';
 
 const Search = (props) => {
     const { searchItem, searchResult } = props;
@@ -21,7 +20,7 @@ const Search = (props) => {
                 let isActive = true;
                 const getMedia = async () => {
                     try {
-                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}&${apiV3Key}`);
+                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}`);
                         if (isActive) {
                             props.setSearchResult(getResponse.results);
                         }

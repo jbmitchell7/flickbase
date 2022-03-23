@@ -9,7 +9,6 @@ import TvShowInfo from './TvShow/TvShowInfo';
 import { setChoice } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import ImageComponent from './image';
-import { apiV3Key } from '../api/tmdb';
 import Snack from './Snack';
 
 const MediaInfo = (props) => {
@@ -31,7 +30,7 @@ const MediaInfo = (props) => {
 
             const getMedia = async () => {
                 try {
-                    const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}?${apiV3Key}`);
+                    const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
                     if (isActive) {
                         props.setChoice(mediaResponse);
                     }

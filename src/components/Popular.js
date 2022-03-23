@@ -8,7 +8,6 @@ import MediaCover from './MediaCover';
 import { setPopular, setLoginStatus } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import PopularBtn from './PopularBtn';
-import { apiV3Key } from '../api/tmdb';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Popular = (props) => {
@@ -22,7 +21,7 @@ const Popular = (props) => {
 
             const getPopular = async (mediaType) => {
                 try {
-                    const popResponse = await fetchGet(`/3/${mediaType}/popular/?${apiV3Key}`);
+                    const popResponse = await fetchGet(`/3/${mediaType}/popular/`);
                     const userLoggedIn = await AsyncStorage.getItem('token');
                     if (userLoggedIn != '') {
                         props.setLoginStatus(true);
