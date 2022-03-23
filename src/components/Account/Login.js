@@ -7,10 +7,21 @@ import { connect } from 'react-redux';
 import { setWatchlist, setLoginStatus } from '../../actions/actions';
 import { fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
+import Snack from '../Snack';
 
 const Login = (props) => {
-  const [approvedToken, setApprovedToken] = useState(false);
   const { loginStatus } = props;
+
+  const [approvedToken, setApprovedToken] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [snackText, setSnackText] = useState('');
+
+  const onToggleSnackBar = (result) => {
+    setVisible(!visible);
+    setSnackText(result);
+  };
+
+  const onDismissSnackBar = () => setVisible(false);
 
   const createRequest = async () => {
     try {
@@ -20,8 +31,8 @@ const Login = (props) => {
       setApprovedToken(true);
     }
     catch (error) {
-      //TODO add snack bar 
-      console.log('error getting token');
+      setSnackText('Error Requesting Token');
+      onToggleSnackBar(snackText);
       console.log(error);
     }
   };
@@ -33,10 +44,10 @@ const Login = (props) => {
       await AsyncStorage.setItem('userId', response.account_id);
       await AsyncStorage.setItem('token', response.access_token);
       props.setLoginStatus(true);
-      //TODO add snack bar 
     }
     catch {
-      //TODO add snack bar 
+      setSnackText('Error Logging In');
+      onToggleSnackBar(snackText);
       console.log('error logging in');
     }
   }
@@ -48,11 +59,11 @@ const Login = (props) => {
       props.setLoginStatus(false);
       props.setWatchlist([]);
       setApprovedToken(false);
-      //TODO add snack bar 
     }
-    catch {
-      //TODO add snack bar 
-      console.log('failed to log out');
+    catch (error) {
+      setSnackText('Error Logging Out');
+      onToggleSnackBar(snackText);
+      console.log(error);
     }
   }
 
@@ -85,6 +96,7 @@ const Login = (props) => {
           onPress={() => loginAccount()}>
           Login
         </Button>
+        <Snack visible={visible} onDismissSnackBar={onDismissSnackBar} snackText={snackText} />
       </View>
     )
   }
@@ -99,6 +111,7 @@ const Login = (props) => {
         onPress={() => logout()}>
         Logout
       </Button>
+      <Snack visible={visible} onDismissSnackBar={onDismissSnackBar} snackText={snackText} />
     </ScrollView>
   )
 

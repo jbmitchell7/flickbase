@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -10,10 +10,20 @@ import { setChoice } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import ImageComponent from './image';
 import { apiV3Key } from '../api/tmdb';
+import Snack from './Snack';
 
 const MediaInfo = (props) => {
     const { mediaId, mediaType } = props.route.params;
     const { choice } = props;
+    const [visible, setVisible] = useState(false);
+    const [snackText, setSnackText] = useState('');
+
+    const onToggleSnackBar = (result) => {
+        setVisible(!visible);
+        setSnackText(result);
+    };
+
+    const onDismissSnackBar = () => setVisible(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -42,8 +52,12 @@ const MediaInfo = (props) => {
     if (mediaType == 'movie') {
         return (
             <ScrollView>
-                <MovieInfo movie={choice} styles={styles} />
+                <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} />
                 <ImageComponent item={choice} />
+                <Snack
+                    visible={visible}
+                    onDismissSnackBar={onDismissSnackBar}
+                    snackText={snackText} />
             </ScrollView>
         )
     }
@@ -53,14 +67,22 @@ const MediaInfo = (props) => {
             <ScrollView>
                 <PersonInfo person={choice} styles={styles} />
                 <ImageComponent item={choice} media={'person'} />
+                <Snack
+                    visible={visible}
+                    onDismissSnackBar={onDismissSnackBar}
+                    snackText={snackText} />
             </ScrollView>
         )
     }
 
     return (
         <ScrollView>
-            <TvShowInfo show={choice} styles={styles} />
+            <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} />
             <ImageComponent item={choice} />
+            <Snack
+                visible={visible}
+                onDismissSnackBar={onDismissSnackBar}
+                snackText={snackText} />
         </ScrollView>
     )
 };

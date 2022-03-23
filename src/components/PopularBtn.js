@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import colors from '../assets/colors';
-import Popular from './Popular';
 
 const PopularBtn = (props) => {
     const { label, setState, media } = props;
@@ -23,7 +22,7 @@ const PopularBtn = (props) => {
 const styles = StyleSheet.create({
     yellowBtn: {
         marginBottom: 20,
-        width: 200,
+        width: 100,
         alignSelf: 'center'
     },
 })

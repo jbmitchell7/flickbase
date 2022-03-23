@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, SafeAreaView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Popular = (props) => {
     const [media, setMedia] = useState('movie');
+    const [mediaChanged, setMediaChanged] = useState(0);
     const { popular } = props;
 
     useFocusEffect(
@@ -37,6 +38,7 @@ const Popular = (props) => {
             };
 
             getPopular(media);
+            setMediaChanged(mediaChanged + 1);
 
             return () => {
                 isActive = false;
@@ -46,20 +48,23 @@ const Popular = (props) => {
     );
 
     return (
-        <ScrollView style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <Text style={styles.header}>Most Popular</Text>
-            <PopularBtn label='Movies' setState={setMedia} media='movie' />
-            <PopularBtn label='TV Shows' setState={setMedia} media='tv' />
-            <PopularBtn label='People' setState={setMedia} media='person' />
+            <View style={styles.buttonContainer}>
+                <PopularBtn label='Movies' setState={setMedia} media='movie' />
+                <PopularBtn label='TV Shows' setState={setMedia} media='tv' />
+                <PopularBtn label='People' setState={setMedia} media='person' />
+            </View>
             <FlatList
                 data={popular}
                 renderItem={({ item }) => (
                     <MediaCover media={item} key={item.id} navigation={props.navigation} />
                 )}
+                extraData={mediaChanged}
                 keyExtractor={item => item.id}
                 numColumns={2}
             />
-        </ScrollView>
+        </SafeAreaView>
     )
 };
 
@@ -76,6 +81,13 @@ const styles = StyleSheet.create({
         marginVertical: 40,
         marginHorizontal: 20,
         fontSize: 30,
+    },
+    background: {
+        flex: 1
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
     }
 });
 

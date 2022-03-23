@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -66,16 +66,16 @@ const Watchlist = (props) => {
 
   if (!loginStatus) {
     return (
-      <ScrollView>
+      <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
         <Text>Must be logged in to view watchlist</Text>
-      </ScrollView>
+      </SafeAreaView>
     )
   }
 
   if (watchlist.length == 0) {
     return (
-      <ScrollView>
+      <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
         <Text style={styles.watchlistMsg}>You have not created a watchlist for flickbase yet.</Text>
         <Button
@@ -86,12 +86,12 @@ const Watchlist = (props) => {
           onPress={() => createFlickbaseList()}>
           Create Flickbase Watchlist
         </Button>
-      </ScrollView>
+      </SafeAreaView>
     )
   }
 
   return (
-    <ScrollView>
+    <SafeAreaView style={styles.viewContainer}>
       <Text style={styles.header}>Watchlist</Text>
       <FlatList
         data={watchlist}
@@ -101,7 +101,7 @@ const Watchlist = (props) => {
         keyExtractor={item => item.id}
         numColumns={2}
       />
-    </ScrollView>
+    </SafeAreaView>
   )
 
 }
@@ -119,6 +119,9 @@ const styles = StyleSheet.create({
   watchlistMsg: {
     marginBottom: 20,
     marginHorizontal: 20
+  },
+  viewContainer: {
+    flex: 1
   }
 });
 
