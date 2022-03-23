@@ -3,16 +3,15 @@ import { StyleSheet, FlatList, SafeAreaView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MediaCover from './MediaCover';
 import { setPopular, setLoginStatus } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import PopularBtn from './PopularBtn';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Popular = (props) => {
     const [media, setMedia] = useState('movie');
-    const [mediaChanged, setMediaChanged] = useState(0);
     const { popular } = props;
 
     useFocusEffect(
@@ -27,7 +26,8 @@ const Popular = (props) => {
                         props.setLoginStatus(true);
                     }
                     if (isActive) {
-                        props.setPopular(popResponse.results);
+                        let newPopular = popResponse.results;
+                        props.setPopular(newPopular);
                     }
                 }
                 catch (error) {
@@ -37,7 +37,6 @@ const Popular = (props) => {
             };
 
             getPopular(media);
-            setMediaChanged(mediaChanged + 1);
 
             return () => {
                 isActive = false;
@@ -50,16 +49,16 @@ const Popular = (props) => {
         <SafeAreaView style={styles.background}>
             <Text style={styles.header}>Most Popular</Text>
             <View style={styles.buttonContainer}>
-                <PopularBtn label='Movies' setState={setMedia} media='movie' />
-                <PopularBtn label='TV Shows' setState={setMedia} media='tv' />
-                <PopularBtn label='People' setState={setMedia} media='person' />
+                <PopularBtn label='Movies' setMedia={setMedia} media='movie' />
+                <PopularBtn label='TV Shows' setMedia={setMedia} media='tv' />
+                <PopularBtn label='People' setMedia={setMedia} media='person' />
             </View>
             <FlatList
                 data={popular}
                 renderItem={({ item }) => (
                     <MediaCover media={item} key={item.id} navigation={props.navigation} />
                 )}
-                extraData={mediaChanged}
+                extraData={media}
                 keyExtractor={item => item.id}
                 numColumns={2}
             />

@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import colors from '../assets/colors';
 
 const PopularBtn = (props) => {
-    const { label, setState, media } = props;
+    const { label, setMedia, media } = props;
 
     return (
         <Button compact={true}
@@ -13,7 +13,7 @@ const PopularBtn = (props) => {
             dark={true}
             mode='outlined'
             style={styles.yellowBtn}
-            onPress={() => setState(media)}>
+            onPress={() => setMedia(media)}>
             {label}
         </Button>
     )
