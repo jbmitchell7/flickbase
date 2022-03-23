@@ -22,7 +22,7 @@ const PopularBtn = (props) => {
 const styles = StyleSheet.create({
     yellowBtn: {
         marginBottom: 20,
-        width: 100,
+        padding: 1,
         alignSelf: 'center'
     },
 })

@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   },
   yellowBtn: {
     marginBottom: 20,
+    padding: 1,
     alignSelf: 'center'
   },
   watchlistMsg: {

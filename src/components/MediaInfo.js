@@ -8,7 +8,7 @@ import PersonInfo from './Person/PersonInfo';
 import TvShowInfo from './TvShow/TvShowInfo';
 import { setChoice } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
-import ImageComponent from './image';
+import ImageComponent from './ImageComponent';
 import Snack from './Snack';
 
 const MediaInfo = (props) => {
@@ -66,10 +66,6 @@ const MediaInfo = (props) => {
             <ScrollView>
                 <PersonInfo person={choice} styles={styles} />
                 <ImageComponent item={choice} media={'person'} />
-                <Snack
-                    visible={visible}
-                    onDismissSnackBar={onDismissSnackBar}
-                    snackText={snackText} />
             </ScrollView>
         )
     }

@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     snack: {
         padding: 5,
         alignSelf: 'center',
+        bottom: 150
     },
 })
 

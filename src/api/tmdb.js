@@ -38,5 +38,5 @@ const tmdbFetch = async (url, method = 'GET', payload = {}) => {
 export const fetchPost = async (url, payload) => tmdbFetch(url, 'POST', payload);
 export const fetchGet = async (url, payload) => tmdbFetch(url, 'GET', payload);
 export const fetchPut = async (url, payload) => tmdbFetch(url, 'PUT', payload);
-export const fetchPatch = async (url, payload) => tmdbFetch(url, 'PATCH', payload);
+export const fetchDelete = async (url, payload) => tmdbFetch(url, 'DELETE', payload);
 

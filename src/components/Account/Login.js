@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginVertical: 20,
-    width: 200,
+    padding: 1,
     alignSelf: 'center',
   },
 });
