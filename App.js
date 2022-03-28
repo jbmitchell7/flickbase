@@ -1,4 +1,5 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { DefaultTheme as DefaultPaper, Provider as PaperProvider } from 'react-native-paper';
 import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -43,26 +44,29 @@ const App = () => {
     <ReduxProvider store={store}>
       <PaperProvider theme={paperTheme}>
         <NavigationContainer theme={theme}>
-            <Stack.Navigator
-                initialRouteName='Popular'
-                screenOptions={{
-                    headerStyle: {
-                    backgroundColor: colors.backgroundBlue,
-                    borderBottomWidth: 0,
-                    },
-                }}
-            >
-                <Stack.Screen
-                    name='BottomNav'
-                    component={BottomNav}
-                    options={{ headerShown: false}}
-                />
-                <Stack.Screen
-                    name='MediaInfo'
-                    component={MediaInfo}
-                    options={{ title: ''}}
-                />
-            </Stack.Navigator>
+          <StatusBar
+            barStyle='light-content'
+          />
+          <Stack.Navigator
+            initialRouteName='Popular'
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: colors.backgroundBlue,
+                borderBottomWidth: 0,
+              },
+            }}
+          >
+            <Stack.Screen
+              name='BottomNav'
+              component={BottomNav}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name='MediaInfo'
+              component={MediaInfo}
+              options={{ title: '' }}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
     </ReduxProvider>

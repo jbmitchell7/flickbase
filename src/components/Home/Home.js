@@ -66,11 +66,8 @@ const Home = (props) => {
             getHomeData();
 
             return () => {
-                isActive = false;
                 setDataLoaded(false);
-                props.setTopRated([]);
-                props.setPopular([]);
-                props.setTrending([]);
+                isActive = false;
             };
         }, [media])
     );
@@ -99,6 +96,7 @@ const Home = (props) => {
                                     extraData={media}
                                     renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
                                     showsHorizontalScrollIndicator={false}
+                                    keyExtractor={item => item.id}
                                 />
                             </>
                         )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+import { IMAGE_URL } from './ImageComponent';
 
 const MediaCover = (props) => {
   const { navigation, media, page } = props;

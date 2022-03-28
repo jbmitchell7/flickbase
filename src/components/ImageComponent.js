@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, View, StyleSheet } from 'react-native';
 
-const IMAGE_URL = "https://image.tmdb.org/t/p/w400";
+export const IMAGE_URL = "https://image.tmdb.org/t/p/w400";
 
 const ImageComponent = (props) => {
     const { item, media } = props

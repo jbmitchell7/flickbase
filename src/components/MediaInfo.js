@@ -16,6 +16,7 @@ const MediaInfo = (props) => {
     const { choice } = props;
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('');
+    const [streamers, setStreamers] = useState([]);
 
     const onToggleSnackBar = (result) => {
         setVisible(!visible);
@@ -30,8 +31,10 @@ const MediaInfo = (props) => {
 
             const getMedia = async () => {
                 try {
-                    const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
                     if (isActive) {
+                        const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
+                        const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`)
+                        setStreamers(watchProviders.results.US.flatrate);
                         props.setChoice(mediaResponse);
                     }
                 }
@@ -51,7 +54,7 @@ const MediaInfo = (props) => {
     if (mediaType == 'movie') {
         return (
             <ScrollView>
-                <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} />
+                <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
                 <ImageComponent item={choice} />
                 <Snack
                     visible={visible}
@@ -72,7 +75,7 @@ const MediaInfo = (props) => {
 
     return (
         <ScrollView>
-            <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} />
+            <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
             <ImageComponent item={choice} />
             <Snack
                 visible={visible}
