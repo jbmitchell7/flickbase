@@ -15,6 +15,21 @@ const Home = (props) => {
     const [dataLoaded, setDataLoaded] = useState(false);
     const { trending, popular, topRated } = props;
 
+    const SECTIONS = [
+        {
+            title: 'Popular',
+            data: popular
+        },
+        {
+            title: 'Trending This Week',
+            data: trending
+        },
+        {
+            title: 'Top Rated',
+            data: topRated
+        }
+    ];
+
     useFocusEffect(
         React.useCallback(() => {
             let isActive = true;
@@ -22,6 +37,7 @@ const Home = (props) => {
             const getHomeData = async () => {
                 try {
                     if (isActive) {
+
                         const newPopular = await fetchGet(`/3/${media}/popular`);
                         props.setPopular(newPopular.results);
 
@@ -59,21 +75,6 @@ const Home = (props) => {
         }, [media])
     );
 
-    const SECTIONS = [
-        {
-            title: 'Popular',
-            data: popular
-        },
-        {
-            title: 'Trending This Week',
-            data: trending
-        },
-        {
-            title: 'Top Rated',
-            data: topRated
-        }
-    ];
-
     return (
         <View style={styles.background}>
             <Text style={styles.header}>Flickbase</Text>
@@ -88,12 +89,14 @@ const Home = (props) => {
                         contentContainerStyle={{ paddingHorizontal: 10 }}
                         stickySectionHeadersEnabled={false}
                         sections={(media == 'person') ? SECTIONS.slice(0, 2) : SECTIONS}
+                        extraData={media}
                         renderSectionHeader={({ section }) => (
                             <>
                                 <Text style={styles.sectionHeader}>{section.title}</Text>
                                 <FlatList
                                     horizontal
                                     data={section.data}
+                                    extraData={media}
                                     renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
                                     showsHorizontalScrollIndicator={false}
                                 />
