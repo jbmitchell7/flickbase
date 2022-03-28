@@ -42,24 +42,24 @@ const Watchlist = (props) => {
       };
     }, [fbWatchlist])
   );
-  
+
   const createFlickbaseList = async () => {
     try {
-        const watchlistRes = await fetchPost(`/4/list`,
+      const watchlistRes = await fetchPost(`/4/list`,
         {
-            name: "Flickbase Watchlist",
-            iso_639_1: "en"
+          name: "Flickbase Watchlist",
+          iso_639_1: "en"
         }
-        );
-        setFbWatchlist(watchlistRes.id);
-        await AsyncStorage.setItem('watchlistId', fbWatchlist.toString());
-        setHasWatchlist(true);
+      );
+      setFbWatchlist(watchlistRes.id);
+      await AsyncStorage.setItem('watchlistId', fbWatchlist.toString());
+      setHasWatchlist(true);
     }
     catch (error) {
-        console.log('error creating watchlist');
-        console.log(error);
+      console.log('error creating watchlist');
+      console.log(error);
     }
-}
+  }
 
   if (!loginStatus) {
     return (
@@ -93,7 +93,7 @@ const Watchlist = (props) => {
       <FlatList
         data={watchlist}
         renderItem={({ item }) => (
-          <MediaCover media={item} key={item.id} navigation={props.navigation} />
+          <MediaCover media={item} key={item.id} navigation={props.navigation} page='watchlist' />
         )}
         keyExtractor={item => item.id}
         numColumns={2}

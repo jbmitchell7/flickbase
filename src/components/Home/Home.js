@@ -48,7 +48,6 @@ const Home = (props) => {
             };
 
             getHomeData();
-            console.log(media);
 
             return () => {
                 isActive = false;
@@ -95,7 +94,7 @@ const Home = (props) => {
                                 <FlatList
                                     horizontal
                                     data={section.data}
-                                    renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} />}
+                                    renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
                                     showsHorizontalScrollIndicator={false}
                                 />
                             </>
