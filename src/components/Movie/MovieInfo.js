@@ -11,7 +11,9 @@ import { dateConvert } from '../MediaInfo';
 const MovieInfo = (props) => {
     const { movie, styles, onToggleSnackBar, streamers } = props;
 
-    const convertDollars = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+    const convertDollars = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
     return (
         <View style={styles.textContainer}>
@@ -20,7 +22,7 @@ const MovieInfo = (props) => {
             <Text style={styles.bioText}>Release Date: {movie.release_date}</Text>
             {(movie.budget) ?
                 <Text style={styles.bioText}>
-                    Budget: {convertDollars.format(movie.budget)}
+                    Budget: ${convertDollars(movie.budget)}
                 </Text> :
                 <Text style={styles.bioText}>
                     Budget: N/A
@@ -28,7 +30,7 @@ const MovieInfo = (props) => {
             }
             {(movie.revenue) ?
                 <Text style={styles.bioText}>
-                    Revenue: {convertDollars.format(movie.revenue)}
+                    Revenue: ${convertDollars(movie.revenue)}
                 </Text> :
                 <Text style={styles.bioText}>
                     Revenue: N/A
