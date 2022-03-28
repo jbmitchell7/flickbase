@@ -49,10 +49,9 @@ const MediaCover = (props) => {
 
 const styles = StyleSheet.create({
   imageContainer: {
-    width: '50%',
+    width: 185,
     height: 250,
     marginBottom: 15,
-    overflow: 'hidden'
   },
 
   image: {

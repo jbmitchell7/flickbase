@@ -48,6 +48,7 @@ const Home = (props) => {
             };
 
             getHomeData();
+            console.log(media);
 
             return () => {
                 isActive = false;
