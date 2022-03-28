@@ -5,7 +5,7 @@ import { Text, Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import { setWatchlist, setLoginStatus } from '../../actions/actions';
-import { fetchPost, fetchGet } from '../../api/tmdb';
+import { fetchPost, fetchGet, fetchDelete } from '../../api/tmdb';
 import colors from '../../assets/colors';
 import Snack from '../Snack';
 
@@ -54,34 +54,38 @@ const Login = (props) => {
   }
 
   const setUserWatchlist = async () => {
-      try {
-          const id = await AsyncStorage.getItem('userId');
-          const listRes = await fetchGet(`/4/account/${id}/lists`);
-          let results = listRes.results;
-          //searches for existing flickbase watchlist
-          let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
-          //if it exists, set id in asyncstorage
-          if (fbListData) {
-              let listId = fbListData.id;
-              await AsyncStorage.setItem('watchlistId', listId.toString());
-          } else {
-              await AsyncStorage.setItem('watchlistId', '');
-          }
+    try {
+      const id = await AsyncStorage.getItem('userId');
+      const listRes = await fetchGet(`/4/account/${id}/lists`);
+      let results = listRes.results;
+      //searches for existing flickbase watchlist
+      let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
+      //if it exists, set id in asyncstorage
+      if (fbListData) {
+        let listId = fbListData.id;
+        await AsyncStorage.setItem('watchlistId', listId.toString());
+      } else {
+        await AsyncStorage.setItem('watchlistId', '');
       }
-      catch (error) {
-          console.log('error getting user watchlist');
-          console.log(error);
-      }
+    }
+    catch (error) {
+      console.log('error getting user watchlist');
+      console.log(error);
+    }
   }
 
   const logout = async () => {
     try {
-      await AsyncStorage.setItem('token', '');
-      await AsyncStorage.setItem('userId', '');
-      await AsyncStorage.setItem('watchlistId', '');
-      props.setLoginStatus(false);
-      props.setWatchlist([]);
-      setApprovedToken(false);
+      const token = await AsyncStorage.getItem('token')
+      const logoutStatus = await fetchDelete(`/4/auth/access_token`, { access_token: token });
+      if (logoutStatus.success) {
+        await AsyncStorage.setItem('token', '');
+        await AsyncStorage.setItem('userId', '');
+        await AsyncStorage.setItem('watchlistId', '');
+        props.setLoginStatus(false);
+        props.setWatchlist([]);
+        setApprovedToken(false);
+      }
     }
     catch (error) {
       setSnackText('Error Logging Out');

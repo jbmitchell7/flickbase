@@ -33,9 +33,11 @@ const MediaInfo = (props) => {
                 try {
                     if (isActive) {
                         const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
-                        const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`)
-                        setStreamers(watchProviders.results.US.flatrate);
                         props.setChoice(mediaResponse);
+                        if (mediaType != 'person') {
+                            const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`)
+                            setStreamers(watchProviders.results.US.flatrate);
+                        }
                     }
                 }
                 catch (error) {
