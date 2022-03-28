@@ -26,7 +26,7 @@ const tmdbFetch = async (url, method = 'GET', payload = {}) => {
             data: payload,
         }
 
-        const response = await axios(options)
+        const response = await axios(options);
 
         return response.data
 

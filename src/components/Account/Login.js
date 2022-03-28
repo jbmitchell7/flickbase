@@ -5,7 +5,7 @@ import { Text, Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 
 import { setWatchlist, setLoginStatus } from '../../actions/actions';
-import { fetchPost } from '../../api/tmdb';
+import { fetchPost, fetchGet } from '../../api/tmdb';
 import colors from '../../assets/colors';
 import Snack from '../Snack';
 
@@ -43,6 +43,7 @@ const Login = (props) => {
       const response = await fetchPost(`/4/auth/access_token`, { request_token: asyncToken });
       await AsyncStorage.setItem('userId', response.account_id);
       await AsyncStorage.setItem('token', response.access_token);
+      setUserWatchlist();
       props.setLoginStatus(true);
     }
     catch {
@@ -52,10 +53,32 @@ const Login = (props) => {
     }
   }
 
+  const setUserWatchlist = async () => {
+      try {
+          const id = await AsyncStorage.getItem('userId');
+          const listRes = await fetchGet(`/4/account/${id}/lists`);
+          let results = listRes.results;
+          //searches for existing flickbase watchlist
+          let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
+          //if it exists, set id in asyncstorage
+          if (fbListData) {
+              let listId = fbListData.id;
+              await AsyncStorage.setItem('watchlistId', listId.toString());
+          } else {
+              await AsyncStorage.setItem('watchlistId', '');
+          }
+      }
+      catch (error) {
+          console.log('error getting user watchlist');
+          console.log(error);
+      }
+  }
+
   const logout = async () => {
     try {
       await AsyncStorage.setItem('token', '');
       await AsyncStorage.setItem('userId', '');
+      await AsyncStorage.setItem('watchlistId', '');
       props.setLoginStatus(false);
       props.setWatchlist([]);
       setApprovedToken(false);
