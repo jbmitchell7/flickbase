@@ -99,7 +99,7 @@ const Home = (props) => {
                     <SectionList
                         contentContainerStyle={{ paddingHorizontal: 10 }}
                         stickySectionHeadersEnabled={false}
-                        sections={(media == 'person') ? SECTIONS.slice(0, 2) : SECTIONS}
+                        sections={SECTIONS}
                         extraData={media}
                         showsVerticalScrollIndicator={false}
                         renderSectionHeader={({ section }) => (

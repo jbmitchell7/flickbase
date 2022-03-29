@@ -110,6 +110,7 @@ const Login = (props) => {
           color={colors.yellow}
           mode='contained'
           style={styles.btn}
+          icon='plus-circle'
           disabled={approvedToken}
           onPress={() => createRequest()}>
           Approve Access
@@ -118,6 +119,7 @@ const Login = (props) => {
           color={colors.yellow}
           mode='contained'
           disabled={!approvedToken}
+          icon='login'
           style={styles.btn}
           onPress={() => loginAccount()}>
           Login
@@ -133,6 +135,7 @@ const Login = (props) => {
       <Button
         color={colors.yellow}
         mode='contained'
+        icon='logout'
         style={styles.btn}
         onPress={() => logout()}>
         Logout

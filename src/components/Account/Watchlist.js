@@ -94,7 +94,8 @@ const Watchlist = (props) => {
         <Button
           color={colors.yellow}
           dark={true}
-          mode='outlined'
+          icon='book-plus'
+          mode='contained'
           style={styles.yellowBtn}
           onPress={() => createFlickbaseList()}>
           Create Flickbase Watchlist

@@ -44,13 +44,13 @@ const WatchlistBtn = (props) => {
     return (
         <View style={styles.buttonContainer}>
             <IconButton
-                color={colors.yellow}
+                color={colors.blueGreen}
                 size={30}
                 icon="book-plus-multiple"
                 onPress={() => addToWatchlist()}>
             </IconButton>
             <IconButton
-                color={colors.yellow}
+                color={colors.red}
                 size={30}
                 icon="book-remove-multiple"
                 onPress={() => removeFromWatchlist()}>
