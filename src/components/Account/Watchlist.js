@@ -23,13 +23,28 @@ const Watchlist = (props) => {
       const getWatchlist = async () => {
         try {
           const watchlistId = await AsyncStorage.getItem('watchlistId');
+          if (watchlistId == null) {
+              const id = await AsyncStorage.getItem('userId');
+              const listRes = await fetchGet(`/4/account/${id}/lists`);
+              if (listRes) {
+                  let results = listRes.results;
+                  let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
+                  if (fbListData) {
+                      let listId = fbListData.id;
+                      await AsyncStorage.setItem('watchlistId', listId.toString());
+                  }
+              }
+          }
           if (isActive && watchlistId) {
-            setHasWatchlist(true);
             const fbList = await fetchGet(`/4/list/${watchlistId}`);
-            props.setWatchlist(fbList.results);
+            if (fbList) {
+                setHasWatchlist(true);
+                props.setWatchlist(fbList.results);
+            }
           }
         }
         catch (error) {
+          await AsyncStorage.setItem('watchlistId', '');
           console.log('error getting watchlist');
           console.log(error);
         }
@@ -85,6 +100,19 @@ const Watchlist = (props) => {
         </Button>
       </SafeAreaView>
     )
+  }
+
+  if (watchlist.length == 0) {
+      return (
+          <SafeAreaView style={styles.viewContainer}>
+              <Text style={styles.header}>Watchlist</Text>
+              <Text style={styles.watchlistMsg}>
+                  Looks like your watchlist is empty. 
+                  Find movies or TV shows to watch on the home screen 
+                  or search for them with the search function. 
+                  </Text>
+          </SafeAreaView>
+      )
   }
 
   return (

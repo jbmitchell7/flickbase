@@ -76,7 +76,7 @@ const Login = (props) => {
 
   const logout = async () => {
     try {
-      const token = await AsyncStorage.getItem('token')
+      const token = await AsyncStorage.getItem('token');
       const logoutStatus = await fetchDelete(`/4/auth/access_token`, { access_token: token });
       if (logoutStatus.success) {
         await AsyncStorage.setItem('token', '');

@@ -120,6 +120,19 @@ const styles = StyleSheet.create({
         width: 200,
         alignSelf: 'center'
     },
+    image: {
+        width: 60,
+        height: 60,
+        marginHorizontal: 5
+    },
+    imageContainer: {
+        marginBottom: 30,
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    streamText: {
+        marginHorizontal: 20
+    }
 });
 
 const mapStateToProps = state => {

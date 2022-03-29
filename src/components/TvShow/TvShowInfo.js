@@ -4,7 +4,6 @@ import { Text } from 'react-native-paper';
 
 import WatchlistBtn from '../WatchlistBtn';
 import { IMAGE_URL } from '../ImageComponent';
-import { mediaInfoStyles } from '../Movie/MovieInfo'
 
 const TvShowInfo = (props) => {
     const { show, styles, onToggleSnackBar, streamers } = props
@@ -19,12 +18,12 @@ const TvShowInfo = (props) => {
             <Text style={styles.bioText}>Total Seasons: {show.number_of_seasons}</Text>
             <Text style={styles.bioText}>Total Episodes: {show.number_of_episodes}</Text>
             <Text style={styles.bioText}>Streaming With Subscription On:</Text>
-            <View style={mediaInfoStyles.imageContainer}>
+            <View style={styles.imageContainer}>
                 {(streamers) ?
                     streamers.map(provider => (
-                        <Image style={mediaInfoStyles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
+                        <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
                     ))
-                    : <Text style={mediaInfoStyles.streamText}>N/A</Text>
+                    : <Text style={styles.streamText}>N/A</Text>
                 }
             </View>
             <WatchlistBtn media={show} type="tv" onToggleSnackBar={onToggleSnackBar} />

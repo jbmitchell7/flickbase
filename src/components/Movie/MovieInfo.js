@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 
 import WatchlistBtn from '../WatchlistBtn';
 import { IMAGE_URL } from '../ImageComponent';
-import { dateConvert } from '../MediaInfo';
+//import { dateConvert } from '../MediaInfo';
 
 //{dateConvert(movie.release_date)}
 
@@ -41,33 +41,17 @@ const MovieInfo = (props) => {
             </Text>
             <Text style={styles.bioText}>Streaming With Subscription On:</Text>
 
-            <View style={mediaInfoStyles.imageContainer}>
+            <View style={styles.imageContainer}>
                 {(streamers) ?
                     streamers.map(provider => (
-                        <Image style={mediaInfoStyles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
+                        <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
                     ))
-                    : <Text style={mediaInfoStyles.streamText}>Not available to stream</Text>
+                    : <Text style={styles.streamText}>Not available to stream</Text>
                 }
             </View>
             <WatchlistBtn media={movie} type="movie" onToggleSnackBar={onToggleSnackBar} />
         </View>
     )
 }
-
-export const mediaInfoStyles = StyleSheet.create({
-    image: {
-        width: 60,
-        height: 60,
-        marginHorizontal: 5
-    },
-    imageContainer: {
-        marginBottom: 30,
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    streamText: {
-        marginHorizontal: 20
-    }
-})
 
 export default MovieInfo;

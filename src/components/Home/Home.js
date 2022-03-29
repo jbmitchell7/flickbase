@@ -50,7 +50,7 @@ const Home = (props) => {
                         }
 
                         const userLoggedIn = await AsyncStorage.getItem('token');
-                        if (userLoggedIn != '') {
+                        if (userLoggedIn != null) {
                             props.setLoginStatus(true);
                         }
 
