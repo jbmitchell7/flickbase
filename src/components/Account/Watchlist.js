@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView, View } from 'react-native'
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -57,7 +57,7 @@ const Watchlist = (props) => {
       return () => {
         isActive = false;
       };
-    }, [fbWatchlist])
+    }, [fbWatchlist, watchlist])
   );
 
   const createFlickbaseList = async () => {
@@ -118,10 +118,7 @@ const Watchlist = (props) => {
   }
 
   return (
-    <ScrollView
-      style={styles.viewContainer}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={styles.viewContainer}>
       <Text style={styles.header}>Watchlist</Text>
       <FlatList
         data={watchlist}
@@ -130,8 +127,9 @@ const Watchlist = (props) => {
         )}
         keyExtractor={item => item.id}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
       />
-    </ScrollView>
+    </View>
   )
 
 }
