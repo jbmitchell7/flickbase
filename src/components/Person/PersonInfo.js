@@ -6,7 +6,7 @@ const PersonInfo = (props) => {
     const { person, styles } = props;
 
     return (
-        <View style={styles.textContainer}>
+        <View>
             <Text style={styles.titleText}>{person.name}</Text>
             <Text style={styles.bioText}>Born: {person.birthday}</Text>
             {(person.deathday) ?

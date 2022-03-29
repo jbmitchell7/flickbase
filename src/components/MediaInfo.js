@@ -68,33 +68,35 @@ const MediaInfo = (props) => {
 
     return (
         <ScrollView>
-            {(mediaType == 'movie') ?
-                <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
-                : (mediaType == 'person') ?
-                    <PersonInfo person={choice} styles={styles} />
-                    : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
-            {(mediaType == 'movie' || mediaType == 'tv') ?
-                <View style={[styles.textContainer, styles.lastText]}>
-                    <Text style={styles.bioText}>
-                        Total Ratings: {choice.vote_count} | Average Rating: {choice.vote_average}/10
-                    </Text>
-                    <Text style={styles.bioText}>Streaming With Subscription On:</Text>
+            <View style={styles.textContainer}>
+                {(mediaType == 'movie') ?
+                    <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
+                    : (mediaType == 'person') ?
+                        <PersonInfo person={choice} styles={styles} />
+                        : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
+                {(mediaType == 'movie' || mediaType == 'tv') ?
+                    <View style={styles.lastText}>
+                        <Text style={styles.bioText}>
+                            Total Ratings: {choice.vote_count} | Average Rating: {choice.vote_average}/10
+                        </Text>
+                        <Text style={styles.bioText}>Streaming With Subscription On:</Text>
 
-                    <View style={styles.imageContainer}>
-                        {(streamers) ?
-                            streamers.map(provider => (
-                                <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
-                            ))
-                            : <Text style={styles.streamText}>Not available to stream</Text>
-                        }
-                    </View>
-                    <WatchlistBtn media={choice} type="movie" onToggleSnackBar={onToggleSnackBar} />
-                    <Snack
-                        visible={visible}
-                        onDismissSnackBar={onDismissSnackBar}
-                        snackText={snackText} />
-                </View> : null}
-            <ImageComponent item={choice} media={mediaType} />
+                        <View style={styles.imageContainer}>
+                            {(streamers) ?
+                                streamers.map(provider => (
+                                    <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
+                                ))
+                                : <Text style={styles.streamText}>Not available to stream</Text>
+                            }
+                        </View>
+                        <WatchlistBtn media={choice} type="movie" onToggleSnackBar={onToggleSnackBar} />
+                        <Snack
+                            visible={visible}
+                            onDismissSnackBar={onDismissSnackBar}
+                            snackText={snackText} />
+                    </View> : null}
+                <ImageComponent item={choice} media={mediaType} />
+            </View>
         </ScrollView>
     )
 }

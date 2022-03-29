@@ -11,7 +11,7 @@ const MovieInfo = (props) => {
     }
 
     return (
-        <View style={styles.textContainer}>
+        <View>
             <Text style={styles.titleText}>{movie.title}</Text>
             <Text style={styles.bioText}>Synopsis: {movie.overview}</Text>
             <Text style={styles.bioText}>Release Date: {movie.release_date}</Text>

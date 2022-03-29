@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 const TvShowInfo = (props) => {
     const { show, styles } = props
     return (
-        <View style={styles.textContainer}>
+        <View>
             <Text style={styles.titleText}>{show.name}</Text>
             <Text style={styles.bioText}>Synopsis: {show.overview}</Text>
             <Text style={styles.bioText}>Debuted: {show.first_air_date}</Text>
