@@ -50,7 +50,7 @@ const Search = (props) => {
     }
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <SearchForm />
             {filteredResult.map(item => (
                 <SearchResult key={item.id} item={item} navigation={props.navigation} />

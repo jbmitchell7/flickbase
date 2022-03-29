@@ -12,7 +12,6 @@ const Snack = (props) => {
             onDismiss={onDismissSnackBar}
             duration={1000}
             style={styles.snack}
-            wrapperStyle={styles.snackWrapper}
         >
             {snackText}
         </Snackbar>
@@ -24,11 +23,6 @@ const styles = StyleSheet.create({
         padding: 5,
         alignSelf: 'center',
     },
-    snackWrapper: {
-        top: 150,
-        zIndex: 3,
-        elevation: 3
-    }
 })
 
 export default Snack;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, SafeAreaView } from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView, ScrollView } from 'react-native'
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -118,7 +118,10 @@ const Watchlist = (props) => {
   }
 
   return (
-    <SafeAreaView style={styles.viewContainer}>
+    <ScrollView
+      style={styles.viewContainer}
+      showsVerticalScrollIndicator={false}
+    >
       <Text style={styles.header}>Watchlist</Text>
       <FlatList
         data={watchlist}
@@ -128,7 +131,7 @@ const Watchlist = (props) => {
         keyExtractor={item => item.id}
         numColumns={2}
       />
-    </SafeAreaView>
+    </ScrollView>
   )
 
 }
