@@ -81,7 +81,7 @@ const Watchlist = (props) => {
     return (
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
-        <Text>Must be logged in to view watchlist</Text>
+        <Text style={styles.watchlistMsg}>Must be logged in to view watchlist</Text>
       </SafeAreaView>
     )
   }
