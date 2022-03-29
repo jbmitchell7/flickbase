@@ -67,8 +67,12 @@ const MediaInfo = (props) => {
     );
 
     return (
-        <ScrollView>
-            <View style={styles.textContainer}>
+        <View style={styles.textContainer}>
+            <ScrollView stickyHeaderIndices={[0]}>
+                <Snack
+                    visible={visible}
+                    onDismissSnackBar={onDismissSnackBar}
+                    snackText={snackText} />
                 {(mediaType == 'movie') ?
                     <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
                     : (mediaType == 'person') ?
@@ -90,14 +94,11 @@ const MediaInfo = (props) => {
                             }
                         </View>
                         <WatchlistBtn media={choice} type="movie" onToggleSnackBar={onToggleSnackBar} />
-                        <Snack
-                            visible={visible}
-                            onDismissSnackBar={onDismissSnackBar}
-                            snackText={snackText} />
                     </View> : null}
                 <ImageComponent item={choice} media={mediaType} />
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
+
     )
 }
 

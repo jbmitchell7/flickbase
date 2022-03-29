@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     },
     snackWrapper: {
         top: 0,
-        position: 'sticky'
     }
 })
 
