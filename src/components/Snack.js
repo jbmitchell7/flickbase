@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     snackWrapper: {
-        top: 0,
+        top: 150,
     }
 })
 
