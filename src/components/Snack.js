@@ -26,6 +26,8 @@ const styles = StyleSheet.create({
     },
     snackWrapper: {
         top: 150,
+        zIndex: 3,
+        elevation: 3
     }
 })
 
