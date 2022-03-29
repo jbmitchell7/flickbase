@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { fetchPost, fetchDelete } from '../api/tmdb';
+import { fetchPost, fetchDelete, fetchGet } from '../api/tmdb';
 import colors from '../assets/colors';
 
 const WatchlistBtn = (props) => {
@@ -17,11 +17,11 @@ const WatchlistBtn = (props) => {
                     items: [{ media_type: type, media_id: media.id }]
                 }
             );
-            onToggleSnackBar('Added to Watchlist')
+            onToggleSnackBar('Added to Watchlist');
         }
         catch {
+            onToggleSnackBar('Error Adding to Watchlist');
             throw new Error('error adding to watchlist');
-            onToggleSnackBar('Error Adding to Watchlist')
         }
     }
 
@@ -33,42 +33,38 @@ const WatchlistBtn = (props) => {
                     items: [{ media_type: type, media_id: media.id }]
                 }
             );
-            onToggleSnackBar('Removed to Watchlist')
+            onToggleSnackBar('Removed to Watchlist');
         }
         catch {
+            onToggleSnackBar('Error Removing from Watchlist');
             throw new Error('error removing to watchlist');
-            onToggleSnackBar('Error Removing from Watchlist')
         }
     }
 
     return (
-        <>
-            <Button compact={true}
+        <View style={styles.buttonContainer}>
+            <IconButton
                 color={colors.yellow}
-                dark={true}
-                //icon="book-plus-outline"
-                mode='outlined'
-                style={styles.yellowBtn}
+                size={30}
+                icon="book-plus-multiple"
                 onPress={() => addToWatchlist()}>
-                Add to Watchlist
-            </Button>
-            <Button compact={true}
+            </IconButton>
+            <IconButton
                 color={colors.yellow}
-                dark={true}
-                mode='outlined'
-                style={styles.yellowBtn}
+                size={30}
+                icon="book-remove-multiple"
                 onPress={() => removeFromWatchlist()}>
-                Remove from Watchlist
-            </Button>
-        </>
+            </IconButton>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    yellowBtn: {
-        marginBottom: 10,
-        padding: 1,
-        alignSelf: 'center'
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
     },
 })
 

@@ -75,9 +75,24 @@ const Home = (props) => {
         <View style={styles.background}>
             <Text style={styles.header}>Flickbase</Text>
             <View style={styles.buttonContainer}>
-                <MediaBtn label='Movies' setMedia={setMedia} media='movie' />
-                <MediaBtn label='TV Shows' setMedia={setMedia} media='tv' />
-                <MediaBtn label='People' setMedia={setMedia} media='person' />
+                <MediaBtn
+                    label='Movies'
+                    setMedia={setMedia}
+                    mediaState={media}
+                    media='movie'
+                    icon='movie-open' />
+                <MediaBtn
+                    label='TV'
+                    setMedia={setMedia}
+                    mediaState={media}
+                    media='tv'
+                    icon='television-classic' />
+                <MediaBtn
+                    label='People'
+                    setMedia={setMedia}
+                    mediaState={media}
+                    media='person'
+                    icon='account' />
             </View>
             <SafeAreaView style={styles.background}>
                 {dataLoaded ?
@@ -86,6 +101,7 @@ const Home = (props) => {
                         stickySectionHeadersEnabled={false}
                         sections={(media == 'person') ? SECTIONS.slice(0, 2) : SECTIONS}
                         extraData={media}
+                        showsVerticalScrollIndicator={false}
                         renderSectionHeader={({ section }) => (
                             <>
                                 <Text style={styles.sectionHeader}>{section.title}</Text>
@@ -124,7 +140,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'center'
     }
 })
 
