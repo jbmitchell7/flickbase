@@ -33,7 +33,7 @@ const Login = (props) => {
     catch (error) {
       setSnackText('Error Requesting Token');
       onToggleSnackBar(snackText);
-      console.log(error);
+      throw new Error('error requesting token');
     }
   };
 
@@ -49,7 +49,7 @@ const Login = (props) => {
     catch {
       setSnackText('Error Logging In');
       onToggleSnackBar(snackText);
-      console.log('error logging in');
+      throw new Error('error logging in');
     }
   }
 
@@ -69,8 +69,7 @@ const Login = (props) => {
       }
     }
     catch (error) {
-      console.log('error getting user watchlist');
-      console.log(error);
+      throw new Error('error getting user watchlist');
     }
   }
 
@@ -90,7 +89,7 @@ const Login = (props) => {
     catch (error) {
       setSnackText('Error Logging Out');
       onToggleSnackBar(snackText);
-      console.log(error);
+      throw new Error('error logging out');
     }
   }
 

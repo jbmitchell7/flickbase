@@ -12,7 +12,6 @@ import ImageComponent from './ImageComponent';
 import Snack from './Snack';
 
 export const dateConvert = (dateInput) => {
-    console.log(dateInput);
     let year = dateInput.substr(0, 4);
     let month = dateInput.substr(5, 2);
     let day = dateInput.substr(8, 2);
@@ -50,7 +49,7 @@ const MediaInfo = (props) => {
                     }
                 }
                 catch (error) {
-                    console.log(error);
+                    throw new Error('error getting media');
                 }
             }
 

@@ -20,7 +20,7 @@ const WatchlistBtn = (props) => {
             onToggleSnackBar('Added to Watchlist')
         }
         catch {
-            console.log('error adding to watchlist');
+            throw new Error('error adding to watchlist');
             onToggleSnackBar('Error Adding to Watchlist')
         }
     }
@@ -36,7 +36,7 @@ const WatchlistBtn = (props) => {
             onToggleSnackBar('Removed to Watchlist')
         }
         catch {
-            console.log('error removing to watchlist');
+            throw new Error('error removing to watchlist');
             onToggleSnackBar('Error Removing from Watchlist')
         }
     }

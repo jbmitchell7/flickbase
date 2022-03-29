@@ -58,8 +58,7 @@ const Home = (props) => {
                     }
                 }
                 catch (error) {
-                    console.log('error getting home movie data');
-                    console.log(error);
+                    throw new Error('error getting home movie data');
                 }
             };
 

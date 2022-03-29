@@ -14,32 +14,31 @@ const Search = (props) => {
 
     let filteredResult = searchResult;
 
-    if (searchItem !== '') {
-        useFocusEffect(
-            React.useCallback(() => {
-                let isActive = true;
-                const getMedia = async () => {
-                    try {
+    useFocusEffect(
+        React.useCallback(() => {
+            let isActive = true;
+            const getMedia = async () => {
+                try {
+                    if (isActive) {
                         const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}`);
-                        if (isActive) {
-                            props.setSearchResult(getResponse.results);
-                        }
-                    }
-                    catch (error) {
-                        console.log(error);
+                        props.setSearchResult(getResponse.results);
                     }
                 }
+                catch (error) {
+                    throw new Error('error querying for media');
+                }
+            }
 
+            if (searchItem != '') {
                 getMedia();
+            }
 
-                return () => {
-                    isActive = false;
-                    props.setSearchResult([]);
-                    props.setSearch('');
-                }
-            }, [searchItem])
-        )
-    }
+            return () => {
+                isActive = false;
+                props.setSearch('');
+            }
+        }, [searchItem])
+    )
 
     if (!filteredResult || filteredResult.length == 0) {
         return (
