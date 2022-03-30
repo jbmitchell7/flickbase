@@ -25,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#032541"
       },
-      "package": "cloud.jakemitchell.flickbase"
+      "package": "cloud.jakemitchell.flickbase",
+      "versionCode": "1.0.2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
