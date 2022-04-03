@@ -9,3 +9,6 @@ expo-cli - installed by executing `npm install -g expo-cli`
 1. Clone the github repository
 3. `npm install` to get all required packages for the project
 4. Run `expo start` to run the project. This opens a browser window which will give you the option to open in the web or an emulator of your choice.
+
+## Flickbase is now in early access on the Play Store
+Download it here! [Flickbase Google Play](https://play.google.com/store/apps/details?id=cloud.jakemitchell.flickbase)
