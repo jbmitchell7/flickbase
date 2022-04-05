@@ -15,16 +15,11 @@ const BottomNav = () => (
         initialRouteName='Home'
         activeColor='white'
         barStyle={{ backgroundColor: '#01C6AC' }}
+        screenOptions={{ unmountOnBlur: true }}
     >
         <Tab.Screen
             name='Home'
             component={Home}
-            listeners={({ navigation }) => ({
-                tabPress: (event) => {
-                    event.preventDefault();
-                    navigation.navigate("Home", { screen: "movie" })
-                }
-            })}
             options={{
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (
