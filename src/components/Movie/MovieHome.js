@@ -5,6 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { fetchGet } from '../../api/tmdb';
 import MediaCover from '../MediaCover';
+import { TouchableOpacity } from 'react-native-web';
 
 const MovieHome = (props) => {
     const [dataLoaded, setDataLoaded] = useState(false);

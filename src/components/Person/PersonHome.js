@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, SectionList, FlatList } from 'react-native';
+import { ScrollView, StyleSheet, SafeAreaView, SectionList, FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -53,7 +53,7 @@ const PersonHome = (props) => {
     );
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.sectionContainer}>
             {dataLoaded ? <SafeAreaView style={styles.background}>
                 <SectionList
                     contentContainerStyle={{ paddingHorizontal: 10 }}
@@ -66,7 +66,13 @@ const PersonHome = (props) => {
                             <FlatList
                                 horizontal
                                 data={section.data}
-                                renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
+                                renderItem={({ item }) => (
+                                    <View style={styles.personCard}>
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
+                                        <Text style={styles.personText}>{item.name}</Text>
+                                    </View>
+
+                                )}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={item => item.id}
                             />
@@ -82,6 +88,9 @@ const PersonHome = (props) => {
 }
 
 const styles = StyleSheet.create({
+    sectionContainer: {
+        paddingBottom: 40
+    },
     sectionHeader: {
         marginVertical: 20,
         marginHorizontal: 20,
@@ -89,6 +98,14 @@ const styles = StyleSheet.create({
     },
     background: {
         flex: 1
+    },
+    personCard: {
+        flex: 1,
+        flexWrap: 'wrap',
+        width: 160
+    },
+    personText: {
+        marginHorizontal: 5
     }
 })
 
