@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, SectionList, FlatList } from 'react-native';
+import { StyleSheet, SectionList, FlatList } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -76,33 +76,36 @@ const TvHome = (props) => {
         }, [])
     );
 
+    if (dataLoaded) {
+        return (
+            <SectionList
+                contentContainerStyle={{ paddingHorizontal: 10 }}
+                stickySectionHeadersEnabled={false}
+                sections={SECTIONS}
+                showsVerticalScrollIndicator={false}
+                renderSectionHeader={({ section }) => (
+                    <>
+                        <Text style={styles.sectionHeader}>{section.title}</Text>
+                        <FlatList
+                            horizontal
+                            data={section.data}
+                            renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={item => item.id}
+                        />
+                    </>
+                )}
+                renderItem={() => {
+                    return null;
+                }}
+            />
+        )
+    }
+
     return (
-        <ScrollView>
-            {dataLoaded ? <SafeAreaView style={styles.background}>
-                <SectionList
-                    contentContainerStyle={{ paddingHorizontal: 10 }}
-                    stickySectionHeadersEnabled={false}
-                    sections={SECTIONS}
-                    showsVerticalScrollIndicator={false}
-                    renderSectionHeader={({ section }) => (
-                        <>
-                            <Text style={styles.sectionHeader}>{section.title}</Text>
-                            <FlatList
-                                horizontal
-                                data={section.data}
-                                renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
-                                showsHorizontalScrollIndicator={false}
-                                keyExtractor={item => item.id}
-                            />
-                        </>
-                    )}
-                    renderItem={() => {
-                        return null;
-                    }}
-                />
-            </SafeAreaView> : null}
-        </ScrollView>
+        <Text>Loading...</Text>
     )
+
 }
 
 const styles = StyleSheet.create({
@@ -110,9 +113,6 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 20,
         fontSize: 20,
-    },
-    background: {
-        flex: 1
     }
 })
 

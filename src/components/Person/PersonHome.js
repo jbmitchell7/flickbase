@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, SafeAreaView, SectionList, FlatList, View } from 'react-native';
+import { StyleSheet, SectionList, FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -52,39 +52,43 @@ const PersonHome = (props) => {
         }, [])
     );
 
-    return (
-        <ScrollView style={styles.sectionContainer}>
-            {dataLoaded ? <SafeAreaView style={styles.background}>
-                <SectionList
-                    contentContainerStyle={{ paddingHorizontal: 10 }}
-                    stickySectionHeadersEnabled={false}
-                    sections={SECTIONS}
-                    showsVerticalScrollIndicator={false}
-                    renderSectionHeader={({ section }) => (
-                        <>
-                            <Text style={styles.sectionHeader}>{section.title}</Text>
-                            <FlatList
-                                horizontal
-                                data={section.data}
-                                renderItem={({ item }) => (
-                                    <View style={styles.personCard}>
-                                        <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
-                                        <Text style={styles.personText}>{item.name}</Text>
-                                    </View>
+    if (dataLoaded) {
+        return (
+            <SectionList
+                contentContainerStyle={{ paddingHorizontal: 10 }}
+                stickySectionHeadersEnabled={false}
+                sections={SECTIONS}
+                style={styles.sectionContainer}
+                showsVerticalScrollIndicator={false}
+                renderSectionHeader={({ section }) => (
+                    <>
+                        <Text style={styles.sectionHeader}>{section.title}</Text>
+                        <FlatList
+                            horizontal
+                            data={section.data}
+                            renderItem={({ item }) => (
+                                <View style={styles.personCard}>
+                                    <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
+                                    <Text style={styles.personText}>{item.name}</Text>
+                                </View>
 
-                                )}
-                                showsHorizontalScrollIndicator={false}
-                                keyExtractor={item => item.id}
-                            />
-                        </>
-                    )}
-                    renderItem={() => {
-                        return null;
-                    }}
-                />
-            </SafeAreaView> : null}
-        </ScrollView>
+                            )}
+                            showsHorizontalScrollIndicator={false}
+                            keyExtractor={item => item.id}
+                        />
+                    </>
+                )}
+                renderItem={() => {
+                    return null;
+                }}
+            />
+        )
+    }
+
+    return (
+        <Text>Loading...</Text>
     )
+
 }
 
 const styles = StyleSheet.create({
@@ -95,9 +99,6 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 20,
         fontSize: 20,
-    },
-    background: {
-        flex: 1
     },
     personCard: {
         flex: 1,
