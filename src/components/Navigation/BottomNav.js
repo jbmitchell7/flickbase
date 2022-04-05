@@ -17,10 +17,11 @@ const BottomNav = () => (
             tabBarStyle: {
                 backgroundColor: '#01C6AC',
                 borderColor: '#01C6AC',
-                borderTopWidth: 0
+                borderTopWidth: 0,
+                height: 55
             },
             tabBarActiveTintColor: 'white',
-            tabBarInactiveTintColor: '#bdbdbd',
+            tabBarInactiveTintColor: '#cccccc',
             headerShown: false
         }}
 
