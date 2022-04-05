@@ -136,7 +136,7 @@ const Watchlist = (props) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontSize: 30,
+    fontSize: 25,
     marginVertical: 40,
     marginHorizontal: 20,
   },

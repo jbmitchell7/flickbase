@@ -70,7 +70,7 @@ const Home = (props) => {
                     icon='account' />
             </View>
             <HomeStack.Navigator
-                initialRouteName='movies'
+                initialRouteName='movie'
             >
                 <HomeStack.Screen
                     name='movie'
