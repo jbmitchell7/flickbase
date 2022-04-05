@@ -106,12 +106,6 @@ const MovieHome = (props) => {
 }
 
 const styles = StyleSheet.create({
-    header: {
-        marginTop: 40,
-        marginBottom: 20,
-        marginHorizontal: 20,
-        fontSize: 30,
-    },
     sectionHeader: {
         marginVertical: 20,
         marginHorizontal: 20,
@@ -119,10 +113,6 @@ const styles = StyleSheet.create({
     },
     background: {
         flex: 1
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center'
     }
 })
 

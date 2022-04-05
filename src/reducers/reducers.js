@@ -1,41 +1,11 @@
 import { combineReducers } from "redux";
 import {
-    SET_POPULAR,
-    SET_TRENDING,
-    SET_TOP_RATED,
     SET_SEARCH,
     SET_SEARCH_RESULT,
     SET_CHOICE,
     SET_WATCHLIST,
     SET_LOGIN_STATUS,
 } from "../actions/actions";
-
-function popular(state = [], action) {
-    switch (action.type) {
-        case SET_POPULAR:
-            return action.value;
-        default:
-            return state;
-    }
-}
-
-function trending(state = [], action) {
-    switch (action.type) {
-        case SET_TRENDING:
-            return action.value;
-        default:
-            return state;
-    }
-}
-
-function topRated(state = [], action) {
-    switch (action.type) {
-        case SET_TOP_RATED:
-            return action.value;
-        default:
-            return state;
-    }
-}
 
 function watchlist(state = [], action) {
     switch (action.type) {
@@ -83,9 +53,6 @@ function loginStatus(state = false, action) {
 }
 
 const flickbaseApp = combineReducers({
-    popular,
-    trending,
-    topRated,
     searchItem,
     searchResult,
     choice,

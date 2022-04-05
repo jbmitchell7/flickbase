@@ -99,11 +99,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         fontSize: 30,
     },
-    // sectionHeader: {
-    //     marginVertical: 20,
-    //     marginHorizontal: 20,
-    //     fontSize: 20,
-    // },
     background: {
         flex: 1
     },
