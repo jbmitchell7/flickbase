@@ -6,7 +6,6 @@ import Watchlist from '../Account/Watchlist';
 import Login from '../Account/Login';
 import Search from '../Search/Search';
 import Home from '../Home/Home';
-import MovieHome from '../Movie/MovieHome';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,6 +19,12 @@ const BottomNav = () => (
         <Tab.Screen
             name='Home'
             component={Home}
+            listeners={({ navigation }) => ({
+                tabPress: (event) => {
+                    event.preventDefault();
+                    navigation.navigate("Home", { screen: "movie" })
+                }
+            })}
             options={{
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (
