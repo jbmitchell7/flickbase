@@ -15,7 +15,6 @@ const BottomNav = () => (
         initialRouteName='Home'
         activeColor='white'
         barStyle={{ backgroundColor: '#01C6AC' }}
-        screenOptions={{ unmountOnBlur: true }}
     >
         <Tab.Screen
             name='Home'
@@ -25,6 +24,7 @@ const BottomNav = () => (
                 tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons name="home" color={color} size={26} />
                 ),
+                unmountOnBlur: true
             }}
         />
         <Tab.Screen

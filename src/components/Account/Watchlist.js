@@ -24,7 +24,7 @@ const Watchlist = (props) => {
         try {
           if (isActive) {
             const watchlistId = await AsyncStorage.getItem('watchlistId');
-            if (watchlistId == null) {
+            if (watchlistId == '' || watchlistId == null) {
               const id = await AsyncStorage.getItem('userId');
               const listRes = await fetchGet(`/4/account/${id}/lists`);
               if (listRes) {
@@ -33,6 +33,11 @@ const Watchlist = (props) => {
                 if (fbListData) {
                   let listId = fbListData.id;
                   await AsyncStorage.setItem('watchlistId', listId.toString());
+                  const fbList = await fetchGet(`/4/list/${listId}`);
+                  if (fbList) {
+                    setHasWatchlist(true);
+                    props.setWatchlist(fbList.results);
+                  }
                 }
               }
             }
