@@ -91,7 +91,7 @@ const MediaInfo = (props) => {
                                 : <Text style={styles.streamText}>Not available to stream</Text>
                             }
                         </View>
-                        <WatchlistBtn media={choice} type="movie" onToggleSnackBar={onToggleSnackBar} />
+                        <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} />
                     </View> : null}
                 <Snack
                     visible={visible}

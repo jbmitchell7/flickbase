@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { fetchPost, fetchDelete, fetchGet } from '../api/tmdb';
+import { fetchPost, fetchDelete } from '../api/tmdb';
 import colors from '../assets/colors';
 
 const WatchlistBtn = (props) => {
@@ -12,12 +12,14 @@ const WatchlistBtn = (props) => {
     const addToWatchlist = async () => {
         try {
             const listId = await AsyncStorage.getItem('watchlistId');
-            await fetchPost(`/4/list/${listId}/items`,
+            const response = await fetchPost(`/4/list/${listId}/items`,
                 {
                     items: [{ media_type: type, media_id: media.id }]
                 }
             );
-            onToggleSnackBar('Added to Watchlist');
+            if (response) {
+                onToggleSnackBar('Added to Watchlist');
+            }
         }
         catch {
             onToggleSnackBar('Error Adding to Watchlist');
