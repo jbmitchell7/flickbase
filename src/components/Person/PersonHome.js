@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SectionList, FlatList, View } from 'react-native';
+import { StyleSheet, SectionList, FlatList, View, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -54,34 +54,35 @@ const PersonHome = (props) => {
 
     if (dataLoaded) {
         return (
-            <SectionList
-                contentContainerStyle={{ paddingHorizontal: 10 }}
-                stickySectionHeadersEnabled={false}
-                sections={SECTIONS}
-                style={styles.sectionContainer}
-                showsVerticalScrollIndicator={false}
-                renderSectionHeader={({ section }) => (
-                    <>
-                        <Text style={styles.sectionHeader}>{section.title}</Text>
-                        <FlatList
-                            horizontal
-                            data={section.data}
-                            renderItem={({ item }) => (
-                                <View style={styles.personCard}>
-                                    <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
-                                    <Text style={styles.personText}>{item.name}</Text>
-                                </View>
+            <ScrollView contentContainerStyle={styles.sectionContainer}>
+                <SectionList
+                    contentContainerStyle={{ paddingHorizontal: 10 }}
+                    stickySectionHeadersEnabled={false}
+                    sections={SECTIONS}
+                    showsVerticalScrollIndicator={false}
+                    renderSectionHeader={({ section }) => (
+                        <>
+                            <Text style={styles.sectionHeader}>{section.title}</Text>
+                            <FlatList
+                                horizontal
+                                data={section.data}
+                                renderItem={({ item }) => (
+                                    <View style={styles.personCard}>
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
+                                        <Text style={styles.personText}>{item.name}</Text>
+                                    </View>
 
-                            )}
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={item => item.id}
-                        />
-                    </>
-                )}
-                renderItem={() => {
-                    return null;
-                }}
-            />
+                                )}
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={item => item.id}
+                            />
+                        </>
+                    )}
+                    renderItem={() => {
+                        return null;
+                    }}
+                />
+            </ScrollView>
         )
     }
 
