@@ -5,7 +5,12 @@ import { Button } from 'react-native-paper';
 import colors from '../assets/colors';
 
 const MediaBtn = (props) => {
-    const { label, setMedia, media, icon, mediaState } = props;
+    const { label, media, icon, mediaState, navigation, setMedia } = props;
+
+    const onButtonPress = () => {
+        navigation.navigate(media);
+        setMedia(media);
+    }
 
     if (mediaState == media) {
         return (
@@ -15,7 +20,7 @@ const MediaBtn = (props) => {
                 icon={icon}
                 mode='contained'
                 style={styles.yellowBtn}
-                onPress={() => setMedia(media)}>
+                onPress={() => onButtonPress()}>
                 {label}
             </Button>
         )
@@ -28,7 +33,7 @@ const MediaBtn = (props) => {
             icon={icon}
             mode='outlined'
             style={styles.yellowBtn}
-            onPress={() => setMedia(media)}>
+            onPress={() => onButtonPress()}>
             {label}
         </Button>
     )

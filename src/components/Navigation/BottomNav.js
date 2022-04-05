@@ -6,6 +6,7 @@ import Watchlist from '../Account/Watchlist';
 import Login from '../Account/Login';
 import Search from '../Search/Search';
 import Home from '../Home/Home';
+import MovieHome from '../Movie/MovieHome';
 
 const Tab = createMaterialBottomTabNavigator();
 

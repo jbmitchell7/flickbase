@@ -1,74 +1,46 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, SectionList, FlatList } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { setPopular, setTrending, setTopRated, setLoginStatus } from '../../actions/actions';
-import { fetchGet } from '../../api/tmdb';
+import { setLoginStatus } from '../../actions/actions';
 import MediaBtn from '../MediaBtn';
-import MediaCover from '../MediaCover';
+import MovieHome from '../Movie/MovieHome';
+import PersonHome from '../Person/PersonHome';
+import TvHome from '../TvShow/TvHome';
+
+const HomeStack = createNativeStackNavigator();
 
 const Home = (props) => {
     const [media, setMedia] = useState('movie');
-    const [dataLoaded, setDataLoaded] = useState(false);
-    const { trending, popular, topRated } = props;
-
-    const SECTIONS = [
-        {
-            title: 'Popular',
-            data: popular
-        },
-        {
-            title: 'Trending This Week',
-            data: trending
-        },
-        {
-            title: 'Top Rated',
-            data: topRated
-        }
-    ];
 
     useFocusEffect(
         React.useCallback(() => {
             let isActive = true;
 
-            const getHomeData = async () => {
+            const checkLogin = async () => {
                 try {
                     if (isActive) {
-
-                        const newPopular = await fetchGet(`/3/${media}/popular`);
-                        props.setPopular(newPopular.results);
-
-                        const newTrending = await fetchGet(`/3/trending/${media}/week`);
-                        props.setTrending(newTrending.results);
-
-                        if (media != 'person') {
-                            const newTopRated = await fetchGet(`/3/${media}/top_rated`);
-                            props.setTopRated(newTopRated.results);
-                        }
-
                         const userLoggedIn = await AsyncStorage.getItem('token');
                         if (userLoggedIn != null) {
                             props.setLoginStatus(true);
                         }
-
-                        setDataLoaded(true);
                     }
                 }
-                catch (error) {
-                    throw new Error('error getting home movie data');
+                catch {
+                    throw new Error('error setting Home info')
                 }
-            };
+            }
 
-            getHomeData();
+            checkLogin();
 
             return () => {
-                setDataLoaded(false);
                 isActive = false;
             };
-        }, [media])
+        }, [])
     );
 
     return (
@@ -77,64 +49,61 @@ const Home = (props) => {
             <View style={styles.buttonContainer}>
                 <MediaBtn
                     label='Movies'
+                    navigation={props.navigation}
                     setMedia={setMedia}
                     mediaState={media}
                     media='movie'
                     icon='movie-open' />
                 <MediaBtn
                     label='TV'
+                    navigation={props.navigation}
                     setMedia={setMedia}
                     mediaState={media}
                     media='tv'
                     icon='television-classic' />
                 <MediaBtn
                     label='People'
+                    navigation={props.navigation}
                     setMedia={setMedia}
                     mediaState={media}
                     media='person'
                     icon='account' />
             </View>
-            <SafeAreaView style={styles.background}>
-                {dataLoaded ?
-                    <SectionList
-                        contentContainerStyle={{ paddingHorizontal: 10 }}
-                        stickySectionHeadersEnabled={false}
-                        sections={(media == 'person') ? SECTIONS.slice(0, 2) : SECTIONS}
-                        extraData={media}
-                        showsVerticalScrollIndicator={false}
-                        renderSectionHeader={({ section }) => (
-                            <>
-                                <Text style={styles.sectionHeader}>{section.title}</Text>
-                                <FlatList
-                                    horizontal
-                                    data={section.data}
-                                    extraData={media}
-                                    renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
-                                    showsHorizontalScrollIndicator={false}
-                                    keyExtractor={item => item.id}
-                                />
-                            </>
-                        )}
-                        renderItem={() => {
-                            return null;
-                        }}
-                    /> : null}
-            </SafeAreaView>
+            <HomeStack.Navigator
+                initialRouteName='movies'
+            >
+                <HomeStack.Screen
+                    name='movie'
+                    component={MovieHome}
+                    options={{ headerShown: false }}
+                />
+                <HomeStack.Screen
+                    name='tv'
+                    component={TvHome}
+                    options={{ headerShown: false }}
+                />
+                <HomeStack.Screen
+                    name='person'
+                    component={PersonHome}
+                    options={{ headerShown: false }}
+                />
+            </HomeStack.Navigator>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     header: {
-        marginVertical: 40,
+        marginTop: 40,
+        marginBottom: 20,
         marginHorizontal: 20,
         fontSize: 30,
     },
-    sectionHeader: {
-        marginVertical: 20,
-        marginHorizontal: 20,
-        fontSize: 20,
-    },
+    // sectionHeader: {
+    //     marginVertical: 20,
+    //     marginHorizontal: 20,
+    //     fontSize: 20,
+    // },
     background: {
         flex: 1
     },
@@ -146,17 +115,11 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        popular: state.popular,
-        trending: state.trending,
-        topRated: state.topRated,
         loginStatus: state.loginStatus
     }
 }
 
 export default connect(
     mapStateToProps, {
-    setPopular,
-    setTrending,
-    setTopRated,
     setLoginStatus
 })(Home);

@@ -48,7 +48,7 @@ const App = () => {
             barStyle='light-content'
           />
           <Stack.Navigator
-            initialRouteName='Popular'
+            initialRouteName='BottomNav'
             screenOptions={{
               headerStyle: {
                 backgroundColor: colors.backgroundBlue,
