@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Watchlist from '../Account/Watchlist';
@@ -7,14 +7,23 @@ import Login from '../Account/Login';
 import Search from '../Search/Search';
 import Home from '../Home/Home';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const BottomNav = () => (
 
     <Tab.Navigator
         initialRouteName='Home'
-        activeColor='white'
-        barStyle={{ backgroundColor: '#01C6AC' }}
+        screenOptions={{
+            tabBarStyle: {
+                backgroundColor: '#01C6AC',
+                borderColor: '#01C6AC',
+                borderTopWidth: 0
+            },
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#bdbdbd',
+            headerShown: false
+        }}
+
     >
         <Tab.Screen
             name='Home'
