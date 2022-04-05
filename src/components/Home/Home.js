@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginBottom: 20,
         marginHorizontal: 20,
-        fontSize: 30,
+        fontSize: 25,
     },
     background: {
         flex: 1
