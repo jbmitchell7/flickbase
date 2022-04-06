@@ -120,14 +120,14 @@ const MediaInfo = (props) => {
                                 </>
                                 : <Text style={styles.personText}>Cast Unavailable</Text>
                             }
-                            <Text style={styles.bioText}>Streaming With Subscription On:</Text>
+                            <Text style={styles.bioText}>Streaming With Subscription in the US On:</Text>
 
                             <View style={styles.imageContainer}>
                                 {(streamers.length > 0) ?
                                     streamers.map(provider => (
                                         <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
                                     ))
-                                    : <Text style={styles.streamText}>Not available to stream</Text>
+                                    : <Text style={styles.streamText}>Not available to stream.</Text>
                                 }
                             </View>
                             <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} />
