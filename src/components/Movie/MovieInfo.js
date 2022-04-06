@@ -13,7 +13,8 @@ const MovieInfo = (props) => {
     return (
         <View>
             <Text style={styles.titleText}>{movie.title}</Text>
-            <Text style={styles.bioText}>Synopsis: {movie.overview}</Text>
+            <Text style={styles.bioText}>Synopsis:</Text>
+            <Text style={styles.bioTextSummary}>{movie.overview}</Text>
             <Text style={styles.bioText}>Release Date: {movie.release_date}</Text>
             {(movie.budget) ?
                 <Text style={styles.bioText}>

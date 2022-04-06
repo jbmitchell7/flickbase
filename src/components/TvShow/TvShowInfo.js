@@ -7,7 +7,8 @@ const TvShowInfo = (props) => {
     return (
         <View>
             <Text style={styles.titleText}>{show.name}</Text>
-            <Text style={styles.bioText}>Synopsis: {show.overview}</Text>
+            <Text style={styles.bioText}>Synopsis:</Text>
+            <Text style={styles.bioTextSummary}>{show.overview}</Text>
             <Text style={styles.bioText}>Debuted: {show.first_air_date}</Text>
             <Text style={styles.bioText}>
                 Total Ratings: {show.vote_count} | Average Rating: {show.vote_average}/10

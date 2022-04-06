@@ -57,11 +57,6 @@ const styles = StyleSheet.create({
     height: 225,
     marginBottom: 15,
   },
-  infoContainer: {
-    width: 160,
-    height: 225,
-    marginBottom: 15
-  },
   image: {
     flex: 1,
     width: null,

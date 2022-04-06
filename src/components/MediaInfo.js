@@ -31,6 +31,8 @@ const MediaInfo = (props) => {
     const [streamers, setStreamers] = useState([]);
     const [cast, setCast] = useState([]);
     const [crew, setCrew] = useState([]);
+    const [movieCredits, setMovieCredits] = useState([]);
+    const [tvCredits, setTvCredits] = useState([]);
 
     const onToggleSnackBar = (result) => {
         setVisible(!visible);
@@ -51,13 +53,19 @@ const MediaInfo = (props) => {
                         if (mediaType != 'person') {
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
                             const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
-                            if (watchProviders.results.US) {
+                            if (watchProviders.results.US.flatrate) {
                                 setStreamers(watchProviders.results.US.flatrate);
                             }
                             if (mediaCredits.cast) {
                                 setCast(mediaCredits.cast);
                                 //setCrew(mediaCredits.crew);
                             }
+                        }
+                        if (mediaType == 'person') {
+                            const movieResponse = await fetchGet(`/3/${mediaType}/${mediaId}/movie_credits`);
+                            const tvResponse = await fetchGet(`/3/${mediaType}/${mediaId}/tv_credits`);
+                            setMovieCredits(movieResponse.cast);
+                            setTvCredits(tvResponse.cast);
                         }
                     }
                 }
@@ -83,7 +91,7 @@ const MediaInfo = (props) => {
                     {(mediaType == 'movie') ?
                         <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
                         : (mediaType == 'person') ?
-                            <PersonInfo person={choice} styles={styles} />
+                            <PersonInfo person={choice} styles={styles} movieCredits={movieCredits} tvCredits={tvCredits} navigation={props.navigation} />
                             : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
                     {(mediaType == 'movie' || mediaType == 'tv') ?
                         <View style={styles.lastText}>
@@ -160,6 +168,10 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
 
+    bioTextSummary: {
+        marginHorizontal: 5
+    },
+
     watchlistBtn: {
         marginTop: 20,
         width: 200,
@@ -192,6 +204,12 @@ const styles = StyleSheet.create({
     personImage: {
         width: 70,
         height: 70,
+        marginHorizontal: 5,
+        marginVertical: 5
+    },
+    creditImage: {
+        width: 64,
+        height: 90,
         marginHorizontal: 5,
         marginVertical: 5
     },
