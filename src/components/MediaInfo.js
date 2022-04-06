@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, Image } from 'react-native';
+import { ScrollView, StyleSheet, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -13,6 +13,7 @@ import ImageComponent from './ImageComponent';
 import WatchlistBtn from './WatchlistBtn';
 import Snack from './Snack';
 import { IMAGE_URL } from './ImageComponent';
+import colors from '../assets/colors';
 
 export const dateConvert = (dateInput) => {
     let year = dateInput.substr(0, 4);
@@ -28,6 +29,8 @@ const MediaInfo = (props) => {
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('');
     const [streamers, setStreamers] = useState([]);
+    const [cast, setCast] = useState([]);
+    const [crew, setCrew] = useState([]);
 
     const onToggleSnackBar = (result) => {
         setVisible(!visible);
@@ -47,8 +50,13 @@ const MediaInfo = (props) => {
                         props.setChoice(mediaResponse);
                         if (mediaType != 'person') {
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
+                            const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
                             if (watchProviders.results.US) {
                                 setStreamers(watchProviders.results.US.flatrate);
+                            }
+                            if (mediaCredits.cast) {
+                                setCast(mediaCredits.cast);
+                                //setCrew(mediaCredits.crew);
                             }
                         }
                     }
@@ -66,42 +74,68 @@ const MediaInfo = (props) => {
         }, [])
     );
 
-    return (
-        <View style={styles.textContainer}>
-            <ScrollView
-                stickyHeaderIndices={[2]}
-                showsVerticalScrollIndicator={false}>
-                {(mediaType == 'movie') ?
-                    <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
-                    : (mediaType == 'person') ?
-                        <PersonInfo person={choice} styles={styles} />
-                        : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
-                {(mediaType == 'movie' || mediaType == 'tv') ?
-                    <View style={styles.lastText}>
-                        <Text style={styles.bioText}>
-                            Total Ratings: {choice.vote_count} | Average Rating: {choice.vote_average}/10
-                        </Text>
-                        <Text style={styles.bioText}>Streaming With Subscription On:</Text>
-
-                        <View style={styles.imageContainer}>
-                            {(streamers) ?
-                                streamers.map(provider => (
-                                    <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
-                                ))
-                                : <Text style={styles.streamText}>Not available to stream</Text>
+    if (choice) {
+        return (
+            <View style={styles.textContainer}>
+                <ScrollView
+                    stickyHeaderIndices={[2]}
+                    showsVerticalScrollIndicator={false}>
+                    {(mediaType == 'movie') ?
+                        <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
+                        : (mediaType == 'person') ?
+                            <PersonInfo person={choice} styles={styles} />
+                            : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
+                    {(mediaType == 'movie' || mediaType == 'tv') ?
+                        <View style={styles.lastText}>
+                            <Text style={styles.bioText}>
+                                Total Ratings: {choice.vote_count} | Average Rating: {choice.vote_average}/10
+                            </Text>
+                            {(cast) ?
+                                <>
+                                    <Text style={styles.bioText}>Cast: </Text>
+                                    <FlatList
+                                        horizontal
+                                        data={cast}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity style={styles.personCard} onPress={() => {
+                                                props.navigation.push('MediaInfo',
+                                                    { mediaId: item.id, mediaType: 'person' }
+                                                )
+                                            }}>
+                                                <Image style={styles.personImage} source={{ uri: `${IMAGE_URL}${item.profile_path}` }} />
+                                                <Text style={styles.personText}>{item.name}</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                        showsHorizontalScrollIndicator={false}
+                                        keyExtractor={item => item.id}
+                                    />
+                                </>
+                                : <Text style={styles.personText}>Cast Unavailable</Text>
                             }
-                        </View>
-                        <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} />
-                    </View> : null}
-                <Snack
-                    visible={visible}
-                    onDismissSnackBar={onDismissSnackBar}
-                    snackText={snackText} />
-                <ImageComponent item={choice} media={mediaType} />
-            </ScrollView>
-        </View>
+                            <Text style={styles.bioText}>Streaming With Subscription On:</Text>
 
-    )
+                            <View style={styles.imageContainer}>
+                                {(streamers.length > 0) ?
+                                    streamers.map(provider => (
+                                        <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
+                                    ))
+                                    : <Text style={styles.streamText}>Not available to stream</Text>
+                                }
+                            </View>
+                            <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} />
+                        </View> : null}
+                    <Snack
+                        visible={visible}
+                        onDismissSnackBar={onDismissSnackBar}
+                        snackText={snackText} />
+                    <ImageComponent item={choice} media={mediaType} />
+                </ScrollView>
+            </View>
+        )
+    }
+
+    return <Text>Loading...</Text>
+
 }
 
 const styles = StyleSheet.create({
@@ -145,6 +179,21 @@ const styles = StyleSheet.create({
     },
     streamText: {
         marginHorizontal: 20
+    },
+    personCard: {
+        display: 'flex',
+        width: 80
+    },
+    personText: {
+        fontSize: 10,
+        marginHorizontal: 5,
+        color: colors.yellow
+    },
+    personImage: {
+        width: 70,
+        height: 70,
+        marginHorizontal: 5,
+        marginVertical: 5
     },
 });
 

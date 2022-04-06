@@ -39,7 +39,8 @@ const MediaCover = (props) => {
         { mediaId: media.id, mediaType: 'movie' }
       )
     }}
-      style={(page == 'home') ? styles.imageContainer : styles.watchlistContainer}>
+      style={(page == 'home') ? styles.imageContainer
+        : styles.watchlistContainer}>
       <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.poster_path}` }} />
     </TouchableOpacity>
   )
@@ -56,7 +57,11 @@ const styles = StyleSheet.create({
     height: 225,
     marginBottom: 15,
   },
-
+  infoContainer: {
+    width: 160,
+    height: 225,
+    marginBottom: 15
+  },
   image: {
     flex: 1,
     width: null,

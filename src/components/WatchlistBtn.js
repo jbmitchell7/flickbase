@@ -52,7 +52,7 @@ const WatchlistBtn = (props) => {
                 onPress={() => addToWatchlist()}>
             </IconButton>
             <IconButton
-                color={colors.red}
+                color={colors.yellow}
                 size={30}
                 icon="book-remove-multiple"
                 onPress={() => removeFromWatchlist()}>

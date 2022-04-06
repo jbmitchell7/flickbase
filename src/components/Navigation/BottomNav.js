@@ -20,6 +20,7 @@ const BottomNav = () => (
                 borderTopWidth: 0,
                 height: 55
             },
+            tabBarShowLabel: false,
             tabBarActiveTintColor: 'white',
             tabBarInactiveTintColor: '#cccccc',
             headerShown: false
