@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, View } from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-native'
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
 import WatchlistBtn from '../WatchlistBtn';
-import Snack from '../Snack';
 import { setWatchlist } from '../../actions/actions';
 import { fetchGet, fetchPost } from '../../api/tmdb';
 import MediaCover from '../MediaCover';
@@ -16,9 +15,6 @@ const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [snackText, setSnackText] = useState('');
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -86,12 +82,7 @@ const Watchlist = (props) => {
     }
   }
 
-  const onToggleSnackBar = (result) => {
-    setVisible(!visible);
-    setSnackText(result);
-  };
-
-  const onDismissSnackBar = () => setVisible(false);
+  const onToggleSnackBar = (result) => null;
 
   if (!loginStatus) {
     return (
@@ -134,24 +125,30 @@ const Watchlist = (props) => {
   }
 
   return (
-    <View style={styles.viewContainer}>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <Text style={styles.header}>Watchlist</Text>
       <FlatList
         data={watchlist}
         renderItem={({ item }) => (
           <View style={styles.watchlistItemContainer}>
             <MediaCover media={item} key={item.id} navigation={props.navigation} />
-            <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} />
+            <View style={styles.column}>
+              <SafeAreaView>
+                {(item.media_type == 'movie') ?
+                  <Text style={[styles.itemTitle, styles.itemText]}>{item.title}</Text>
+                  : <Text style={[styles.itemTitle, styles.itemText]}>{item.name}</Text>
+                }
+                <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
+              </SafeAreaView>
+
+              <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
+            </View>
           </View>
         )}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
       />
-      <Snack
-        visible={visible}
-        onDismissSnackBar={onDismissSnackBar}
-        snackText={snackText} />
-    </View>
+    </ScrollView>
   )
 
 }
@@ -171,12 +168,27 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 20
   },
-  viewContainer: {
-    flex: 1
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   watchlistItemContainer: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'row',
+    marginHorizontal: 10,
+  },
+  column: {
+    flex: '50%',
+    paddingLeft: 10,
+    alignSelf: 'center'
+  },
+  itemTitle: {
+    fontSize: 20
+  },
+  itemText: {
+    marginBottom: 10
   }
 });
 

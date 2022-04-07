@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,7 +6,7 @@ import { fetchPost, fetchDelete } from '../api/tmdb';
 import colors from '../assets/colors';
 
 const WatchlistBtn = (props) => {
-    const { media, type, onToggleSnackBar } = props;
+    const { media, type, onToggleSnackBar, buttonType } = props;
 
     const addToWatchlist = async () => {
         try {
@@ -43,31 +42,25 @@ const WatchlistBtn = (props) => {
         }
     }
 
-    return (
-        <View style={styles.buttonContainer}>
+    if (buttonType == 'add') {
+        return (
             <IconButton
                 color={colors.blueGreen}
                 size={30}
                 icon="book-plus-multiple"
                 onPress={() => addToWatchlist()}>
             </IconButton>
-            <IconButton
-                color={colors.yellow}
-                size={30}
-                icon="book-remove-multiple"
-                onPress={() => removeFromWatchlist()}>
-            </IconButton>
-        </View>
+        )
+    }
+
+    return (
+        <IconButton
+            color={colors.yellow}
+            size={30}
+            icon="book-remove-multiple"
+            onPress={() => removeFromWatchlist()}>
+        </IconButton>
     )
 }
-
-const styles = StyleSheet.create({
-    buttonContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center'
-    },
-})
 
 export default WatchlistBtn;

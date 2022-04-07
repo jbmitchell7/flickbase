@@ -136,7 +136,10 @@ const MediaInfo = (props) => {
                                     : <Text style={styles.streamText}>Not available to stream.</Text>
                                 }
                             </View>
-                            <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} />
+                            <View style={styles.buttonContainer}>
+                                <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='add' />
+                                <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
+                            </View>
                         </View> : null}
                     <Snack
                         visible={visible}
@@ -181,7 +184,12 @@ const styles = StyleSheet.create({
     bioTextSummary: {
         marginHorizontal: 5
     },
-
+    buttonContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
     watchlistBtn: {
         marginTop: 20,
         width: 200,
