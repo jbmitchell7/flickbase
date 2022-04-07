@@ -53,11 +53,9 @@ const MediaInfo = (props) => {
                         if (mediaType != 'person') {
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
                             const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
-                            const providers = watchProviders.results
+                            const providers = watchProviders.results.US.flatrate;
                             if (providers.length > 0) {
-                                if (watchProviders.results.US.flatrate) {
-                                    setStreamers(watchProviders.results.US.flatrate);
-                                }
+                                setStreamers(providers);
                             }
                             if (mediaCredits.cast) {
                                 setCast(mediaCredits.cast);
