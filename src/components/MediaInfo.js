@@ -53,14 +53,15 @@ const MediaInfo = (props) => {
                         if (mediaType != 'person') {
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
                             const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
-                            const providers = watchProviders.results.US.flatrate;
-                            if (providers.length > 0) {
-                                setStreamers(providers);
-                            }
-                            if (mediaCredits.cast) {
+                            //const providers = watchProviders.results.US.flatrate;
+                            const cast = mediaCredits.cast;
+                            if (cast.length > 0) {
                                 setCast(mediaCredits.cast);
                                 //setCrew(mediaCredits.crew);
                             }
+                            // if (providers.length > 0) {
+                            //     setStreamers(providers);
+                            // }
                         }
                         if (mediaType == 'person') {
                             const movieResponse = await fetchGet(`/3/${mediaType}/${mediaId}/movie_credits`);
@@ -103,7 +104,7 @@ const MediaInfo = (props) => {
                                 <Text>{choice.vote_average}/10</Text>
                             </Text>
                             <Text style={[styles.bioTextHeader, styles.bioText]}>Cast: </Text>
-                            {(cast) ?
+                            {(cast.length > 0) ?
                                 <>
                                     <FlatList
                                         horizontal
@@ -122,7 +123,7 @@ const MediaInfo = (props) => {
                                         keyExtractor={item => item.id}
                                     />
                                 </>
-                                : <Text style={styles.bioText}>Cast Unavailable</Text>
+                                : <Text style={styles.streamText}>Cast Unavailable</Text>
                             }
                             <Text style={[styles.bioTextHeader, styles.bioText]}>Streaming With Subscription in the US On:</Text>
 
