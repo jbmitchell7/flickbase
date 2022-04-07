@@ -10,15 +10,25 @@ const PersonInfo = (props) => {
     return (
         <View>
             <Text style={styles.titleText}>{person.name}</Text>
-            <Text style={styles.bioText}>Born: {person.birthday}</Text>
+            <Text style={styles.bioText}>
+                <Text style={styles.bioTextHeader}>Born: </Text>
+                <Text>{person.birthday}</Text>
+            </Text>
             {(person.deathday) ?
-                <Text style={styles.bioText}>Died: {person.deathday}</Text> :
+                <Text style={styles.bioText}>
+                    <Text style={styles.bioTextHeader}>Died: </Text>
+                    <Text>{person.deathday}</Text>
+                </Text>
+                :
                 null
             }
-            <Text style={styles.bioText}>Profession: {person.known_for_department}</Text>
+            <Text style={styles.bioText}>
+                <Text style={styles.bioTextHeader}>Profession: </Text>
+                <Text>{person.known_for_department}</Text>
+            </Text>
             {(movieCredits.length > 0) ?
                 <>
-                    <Text style={styles.bioText}>Film Credits: </Text>
+                    <Text style={[styles.bioTextHeader, styles.bioText]}>Film Credits: </Text>
                     <FlatList
                         horizontal
                         data={movieCredits}
@@ -38,7 +48,7 @@ const PersonInfo = (props) => {
                 </> : <Text style={styles.bioText}>No Film Credits</Text>}
             {(tvCredits.length > 0) ?
                 <>
-                    <Text style={styles.bioText}>Television Credits: </Text>
+                    <Text style={[styles.bioTextHeader, styles.bioText]}>Television Credits: </Text>
                     <FlatList
                         horizontal
                         data={tvCredits}
@@ -57,7 +67,7 @@ const PersonInfo = (props) => {
                     />
                 </>
                 : <Text style={styles.bioText}>No Television Credits</Text>}
-            <Text style={styles.bioText}>Biography:</Text>
+            <Text style={[styles.bioTextHeader, styles.bioText]}>Biography:</Text>
             <Text style={styles.bioTextSummary}>{person.biography}</Text>
         </View>
     )

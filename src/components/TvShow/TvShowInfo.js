@@ -7,14 +7,20 @@ const TvShowInfo = (props) => {
     return (
         <View>
             <Text style={styles.titleText}>{show.name}</Text>
-            <Text style={styles.bioText}>Synopsis:</Text>
+            <Text style={[styles.bioTextHeader, styles.bioText]}>Synopsis:</Text>
             <Text style={styles.bioTextSummary}>{show.overview}</Text>
-            <Text style={styles.bioText}>Debuted: {show.first_air_date}</Text>
             <Text style={styles.bioText}>
-                Total Ratings: {show.vote_count} | Average Rating: {show.vote_average}/10
+                <Text style={styles.bioTextHeader}>Debuted: </Text>
+                <Text>{show.first_air_date}</Text>
             </Text>
-            <Text style={styles.bioText}>Total Seasons: {show.number_of_seasons}</Text>
-            <Text style={styles.bioText}>Total Episodes: {show.number_of_episodes}</Text>
+            <Text style={styles.bioText}>
+                <Text style={styles.bioTextHeader}>Total Seasons: </Text>
+                <Text>{show.number_of_seasons}</Text>
+            </Text>
+            <Text style={styles.bioText}>
+                <Text style={styles.bioTextHeader}>Total Episodes: </Text>
+                <Text>{show.number_of_episodes}</Text>
+            </Text>
         </View>
     )
 }

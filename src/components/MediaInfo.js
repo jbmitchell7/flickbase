@@ -96,11 +96,14 @@ const MediaInfo = (props) => {
                     {(mediaType == 'movie' || mediaType == 'tv') ?
                         <View style={styles.lastText}>
                             <Text style={styles.bioText}>
-                                Total Ratings: {choice.vote_count} | Average Rating: {choice.vote_average}/10
+                                <Text style={styles.bioTextHeader}>Total Ratings: </Text>
+                                <Text>{choice.vote_count}</Text>
+                                <Text style={styles.bioTextHeader}> | Average Rating: </Text>
+                                <Text>{choice.vote_average}/10</Text>
                             </Text>
+                            <Text style={[styles.bioTextHeader, styles.bioText]}>Cast: </Text>
                             {(cast) ?
                                 <>
-                                    <Text style={styles.bioText}>Cast: </Text>
                                     <FlatList
                                         horizontal
                                         data={cast}
@@ -118,9 +121,9 @@ const MediaInfo = (props) => {
                                         keyExtractor={item => item.id}
                                     />
                                 </>
-                                : <Text style={styles.personText}>Cast Unavailable</Text>
+                                : <Text style={styles.bioText}>Cast Unavailable</Text>
                             }
-                            <Text style={styles.bioText}>Streaming With Subscription in the US On:</Text>
+                            <Text style={[styles.bioTextHeader, styles.bioText]}>Streaming With Subscription in the US On:</Text>
 
                             <View style={styles.imageContainer}>
                                 {(streamers.length > 0) ?
@@ -164,6 +167,10 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
 
+    bioTextHeader: {
+        color: colors.yellow
+    },
+
     bioText: {
         marginVertical: 10
     },
@@ -198,8 +205,7 @@ const styles = StyleSheet.create({
     },
     personText: {
         fontSize: 10,
-        marginHorizontal: 5,
-        color: colors.yellow
+        marginHorizontal: 5
     },
     personImage: {
         width: 70,
