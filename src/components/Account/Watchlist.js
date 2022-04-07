@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
+import WatchlistBtn from '../WatchlistBtn';
+import Snack from '../Snack';
 import { setWatchlist } from '../../actions/actions';
 import { fetchGet, fetchPost } from '../../api/tmdb';
 import MediaCover from '../MediaCover';
@@ -14,6 +16,8 @@ const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [snackText, setSnackText] = useState('');
 
 
   useFocusEffect(
@@ -82,6 +86,13 @@ const Watchlist = (props) => {
     }
   }
 
+  const onToggleSnackBar = (result) => {
+    setVisible(!visible);
+    setSnackText(result);
+  };
+
+  const onDismissSnackBar = () => setVisible(false);
+
   if (!loginStatus) {
     return (
       <SafeAreaView style={styles.viewContainer}>
@@ -128,12 +139,18 @@ const Watchlist = (props) => {
       <FlatList
         data={watchlist}
         renderItem={({ item }) => (
-          <MediaCover media={item} key={item.id} navigation={props.navigation} page='watchlist' />
+          <View style={styles.watchlistItemContainer}>
+            <MediaCover media={item} key={item.id} navigation={props.navigation} />
+            <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} />
+          </View>
         )}
         keyExtractor={item => item.id}
-        numColumns={2}
         showsVerticalScrollIndicator={false}
       />
+      <Snack
+        visible={visible}
+        onDismissSnackBar={onDismissSnackBar}
+        snackText={snackText} />
     </View>
   )
 
@@ -156,6 +173,10 @@ const styles = StyleSheet.create({
   },
   viewContainer: {
     flex: 1
+  },
+  watchlistItemContainer: {
+    display: 'flex',
+    flexDirection: 'column'
   }
 });
 

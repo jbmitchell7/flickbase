@@ -89,7 +89,7 @@ const MovieHome = (props) => {
                         <FlatList
                             horizontal
                             data={section.data}
-                            renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />}
+                            renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} />}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={item => item.id}
                         />

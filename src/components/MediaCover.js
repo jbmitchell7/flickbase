@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { IMAGE_URL } from './ImageComponent';
 
 const MediaCover = (props) => {
-  const { navigation, media, page } = props;
+  const { navigation, media } = props;
 
   if ('gender' in media) {
     return (
@@ -13,7 +13,7 @@ const MediaCover = (props) => {
           { mediaId: media.id, mediaType: 'person' }
         )
       }}
-        style={(page == 'home') ? styles.imageContainer : styles.watchlistContainer}>
+        style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.profile_path}` }} />
       </TouchableOpacity>
     )
@@ -26,7 +26,7 @@ const MediaCover = (props) => {
           { mediaId: media.id, mediaType: 'tv' }
         )
       }}
-        style={(page == 'home') ? styles.imageContainer : styles.watchlistContainer}>
+        style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.poster_path}` }} />
       </TouchableOpacity>
     )
@@ -39,8 +39,7 @@ const MediaCover = (props) => {
         { mediaId: media.id, mediaType: 'movie' }
       )
     }}
-      style={(page == 'home') ? styles.imageContainer
-        : styles.watchlistContainer}>
+      style={styles.imageContainer}>
       <Image style={styles.image} source={{ uri: `${IMAGE_URL}${media.poster_path}` }} />
     </TouchableOpacity>
   )

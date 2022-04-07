@@ -68,7 +68,7 @@ const PersonHome = (props) => {
                                 data={section.data}
                                 renderItem={({ item }) => (
                                     <View style={styles.personCard}>
-                                        <MediaCover media={item} key={item.id} navigation={props.navigation} page='home' />
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
                                         <Text style={styles.personText}>{item.name}</Text>
                                     </View>
 
