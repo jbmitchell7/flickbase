@@ -125,30 +125,29 @@ const Watchlist = (props) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <>
       <Text style={styles.header}>Watchlist</Text>
       <FlatList
         data={watchlist}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.watchlistItemContainer}>
             <MediaCover media={item} key={item.id} navigation={props.navigation} />
             <View style={styles.column}>
-              <SafeAreaView>
+              <View>
                 {(item.media_type == 'movie') ?
                   <Text style={[styles.itemTitle, styles.itemText]}>{item.title}</Text>
                   : <Text style={[styles.itemTitle, styles.itemText]}>{item.name}</Text>
                 }
                 <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
-              </SafeAreaView>
-
+              </View>
               <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
             </View>
           </View>
         )}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
       />
-    </ScrollView>
+    </>
   )
 
 }
@@ -156,7 +155,8 @@ const Watchlist = (props) => {
 const styles = StyleSheet.create({
   header: {
     fontSize: 25,
-    marginVertical: 40,
+    marginTop: 40,
+    marginBottom: 20,
     marginHorizontal: 20,
   },
   yellowBtn: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   column: {
-    flex: '50%',
+    flexShrink: 1,
     paddingLeft: 10,
     alignSelf: 'center'
   },

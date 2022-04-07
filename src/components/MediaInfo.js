@@ -101,7 +101,7 @@ const MediaInfo = (props) => {
                             <Text style={styles.bioText}>
                                 <Text style={styles.bioTextHeader}>Total Ratings: </Text>
                                 <Text>{choice.vote_count}</Text>
-                                <Text style={styles.bioTextHeader}> | Average Rating: </Text>
+                                <Text style={styles.bioTextHeader}> Average Rating: </Text>
                                 <Text>{choice.vote_average}/10</Text>
                             </Text>
                             <Text style={[styles.bioTextHeader, styles.bioText]}>Cast: </Text>
