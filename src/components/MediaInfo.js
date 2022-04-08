@@ -51,17 +51,20 @@ const MediaInfo = (props) => {
                         const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
                         props.setChoice(mediaResponse);
                         if (mediaType != 'person') {
-                            const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
                             const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
-                            //const providers = watchProviders.results.US.flatrate;
                             const cast = mediaCredits.cast;
                             if (cast.length > 0) {
                                 setCast(mediaCredits.cast);
                                 //setCrew(mediaCredits.crew);
                             }
-                            // if (providers.length > 0) {
-                            //     setStreamers(providers);
-                            // }
+
+                            const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
+                            if (watchProviders.results.hasOwnProperty('US')) {
+                                const providers = watchProviders.results.US.flatrate;
+                                if (providers.length > 0) {
+                                    setStreamers(providers);
+                                }
+                            }
                         }
                         if (mediaType == 'person') {
                             const movieResponse = await fetchGet(`/3/${mediaType}/${mediaId}/movie_credits`);
