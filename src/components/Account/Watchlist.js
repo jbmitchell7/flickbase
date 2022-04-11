@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-native'
+import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -15,6 +15,9 @@ const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [watchlistPage, setWatchlistPage] = useState(1);
+  const [filterBy, setFilterBy] = useState('primary_release_date.desc');
 
   useFocusEffect(
     React.useCallback(() => {
@@ -33,18 +36,20 @@ const Watchlist = (props) => {
                 if (fbListData) {
                   let listId = fbListData.id;
                   await AsyncStorage.setItem('watchlistId', listId.toString());
-                  const fbList = await fetchGet(`/4/list/${listId}`);
+                  const fbList = await fetchGet(`/4/list/${listId}?page=${watchlistPage}&sort_by=${filterBy}`);
                   if (fbList) {
                     setHasWatchlist(true);
+                    setTotalPages(fbList.total_pages);
                     props.setWatchlist(fbList.results);
                   }
                 }
               }
             }
             if (watchlistId) {
-              const fbList = await fetchGet(`/4/list/${watchlistId}`);
+              const fbList = await fetchGet(`/4/list/${watchlistId}?page=${watchlistPage}&sort_by=${filterBy}`);
               if (fbList) {
                 setHasWatchlist(true);
+                setTotalPages(fbList.total_pages);
                 props.setWatchlist(fbList.results);
               }
             }
@@ -62,7 +67,7 @@ const Watchlist = (props) => {
       return () => {
         isActive = false;
       };
-    }, [fbWatchlist, watchlist])
+    }, [fbWatchlist, watchlistPage, filterBy])
   );
 
   const createFlickbaseList = async () => {
@@ -88,7 +93,7 @@ const Watchlist = (props) => {
     return (
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
-        <Text style={styles.watchlistMsg}>Must be logged in to view watchlist</Text>
+        <Text style={styles.watchlistMsg}>Must be logged in to view watchlist.</Text>
       </SafeAreaView>
     )
   }
@@ -97,7 +102,7 @@ const Watchlist = (props) => {
     return (
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
-        <Text style={styles.watchlistMsg}>You have not created a watchlist for flickbase yet.</Text>
+        <Text style={styles.watchlistMsg}>You have not created a watchlist for Flickbase yet.</Text>
         <Button
           color={colors.yellow}
           dark={true}
@@ -127,26 +132,52 @@ const Watchlist = (props) => {
   return (
     <>
       <Text style={styles.header}>Watchlist</Text>
-      <FlatList
-        data={watchlist}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.watchlistItemContainer}>
-            <MediaCover media={item} key={item.id} navigation={props.navigation} />
-            <View style={styles.column}>
-              <View>
-                {(item.media_type == 'movie') ?
-                  <Text style={[styles.itemTitle, styles.itemText]}>{item.title}</Text>
-                  : <Text style={[styles.itemTitle, styles.itemText]}>{item.name}</Text>
-                }
-                <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <FlatList
+          data={watchlist}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.watchlistItemContainer}>
+              <MediaCover media={item} key={item.id} navigation={props.navigation} />
+              <View style={styles.column}>
+                <View>
+                  {(item.media_type == 'movie') ?
+                    <Text style={[styles.itemTitle, styles.itemText]}>{item.title}</Text>
+                    : <Text style={[styles.itemTitle, styles.itemText]}>{item.name}</Text>
+                  }
+                  <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
+                </View>
+                <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
               </View>
-              <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
             </View>
-          </View>
-        )}
-      />
+          )}
+        />
+        {(totalPages > 1) ?
+          <View style={styles.pageBtns}>
+            {(watchlistPage != 1) ?
+              <Button
+                color={colors.yellow}
+                dark={true}
+                icon='arrow-left-circle'
+                mode='contained'
+                style={styles.pageBtn}
+                onPress={() => setWatchlistPage(watchlistPage - 1)}>
+                Prev
+              </Button> : null
+            }
+
+            <Button
+              color={colors.yellow}
+              dark={true}
+              icon='arrow-right-circle'
+              mode='contained'
+              style={styles.pageBtn}
+              onPress={() => setWatchlistPage(watchlistPage + 1)}>
+              Next
+            </Button>
+          </View> : null}
+      </ScrollView>
     </>
   )
 
@@ -189,6 +220,23 @@ const styles = StyleSheet.create({
   },
   itemText: {
     marginBottom: 10
+  },
+  pageBtns: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  pageBtn: {
+    padding: 1,
+    marginBottom: 20,
+    marginHorizontal: 5
+  },
+  filter: {
+    width: 150,
+    backgroundColor: colors.yellow,
+    color: 'white',
+    marginBottom: 20,
+    alignSelf: 'center'
   }
 });
 

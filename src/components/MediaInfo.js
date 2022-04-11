@@ -14,6 +14,7 @@ import WatchlistBtn from './WatchlistBtn';
 import Snack from './Snack';
 import { IMAGE_URL } from './ImageComponent';
 import colors from '../assets/colors';
+import Streamers from './Streamers';
 
 export const dateConvert = (dateInput) => {
     let year = dateInput.substr(0, 4);
@@ -29,6 +30,7 @@ const MediaInfo = (props) => {
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('');
     const [streamers, setStreamers] = useState([]);
+    const [freeStreamers, setFreeStreamers] = useState([]);
     const [cast, setCast] = useState([]);
     const [crew, setCrew] = useState([]);
     const [movieCredits, setMovieCredits] = useState([]);
@@ -60,9 +62,12 @@ const MediaInfo = (props) => {
 
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
                             if (watchProviders.results.hasOwnProperty('US')) {
-                                const providers = watchProviders.results.US.flatrate;
-                                if (providers.length > 0) {
-                                    setStreamers(providers);
+                                const providers = watchProviders.results.US;
+                                if (providers.hasOwnProperty('flatrate')) {
+                                    setStreamers(providers.flatrate);
+                                }
+                                if (providers.hasOwnProperty('free')) {
+                                    setFreeStreamers(providers.free);
                                 }
                             }
                         }
@@ -128,16 +133,8 @@ const MediaInfo = (props) => {
                                 </>
                                 : <Text style={styles.streamText}>Cast Unavailable</Text>
                             }
-                            <Text style={[styles.bioTextHeader, styles.bioText]}>Streaming With Subscription in the US On:</Text>
-
-                            <View style={styles.imageContainer}>
-                                {(streamers.length > 0) ?
-                                    streamers.map(provider => (
-                                        <Image style={styles.image} key={provider.provider_id} source={{ uri: `${IMAGE_URL}${provider.logo_path}` }} />
-                                    ))
-                                    : <Text style={styles.streamText}>Not available to stream.</Text>
-                                }
-                            </View>
+                            <Streamers title='Streaming Free ' items={freeStreamers} styles={styles} />
+                            <Streamers title='Streaming With Subscription ' items={streamers} styles={styles} />
                             <View style={styles.buttonContainer}>
                                 <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='add' />
                                 <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
