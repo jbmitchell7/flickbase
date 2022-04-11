@@ -166,16 +166,16 @@ const Watchlist = (props) => {
                 Prev
               </Button> : null
             }
-
-            <Button
-              color={colors.yellow}
-              dark={true}
-              icon='arrow-right-circle'
-              mode='contained'
-              style={styles.pageBtn}
-              onPress={() => setWatchlistPage(watchlistPage + 1)}>
-              Next
-            </Button>
+            {(watchlistPage != totalPages) ?
+              <Button
+                color={colors.yellow}
+                dark={true}
+                icon='arrow-right-circle'
+                mode='contained'
+                style={styles.pageBtn}
+                onPress={() => setWatchlistPage(watchlistPage + 1)}>
+                Next
+              </Button> : null}
           </View> : null}
       </ScrollView>
     </>
