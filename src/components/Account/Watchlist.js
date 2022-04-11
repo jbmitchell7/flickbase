@@ -136,6 +136,7 @@ const Watchlist = (props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <RNPickerSelect
           value={filterBy}
+          style={styles.filter}
           onValueChange={(value, index) => setFilterBy(value)}
           items={[
             { label: 'Release Date (Newest First)', value: 'primary_release_date.desc' },
