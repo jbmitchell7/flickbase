@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
@@ -133,6 +134,20 @@ const Watchlist = (props) => {
     <>
       <Text style={styles.header}>Watchlist</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <RNPickerSelect
+          value={filterBy}
+          onValueChange={(value, index) => setFilterBy(value)}
+          items={[
+            { label: 'Release Date (Newest First)', value: 'primary_release_date.desc' },
+            { label: 'Release Date (Oldest First)', value: 'primary_release_date.asc' },
+            { label: 'Title (A->Z)', value: 'title.asc' },
+            { label: 'Title (Z->A)', value: 'title.desc' },
+            { label: 'Rating (Highest First)', value: 'vote_average.desc' },
+            { label: 'Rating (Lowest First)', value: 'vote_average.asc' },
+            { label: 'Recently Added (Recents First)', value: 'original_order.desc' },
+            { label: 'Recently Added (Oldest First)', value: 'original_order.asc' }
+          ]}
+        />
         <FlatList
           data={watchlist}
           keyExtractor={item => item.id}
@@ -148,7 +163,11 @@ const Watchlist = (props) => {
                   }
                   <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
                 </View>
-                <WatchlistBtn media={item} type={item.media_type} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
+                <WatchlistBtn
+                  media={item}
+                  type={item.media_type}
+                  onToggleSnackBar={onToggleSnackBar}
+                  buttonType='remove' />
               </View>
             </View>
           )}
@@ -233,8 +252,6 @@ const styles = StyleSheet.create({
   },
   filter: {
     width: 150,
-    backgroundColor: colors.yellow,
-    color: 'white',
     marginBottom: 20,
     alignSelf: 'center'
   }
