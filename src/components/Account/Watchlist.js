@@ -12,12 +12,11 @@ import colors from '../../assets/colors';
 import ListCard from '../ListCard';
 
 const Watchlist = (props) => {
-  const { watchlist, loginStatus } = props;
+  const { watchlist, loginStatus, watchlistChanged } = props;
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [watchlistPage, setWatchlistPage] = useState(1);
-  const [watchlistChanged, setWatchlistChanged] = useState(0);
   const [filterBy, setFilterBy] = useState('primary_release_date.desc');
 
   useFocusEffect(
@@ -87,8 +86,6 @@ const Watchlist = (props) => {
       throw new Error('error creating watchlist');
     }
   }
-
-  const onToggleSnackBar = (result) => setWatchlistChanged(watchlistChanged + 1);
 
   if (!loginStatus) {
     return (
@@ -237,6 +234,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     watchlist: state.watchlist,
+    watchlistChanged: state.watchlistChanged,
     loginStatus: state.loginStatus
   }
 }

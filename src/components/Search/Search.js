@@ -32,7 +32,6 @@ const Search = (props) => {
                     throw new Error('error querying for media');
                 }
             }
-            console.log(searchItem);
             if (searchItem != '') {
                 getMedia();
             }

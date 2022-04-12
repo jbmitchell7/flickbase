@@ -1,14 +1,18 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import { connect } from 'react-redux';
 
 import MediaCover from './MediaCover';
 import WatchlistBtn from './WatchlistBtn';
+import { setWatchlistChanged } from '../actions/actions';
 
 const ListCard = (props) => {
-    const { navigation, media, type } = props;
+    const { navigation, media, type, watchlistChanged } = props;
 
-    const onToggleSnackBar = (result) => null;
+    const onToggleSnackBar = () => {
+        props.setWatchlistChanged(!watchlistChanged);
+    };
 
     if (media.media_type == 'person') {
         return (
@@ -86,4 +90,10 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ListCard;
+const mapStateToProps = state => {
+    return {
+        watchlistChanged: state.watchlistChanged,
+    }
+}
+
+export default connect(mapStateToProps, { setWatchlistChanged })(ListCard);

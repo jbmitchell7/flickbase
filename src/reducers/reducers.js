@@ -5,11 +5,21 @@ import {
     SET_CHOICE,
     SET_WATCHLIST,
     SET_LOGIN_STATUS,
+    SET_WATCHLIST_CHANGED
 } from "../actions/actions";
 
 function watchlist(state = [], action) {
     switch (action.type) {
         case SET_WATCHLIST:
+            return action.value;
+        default:
+            return state;
+    }
+}
+
+function watchlistChanged(state = true, action) {
+    switch (action.type) {
+        case SET_WATCHLIST_CHANGED:
             return action.value;
         default:
             return state;
@@ -57,7 +67,8 @@ const flickbaseApp = combineReducers({
     searchResult,
     choice,
     watchlist,
-    loginStatus
+    loginStatus,
+    watchlistChanged
 });
 
 export default flickbaseApp;
