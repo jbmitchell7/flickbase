@@ -16,6 +16,7 @@ const ListCard = (props) => {
                 <MediaCover media={media} key={media.id} navigation={navigation} />
                 <View style={styles.column}>
                     <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
+                    <Text style={styles.itemText}>(Person)</Text>
                 </View>
             </View>
         )
@@ -27,12 +28,18 @@ const ListCard = (props) => {
             <View style={styles.column}>
                 <View>
                     {(media.media_type == 'movie') ?
-                        <Text style={[styles.itemTitle, styles.itemText]}>{media.title}</Text>
-                        : <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
+                        <View>
+                            <Text style={[styles.itemTitle, styles.itemText]}>{media.title}</Text>
+                            <Text style={styles.itemText}>(Movie)</Text>
+                        </View> :
+                        <View>
+                            <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
+                            <Text style={styles.itemText}>(TV Show)</Text>
+                        </View>
                     }
                     <Text style={styles.itemText}>Average Rating: {media.vote_average}/10</Text>
                 </View>
-                <View style={styles.buttonContainer}>
+                <View style={(type == 'search') ? styles.twoButtonContainer : styles.oneButtonContainer}>
                     {(type == 'search') ?
                         <WatchlistBtn
                             media={media}
@@ -69,9 +76,13 @@ const styles = StyleSheet.create({
     itemText: {
         marginBottom: 10
     },
-    buttonContainer: {
+    oneButtonContainer: {
         display: 'flex',
         justifyContent: 'center'
+    },
+    twoButtonContainer: {
+        display: 'flex',
+        flexDirection: 'row'
     },
 });
 
