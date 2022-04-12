@@ -6,10 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
-import WatchlistBtn from '../WatchlistBtn';
 import { setWatchlist } from '../../actions/actions';
 import { fetchGet, fetchPost } from '../../api/tmdb';
-import MediaCover from '../MediaCover';
 import colors from '../../assets/colors';
 import ListCard from '../ListCard';
 
