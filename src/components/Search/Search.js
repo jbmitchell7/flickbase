@@ -4,10 +4,10 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 
-import SearchResult from './SearchResult';
 import { setSearchResult, setSearch } from '../../actions/actions';
 import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
+import ListCard from '../ListCard';
 
 const Search = (props) => {
     const { searchItem, searchResult } = props;
@@ -53,7 +53,7 @@ const Search = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <SearchForm />
             {filteredResult.map(item => (
-                <SearchResult key={item.id} item={item} navigation={props.navigation} />
+                <ListCard key={item.id} media={item} navigation={props.navigation} type='search' />
             ))}
         </ScrollView>
     );

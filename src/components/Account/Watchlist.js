@@ -11,6 +11,7 @@ import { setWatchlist } from '../../actions/actions';
 import { fetchGet, fetchPost } from '../../api/tmdb';
 import MediaCover from '../MediaCover';
 import colors from '../../assets/colors';
+import ListCard from '../ListCard';
 
 const Watchlist = (props) => {
   const { watchlist, loginStatus } = props;
@@ -157,23 +158,7 @@ const Watchlist = (props) => {
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <View style={styles.watchlistItemContainer}>
-              <MediaCover media={item} key={item.id} navigation={props.navigation} />
-              <View style={styles.column}>
-                <View>
-                  {(item.media_type == 'movie') ?
-                    <Text style={[styles.itemTitle, styles.itemText]}>{item.title}</Text>
-                    : <Text style={[styles.itemTitle, styles.itemText]}>{item.name}</Text>
-                  }
-                  <Text style={styles.itemText}>Average Rating: {item.vote_average}/10</Text>
-                </View>
-                <WatchlistBtn
-                  media={item}
-                  type={item.media_type}
-                  onToggleSnackBar={onToggleSnackBar}
-                  buttonType='remove' />
-              </View>
-            </View>
+            <ListCard media={item} navigation={props.navigation} type='watchlist' />
           )}
         />
         {(totalPages > 1) ?
@@ -234,28 +219,6 @@ const styles = StyleSheet.create({
   watchlistMsg: {
     marginBottom: 20,
     marginHorizontal: 20
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
-  },
-  watchlistItemContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginHorizontal: 10,
-  },
-  column: {
-    flexShrink: 1,
-    paddingLeft: 10,
-    alignSelf: 'center'
-  },
-  itemTitle: {
-    fontSize: 20
-  },
-  itemText: {
-    marginBottom: 10
   },
   pageBtns: {
     display: 'flex',
