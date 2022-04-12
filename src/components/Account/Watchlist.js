@@ -18,6 +18,7 @@ const Watchlist = (props) => {
   const [hasWatchlist, setHasWatchlist] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [watchlistPage, setWatchlistPage] = useState(1);
+  const [watchlistChanged, setWatchlistChanged] = useState(0);
   const [filterBy, setFilterBy] = useState('primary_release_date.desc');
 
   useFocusEffect(
@@ -68,7 +69,7 @@ const Watchlist = (props) => {
       return () => {
         isActive = false;
       };
-    }, [fbWatchlist, watchlistPage, filterBy])
+    }, [fbWatchlist, watchlistPage, filterBy, watchlistChanged])
   );
 
   const createFlickbaseList = async () => {
@@ -88,7 +89,7 @@ const Watchlist = (props) => {
     }
   }
 
-  const onToggleSnackBar = (result) => null;
+  const onToggleSnackBar = (result) => setWatchlistChanged(watchlistChanged + 1);
 
   if (!loginStatus) {
     return (
