@@ -135,7 +135,10 @@ const Watchlist = (props) => {
           <RNPickerSelect
             value={filterBy}
             style={pickerStyle}
-            onValueChange={(value, index) => setFilterBy(value)}
+            onValueChange={(value, index) => {
+              setFilterBy(value);
+              setWatchlistPage(1);
+            }}
             items={[
               { label: 'Release Date (Newest First)', value: 'primary_release_date.desc' },
               { label: 'Release Date (Oldest First)', value: 'primary_release_date.asc' },

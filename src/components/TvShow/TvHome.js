@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SectionList, FlatList } from 'react-native';
+import { StyleSheet, SectionList, FlatList, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -89,7 +89,12 @@ const TvHome = (props) => {
                         <FlatList
                             horizontal
                             data={section.data}
-                            renderItem={({ item }) => <MediaCover media={item} key={item.id} navigation={props.navigation} />}
+                            renderItem={({ item }) => (
+                                <View style={styles.tvCard}>
+                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                    <Text style={styles.tvText}>{item.name}</Text>
+                                </View>
+                            )}
                             showsHorizontalScrollIndicator={false}
                             keyExtractor={item => item.id}
                         />
@@ -113,6 +118,14 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         marginHorizontal: 20,
         fontSize: 20,
+    },
+    tvCard: {
+        flex: 1,
+        flexWrap: 'wrap',
+        width: 160
+    },
+    tvText: {
+        marginHorizontal: 5
     }
 })
 
