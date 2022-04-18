@@ -91,10 +91,7 @@ const MovieHome = (props) => {
                                 horizontal
                                 data={section.data}
                                 renderItem={({ item }) => (
-                                    <View style={styles.movieCard}>
-                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
-                                        <Text style={styles.movieText}>{item.title}</Text>
-                                    </View>
+                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
                                 )}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={item => item.id}

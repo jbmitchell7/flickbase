@@ -91,10 +91,7 @@ const TvHome = (props) => {
                                 horizontal
                                 data={section.data}
                                 renderItem={({ item }) => (
-                                    <View style={styles.tvCard}>
-                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
-                                        <Text style={styles.tvText}>{item.name}</Text>
-                                    </View>
+                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
                                 )}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={item => item.id}
