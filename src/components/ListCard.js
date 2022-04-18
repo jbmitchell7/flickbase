@@ -14,6 +14,10 @@ const ListCard = (props) => {
         props.setWatchlistChanged(!watchlistChanged);
     };
 
+    const getYear = (date) => {
+        return date.slice(0, 4);
+    }
+
     if (media.media_type == 'person') {
         return (
             <View style={styles.watchlistItemContainer}>
@@ -35,13 +39,14 @@ const ListCard = (props) => {
                         <View>
                             <Text style={[styles.itemTitle, styles.itemText]}>{media.title}</Text>
                             <Text style={styles.itemText}>(Movie)</Text>
+                            <Text style={styles.itemText}>{getYear(media.release_date)}</Text>
                         </View> :
                         <View>
                             <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
                             <Text style={styles.itemText}>(TV Show)</Text>
+                            <Text style={styles.itemText}>Premiered: {getYear(media.first_air_date)}</Text>
                         </View>
                     }
-                    <Text style={styles.itemText}>Average Rating: {media.vote_average}/10</Text>
                 </View>
                 <View style={(type == 'search') ? styles.twoButtonContainer : styles.oneButtonContainer}>
                     {(type == 'search') ?

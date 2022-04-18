@@ -20,6 +20,10 @@ const MovieInfo = (props) => {
                 <Text>{movie.release_date}</Text>
             </Text>
             <Text style={styles.bioText}>
+                <Text style={styles.bioTextHeader}>Runtime: </Text>
+                <Text>{movie.runtime} minutes</Text>
+            </Text>
+            <Text style={styles.bioText}>
                 {(movie.budget) ?
                     <>
                         <Text style={styles.bioTextHeader}>Budget: </Text>

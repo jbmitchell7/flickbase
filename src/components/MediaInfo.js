@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, Image, FlatList, TouchableOpacity } from 'react-native';
-import { Text } from 'react-native-paper';
+import { ScrollView, StyleSheet, View, Image, FlatList, TouchableOpacity, Linking } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -16,13 +16,15 @@ import { IMAGE_URL } from './ImageComponent';
 import colors from '../assets/colors';
 import Streamers from './Streamers';
 
-export const dateConvert = (dateInput) => {
-    let year = dateInput.substr(0, 4);
-    let month = dateInput.substr(5, 2);
-    let day = dateInput.substr(8, 2);
-    let date = `${month}-${day}-${year}`;
-    return date
-}
+// export const dateConvert = (dateInput) => {
+//     let year = dateInput.substr(0, 4);
+//     let month = dateInput.substr(5, 2);
+//     let day = dateInput.substr(8, 2);
+//     let date = `${month}-${day}-${year}`;
+//     return date
+// }
+
+const YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
 
 const MediaInfo = (props) => {
     const { mediaId, mediaType } = props.route.params;
@@ -35,10 +37,20 @@ const MediaInfo = (props) => {
     const [crew, setCrew] = useState([]);
     const [movieCredits, setMovieCredits] = useState([]);
     const [tvCredits, setTvCredits] = useState([]);
+    const [videos, setVideos] = useState([]);
 
     const onToggleSnackBar = (result) => {
         setVisible(!visible);
         setSnackText(result);
+    };
+
+    const openVideo = async (key) => {
+        try {
+            Linking.openURL(`${YOUTUBE_URL}${key}`);
+        }
+        catch (error) {
+            throw new Error('error getting trailer');
+        }
     };
 
     const onDismissSnackBar = () => setVisible(false);
@@ -69,6 +81,11 @@ const MediaInfo = (props) => {
                                 if (providers.hasOwnProperty('free')) {
                                     setFreeStreamers(providers.free);
                                 }
+                            }
+                            const videos = await fetchGet(`/3/${mediaType}/${mediaId}/videos`);
+                            if (videos) {
+                                const videoList = videos.results;
+                                setVideos(videoList);
                             }
                         }
                         if (mediaType == 'person') {
@@ -139,6 +156,16 @@ const MediaInfo = (props) => {
                                 <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='add' />
                                 <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
                             </View>
+                            {(videos.length > 0) ?
+                                <Button
+                                    color={colors.yellow}
+                                    style={styles.yellowBtn}
+                                    mode='contained'
+                                    dark={true}
+                                    onPress={() => openVideo(videos[0].key)}>
+                                    Watch Trailer
+                                </Button> : null}
+
                         </View> : null}
                     <Snack
                         visible={visible}
@@ -228,6 +255,12 @@ const styles = StyleSheet.create({
         height: 90,
         marginHorizontal: 5,
         marginVertical: 5
+    },
+    yellowBtn: {
+        marginVertical: 20,
+        padding: 1,
+        marginHorizontal: 5,
+        alignSelf: 'center'
     },
 });
 
