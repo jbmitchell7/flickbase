@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, SectionList, FlatList, View } from 'react-native';
+import { StyleSheet, SectionList, FlatList, View, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -78,32 +78,34 @@ const MovieHome = (props) => {
 
     if (dataLoaded) {
         return (
-            <SectionList
-                contentContainerStyle={{ paddingHorizontal: 10 }}
-                stickySectionHeadersEnabled={false}
-                sections={SECTIONS}
-                showsVerticalScrollIndicator={false}
-                renderSectionHeader={({ section }) => (
-                    <>
-                        <Text style={styles.sectionHeader}>{section.title}</Text>
-                        <FlatList
-                            horizontal
-                            data={section.data}
-                            renderItem={({ item }) => (
-                                <View style={styles.movieCard}>
-                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
-                                    <Text style={styles.movieText}>{item.title}</Text>
-                                </View>
-                            )}
-                            showsHorizontalScrollIndicator={false}
-                            keyExtractor={item => item.id}
-                        />
-                    </>
-                )}
-                renderItem={() => {
-                    return null;
-                }}
-            />
+            <ScrollView contentContainerStyle={styles.sectionContainer}>
+                <SectionList
+                    contentContainerStyle={{ paddingHorizontal: 10 }}
+                    stickySectionHeadersEnabled={false}
+                    sections={SECTIONS}
+                    showsVerticalScrollIndicator={false}
+                    renderSectionHeader={({ section }) => (
+                        <>
+                            <Text style={styles.sectionHeader}>{section.title}</Text>
+                            <FlatList
+                                horizontal
+                                data={section.data}
+                                renderItem={({ item }) => (
+                                    <View style={styles.movieCard}>
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                        <Text style={styles.movieText}>{item.title}</Text>
+                                    </View>
+                                )}
+                                showsHorizontalScrollIndicator={false}
+                                keyExtractor={item => item.id}
+                            />
+                        </>
+                    )}
+                    renderItem={() => {
+                        return null;
+                    }}
+                />
+            </ScrollView>
         )
     }
 
@@ -114,6 +116,9 @@ const MovieHome = (props) => {
 }
 
 const styles = StyleSheet.create({
+    sectionContainer: {
+        paddingBottom: 40
+    },
     sectionHeader: {
         marginVertical: 20,
         marginHorizontal: 20,

@@ -85,7 +85,8 @@ const MediaInfo = (props) => {
                             const videos = await fetchGet(`/3/${mediaType}/${mediaId}/videos`);
                             if (videos) {
                                 const videoList = videos.results;
-                                setVideos(videoList);
+                                const trailers = videoList.filter(video => video.type == 'Trailer' && video.site == "YouTube");
+                                setVideos(trailers);
                             }
                         }
                         if (mediaType == 'person') {
