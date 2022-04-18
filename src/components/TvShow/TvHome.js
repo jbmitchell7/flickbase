@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     },
     tvCard: {
         flex: 1,
+        flexDirection: 'column',
         flexWrap: 'wrap',
         width: 160
     },

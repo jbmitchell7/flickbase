@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     },
     movieCard: {
         flex: 1,
+        flexDirection: 'column',
         flexWrap: 'wrap',
         width: 160
     },
