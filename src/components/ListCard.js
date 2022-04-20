@@ -39,12 +39,22 @@ const ListCard = (props) => {
                         <View>
                             <Text style={[styles.itemTitle, styles.itemText]}>{media.title}</Text>
                             <Text style={styles.itemText}>(Movie)</Text>
-                            <Text style={styles.itemText}>{getYear(media.release_date)}</Text>
+                            {('release_date' in media) ?
+                                <Text style={styles.itemText}>
+                                    {getYear(media.release_date)}
+                                </Text> :
+                                <Text style={styles.itemText}>Release Date Unavailable</Text>
+                            }
                         </View> :
                         <View>
                             <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
                             <Text style={styles.itemText}>(TV Show)</Text>
-                            <Text style={styles.itemText}>Premiered: {getYear(media.first_air_date)}</Text>
+                            {('first_air_date' in media) ?
+                                <Text style={styles.itemText}>
+                                    Premiered: {getYear(media.first_air_date)}
+                                </Text> :
+                                <Text style={styles.itemText}>Premier Date Unavailable</Text>
+                            }
                         </View>
                     }
                 </View>
