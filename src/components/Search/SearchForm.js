@@ -14,6 +14,7 @@ const SearchForm = (props) => {
             placeholder='Movie, TV Show, or Person'
             onChangeText={query => setSearchQuery(query)}
             onIconPress={() => props.setSearch(searchQuery)}
+            onSubmitEditing={() => props.setSearch(searchQuery)}
             value={props.searchItem}
             style={styles.searchBar}
         />
