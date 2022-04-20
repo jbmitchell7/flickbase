@@ -142,7 +142,8 @@ const MediaInfo = (props) => {
                                                 )
                                             }}>
                                                 <Image style={styles.personImage} source={{ uri: `${IMAGE_URL}${item.profile_path}` }} />
-                                                <Text style={styles.personText}>{item.name}</Text>
+                                                <Text style={[styles.personText, styles.personTextBold]}>{item.name}</Text>
+                                                <Text style={styles.personText}>{item.character}</Text>
                                             </TouchableOpacity>
                                         )}
                                         showsHorizontalScrollIndicator={false}
@@ -240,6 +241,9 @@ const styles = StyleSheet.create({
     personCard: {
         display: 'flex',
         width: 80
+    },
+    personTextBold: {
+        fontWeight: 'bold'
     },
     personText: {
         fontSize: 10,
