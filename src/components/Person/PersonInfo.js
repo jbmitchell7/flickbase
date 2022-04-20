@@ -39,7 +39,8 @@ const PersonInfo = (props) => {
                                 )
                             }}>
                                 <Image style={styles.creditImage} source={{ uri: `${IMAGE_URL}${item.poster_path}` }} />
-                                <Text style={styles.personText}>{item.title}</Text>
+                                <Text style={[styles.personTextBold, styles.personText]}>{item.title}</Text>
+                                <Text style={styles.personText}>{item.character}</Text>
                             </TouchableOpacity>
                         )}
                         showsHorizontalScrollIndicator={false}
@@ -59,7 +60,8 @@ const PersonInfo = (props) => {
                                 )
                             }}>
                                 <Image style={styles.creditImage} source={{ uri: `${IMAGE_URL}${item.poster_path}` }} />
-                                <Text style={styles.personText}>{item.name}</Text>
+                                <Text style={[styles.personTextBold, styles.personText]}>{item.name}</Text>
+                                <Text style={styles.personText}>{item.character}</Text>
                             </TouchableOpacity>
                         )}
                         showsHorizontalScrollIndicator={false}
