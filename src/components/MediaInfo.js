@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         justifyContent: 'center'
     },
     watchlistBtn: {
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'nowrap'
     },
     streamText: {
         marginHorizontal: 20

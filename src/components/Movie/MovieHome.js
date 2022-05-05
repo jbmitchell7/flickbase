@@ -91,7 +91,10 @@ const MovieHome = (props) => {
                                 horizontal
                                 data={section.data}
                                 renderItem={({ item }) => (
-                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                    <View style={styles.movieCard}>
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                        <Text style={styles.movieText}>{item.title}</Text>
+                                    </View>
                                 )}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={item => item.id}
@@ -122,9 +125,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     movieCard: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         width: 160
     },
     movieText: {

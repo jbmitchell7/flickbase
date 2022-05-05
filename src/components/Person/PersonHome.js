@@ -102,8 +102,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     personCard: {
-        flex: 1,
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         width: 160
     },
     personText: {

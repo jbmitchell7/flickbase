@@ -91,7 +91,10 @@ const TvHome = (props) => {
                                 horizontal
                                 data={section.data}
                                 renderItem={({ item }) => (
-                                    <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                    <View style={styles.tvCard}>
+                                        <MediaCover media={item} key={item.id} navigation={props.navigation} />
+                                        <Text style={styles.tvText}>{item.name}</Text>
+                                    </View>
                                 )}
                                 showsHorizontalScrollIndicator={false}
                                 keyExtractor={item => item.id}
@@ -122,9 +125,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     tvCard: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         width: 160
     },
     tvText: {
