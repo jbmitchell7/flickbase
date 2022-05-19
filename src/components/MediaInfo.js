@@ -69,7 +69,7 @@ const MediaInfo = (props) => {
                             const cast = mediaCredits.cast;
                             if (cast.length > 0) {
                                 setCast(mediaCredits.cast);
-                                //setCrew(mediaCredits.crew);
+                                setCrew(mediaCredits.crew);
                             }
 
                             const watchProviders = await fetchGet(`/3/${mediaType}/${mediaId}/watch/providers`);
@@ -144,6 +144,29 @@ const MediaInfo = (props) => {
                                                 <Image style={styles.personImage} source={{ uri: `${IMAGE_URL}${item.profile_path}` }} />
                                                 <Text style={[styles.personText, styles.personTextBold]}>{item.name}</Text>
                                                 <Text style={styles.personText}>{item.character}</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                        showsHorizontalScrollIndicator={false}
+                                        keyExtractor={item => item.id}
+                                    />
+                                </>
+                                : <Text style={styles.streamText}>Cast Unavailable</Text>
+                            }
+                            <Text style={[styles.bioTextHeader, styles.bioText]}>Crew: </Text>
+                            {(crew.length > 0) ?
+                                <>
+                                    <FlatList
+                                        horizontal
+                                        data={crew}
+                                        renderItem={({ item }) => (
+                                            <TouchableOpacity style={styles.personCard} onPress={() => {
+                                                props.navigation.push('MediaInfo',
+                                                    { mediaId: item.id, mediaType: 'person' }
+                                                )
+                                            }}>
+                                                <Image style={styles.personImage} source={{ uri: `${IMAGE_URL}${item.profile_path}` }} />
+                                                <Text style={[styles.personText, styles.personTextBold]}>{item.name}</Text>
+                                                <Text style={styles.personText}>{item.job}</Text>
                                             </TouchableOpacity>
                                         )}
                                         showsHorizontalScrollIndicator={false}
@@ -233,7 +256,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         display: 'flex',
         flexDirection: 'row',
-        flexWrap: 'nowrap'
+        flexWrap: 'wrap'
     },
     streamText: {
         marginHorizontal: 20
