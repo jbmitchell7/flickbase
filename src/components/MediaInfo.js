@@ -37,6 +37,8 @@ const MediaInfo = (props) => {
     const [crew, setCrew] = useState([]);
     const [movieCredits, setMovieCredits] = useState([]);
     const [tvCredits, setTvCredits] = useState([]);
+    const [movieCrew, setMovieCrew] = useState([]);
+    const [tvCrew, setTvCrew] = useState([]);
     const [videos, setVideos] = useState([]);
 
     const onToggleSnackBar = (result) => {
@@ -94,6 +96,8 @@ const MediaInfo = (props) => {
                             const tvResponse = await fetchGet(`/3/${mediaType}/${mediaId}/tv_credits`);
                             setMovieCredits(movieResponse.cast);
                             setTvCredits(tvResponse.cast);
+                            setMovieCrew(movieResponse.crew);
+                            setTvCrew(tvCrew.crew);
                         }
                     }
                 }
@@ -119,7 +123,14 @@ const MediaInfo = (props) => {
                     {(mediaType == 'movie') ?
                         <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
                         : (mediaType == 'person') ?
-                            <PersonInfo person={choice} styles={styles} movieCredits={movieCredits} tvCredits={tvCredits} navigation={props.navigation} />
+                            <PersonInfo
+                                person={choice}
+                                styles={styles}
+                                movieCredits={movieCredits}
+                                tvCredits={tvCredits}
+                                movieCrew={movieCrew}
+                                tvCrew={tvCrew}
+                                navigation={props.navigation} />
                             : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
                     {(mediaType == 'movie' || mediaType == 'tv') ?
                         <View style={styles.lastText}>

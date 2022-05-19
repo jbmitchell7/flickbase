@@ -5,7 +5,7 @@ import { Text } from 'react-native-paper';
 import { IMAGE_URL } from '../ImageComponent';
 
 const PersonInfo = (props) => {
-    const { person, styles, movieCredits, tvCredits, navigation } = props;
+    const { person, styles, movieCredits, tvCredits, movieCrew, tvCrew, navigation } = props;
 
     return (
         <View>
