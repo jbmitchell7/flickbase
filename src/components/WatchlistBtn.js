@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -56,7 +57,7 @@ const WatchlistBtn = (props) => {
     }
 
     return (
-        <>
+        <View>
             {buttonType == 'add' ?
                 <IconButton
                     color={colors.blueGreen}
@@ -72,7 +73,7 @@ const WatchlistBtn = (props) => {
                 </IconButton>
             }
             <Snack visible={visible} onDismissSnackbar={onDismissSnackBar} snackText={snackText} />
-        </>
+        </View>
 
     )
 }

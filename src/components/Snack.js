@@ -21,8 +21,7 @@ const Snack = (props) => {
 const styles = StyleSheet.create({
     snack: {
         padding: 5,
-        alignSelf: 'center',
-        zIndex: 100
+        alignSelf: 'center'
     },
 })
 
