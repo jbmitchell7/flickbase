@@ -1,18 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { connect } from 'react-redux';
 
 import MediaCover from './MediaCover';
 import WatchlistBtn from './WatchlistBtn';
-import { setWatchlistChanged } from '../actions/actions';
 
 const ListCard = (props) => {
-    const { navigation, media, type, watchlistChanged } = props;
-
-    const onToggleSnackBar = () => {
-        props.setWatchlistChanged(!watchlistChanged);
-    };
+    const { navigation, media, type } = props;
 
     const getYear = (date) => {
         return date.slice(0, 4);
@@ -63,14 +57,12 @@ const ListCard = (props) => {
                         <WatchlistBtn
                             media={media}
                             type={media.media_type}
-                            onToggleSnackBar={onToggleSnackBar}
                             buttonType='add' />
                         : null
                     }
                     <WatchlistBtn
                         media={media}
                         type={media.media_type}
-                        onToggleSnackBar={onToggleSnackBar}
                         buttonType='remove' />
                 </View>
             </View>
@@ -105,10 +97,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = state => {
-    return {
-        watchlistChanged: state.watchlistChanged,
-    }
-}
-
-export default connect(mapStateToProps, { setWatchlistChanged })(ListCard);
+export default ListCard;

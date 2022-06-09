@@ -29,8 +29,6 @@ const YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
 const MediaInfo = (props) => {
     const { mediaId, mediaType } = props.route.params;
     const { choice } = props;
-    const [visible, setVisible] = useState(false);
-    const [snackText, setSnackText] = useState('');
     const [streamers, setStreamers] = useState([]);
     const [freeStreamers, setFreeStreamers] = useState([]);
     const [cast, setCast] = useState([]);
@@ -41,11 +39,6 @@ const MediaInfo = (props) => {
     const [tvCrew, setTvCrew] = useState([]);
     const [videos, setVideos] = useState([]);
 
-    const onToggleSnackBar = (result) => {
-        setVisible(!visible);
-        setSnackText(result);
-    };
-
     const openVideo = async (key) => {
         try {
             Linking.openURL(`${YOUTUBE_URL}${key}`);
@@ -54,8 +47,6 @@ const MediaInfo = (props) => {
             throw new Error('error getting trailer');
         }
     };
-
-    const onDismissSnackBar = () => setVisible(false);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -121,7 +112,7 @@ const MediaInfo = (props) => {
                     stickyHeaderIndices={[2]}
                     showsVerticalScrollIndicator={false}>
                     {(mediaType == 'movie') ?
-                        <MovieInfo movie={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />
+                        <MovieInfo movie={choice} styles={styles} streamers={streamers} />
                         : (mediaType == 'person') ?
                             <PersonInfo
                                 person={choice}
@@ -131,7 +122,7 @@ const MediaInfo = (props) => {
                                 movieCrew={movieCrew}
                                 tvCrew={tvCrew}
                                 navigation={props.navigation} />
-                            : <TvShowInfo show={choice} styles={styles} onToggleSnackBar={onToggleSnackBar} streamers={streamers} />}
+                            : <TvShowInfo show={choice} styles={styles} streamers={streamers} />}
                     {(mediaType == 'movie' || mediaType == 'tv') ?
                         <View style={styles.lastText}>
                             <Text style={styles.bioText}>
@@ -189,8 +180,8 @@ const MediaInfo = (props) => {
                             <Streamers title='Streaming Free ' items={freeStreamers} styles={styles} />
                             <Streamers title='Streaming With Subscription ' items={streamers} styles={styles} />
                             <View style={styles.buttonContainer}>
-                                <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='add' />
-                                <WatchlistBtn media={choice} type={mediaType} onToggleSnackBar={onToggleSnackBar} buttonType='remove' />
+                                <WatchlistBtn media={choice} type={mediaType} buttonType='add' />
+                                <WatchlistBtn media={choice} type={mediaType} buttonType='remove' />
                             </View>
                             {(videos.length > 0) ?
                                 <Button
@@ -203,10 +194,6 @@ const MediaInfo = (props) => {
                                 </Button> : null}
 
                         </View> : null}
-                    <Snack
-                        visible={visible}
-                        onDismissSnackBar={onDismissSnackBar}
-                        snackText={snackText} />
                     <ImageComponent item={choice} media={mediaType} />
                 </ScrollView>
             </View>

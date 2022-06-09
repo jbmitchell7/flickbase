@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { fetchPost, fetchDelete } from '../api/tmdb';
+import Snack from './Snack';
 import colors from '../assets/colors';
+import { setWatchlistChanged } from '../actions/actions';
+import { connect } from 'react-redux';
 
 const WatchlistBtn = (props) => {
-    const { media, type, onToggleSnackBar, buttonType } = props;
+    const { media, type, buttonType, watchlistChanged } = props;
+    const [visible, setVisible] = useState(false);
+    const [snackText, setSnackText] = useState('');
+
+    const onToggleSnackBar = (result) => {
+        setVisible(!visible);
+        setSnackText(result);
+        props.setWatchlistChanged(!watchlistChanged);
+    };
+
+    const onDismissSnackBar = () => setVisible(false);
 
     const addToWatchlist = async () => {
         try {
@@ -42,25 +55,32 @@ const WatchlistBtn = (props) => {
         }
     }
 
-    if (buttonType == 'add') {
-        return (
-            <IconButton
-                color={colors.blueGreen}
-                size={30}
-                icon="book-plus-multiple"
-                onPress={() => addToWatchlist()}>
-            </IconButton>
-        )
-    }
-
     return (
-        <IconButton
-            color={colors.yellow}
-            size={30}
-            icon="book-remove-multiple"
-            onPress={() => removeFromWatchlist()}>
-        </IconButton>
+        <>
+            {buttonType == 'add' ?
+                <IconButton
+                    color={colors.blueGreen}
+                    size={30}
+                    icon="book-plus-multiple"
+                    onPress={() => addToWatchlist()}>
+                </IconButton> :
+                <IconButton
+                    color={colors.yellow}
+                    size={30}
+                    icon="book-remove-multiple"
+                    onPress={() => removeFromWatchlist()}>
+                </IconButton>
+            }
+            <Snack visible={visible} onDismissSnackbar={onDismissSnackBar} snackText={snackText} />
+        </>
+
     )
 }
 
-export default WatchlistBtn;
+const mapStateToProps = state => {
+    return {
+        watchlistChanged: state.watchlistChanged,
+    }
+}
+
+export default connect(mapStateToProps, { setWatchlistChanged })(WatchlistBtn);
