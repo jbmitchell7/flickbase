@@ -44,7 +44,7 @@ const PersonInfo = (props) => {
                             </TouchableOpacity>
                         )}
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={item => item.id}
+                        keyExtractor={(item, index) => index}
                     />
                 </> : <Text style={styles.bioText}>No Film Credits</Text>}
             {(tvCredits.length > 0) ?
@@ -65,7 +65,7 @@ const PersonInfo = (props) => {
                             </TouchableOpacity>
                         )}
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={item => item.id}
+                        keyExtractor={(item, index) => index}
                     />
                 </>
                 : <Text style={styles.bioText}>No Television Credits</Text>}

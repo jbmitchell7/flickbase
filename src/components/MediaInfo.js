@@ -11,18 +11,9 @@ import { setChoice } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import ImageComponent from './ImageComponent';
 import WatchlistBtn from './WatchlistBtn';
-import Snack from './Snack';
 import { IMAGE_URL } from './ImageComponent';
 import colors from '../assets/colors';
 import Streamers from './Streamers';
-
-// export const dateConvert = (dateInput) => {
-//     let year = dateInput.substr(0, 4);
-//     let month = dateInput.substr(5, 2);
-//     let day = dateInput.substr(8, 2);
-//     let date = `${month}-${day}-${year}`;
-//     return date
-// }
 
 const YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
 
@@ -149,7 +140,7 @@ const MediaInfo = (props) => {
                                             </TouchableOpacity>
                                         )}
                                         showsHorizontalScrollIndicator={false}
-                                        keyExtractor={item => item.id}
+                                        keyExtractor={(item, index) => index}
                                     />
                                 </>
                                 : <Text style={styles.streamText}>Cast Unavailable</Text>
@@ -172,7 +163,7 @@ const MediaInfo = (props) => {
                                             </TouchableOpacity>
                                         )}
                                         showsHorizontalScrollIndicator={false}
-                                        keyExtractor={item => item.id}
+                                        keyExtractor={(item, index) => index}
                                     />
                                 </>
                                 : <Text style={styles.streamText}>Cast Unavailable</Text>
