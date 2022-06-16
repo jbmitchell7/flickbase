@@ -13,7 +13,7 @@ expo-cli - installed by executing `npm install -g expo-cli`
 ## Flickbase is now in early access on the Play Store
 Download it here! [Flickbase Google Play](https://play.google.com/store/apps/details?id=cloud.jakemitchell.flickbase)
 
-**Privacy Policy**
+# Privacy Policy
 
 Thundercloud Dev built the Flickbase app as a Free app. This SERVICE is provided by Thundercloud Dev at no cost and is intended for use as is.
 
