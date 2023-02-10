@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setWatchlist } from '../../redux/watchlist/watchlistSlice';
 import { fetchGet, fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
-import ListCard from '../ListCard';
+import ListCard from '../../ui/ListCard';
 
 const Watchlist = (props) => {
   const [fbWatchlist, setFbWatchlist] = useState([]);

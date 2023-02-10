@@ -4,11 +4,11 @@ import { Button, Text } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
-import MovieInfo from './Movie/MovieInfo';
-import PersonInfo from './Person/PersonInfo';
-import TvShowInfo from './TvShow/TvShowInfo';
+import MovieInfo from '../components/Movie/MovieInfo';
+import PersonInfo from '../components/Person/PersonInfo';
+import TvShowInfo from '../components/TvShow/TvShowInfo';
 import { fetchGet } from '../api/tmdb';
-import ImageComponent from './ImageComponent';
+import ImageComponent from '../ui/ImageComponent';
 import WatchlistBtn from './WatchlistBtn';
 import { IMAGE_URL } from './ImageComponent';
 import colors from '../assets/colors';

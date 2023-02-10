@@ -6,7 +6,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MediaBtn from '../MediaBtn';
+import MediaBtn from './MediaBtn';
 import MovieHome from '../Movie/MovieHome';
 import PersonHome from '../Person/PersonHome';
 import TvHome from '../TvShow/TvHome';
@@ -14,7 +14,7 @@ import { setLoginStatus } from '../../redux/user/userSlice';
 
 const HomeStack = createNativeStackNavigator();
 
-const Home = (props) => {
+const HomeLayout = (props) => {
     const [media, setMedia] = useState('movie');
     const dispatch = useDispatch();
 
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Home;
+export default HomeLayout;

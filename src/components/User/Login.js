@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setWatchlist } from '../../redux/watchlist/watchlistSlice';
 import { fetchPost, fetchGet, fetchDelete } from '../../api/tmdb';
 import colors from '../../assets/colors';
-import Snack from '../Snack';
+import Snack from '../../ui/Snack';
 
 const Login = () => {
   const dispatch = useDispatch();

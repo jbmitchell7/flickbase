@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import { IMAGE_URL } from '../ImageComponent';
+import { IMAGE_URL } from '../../ui/ImageComponent';
 
 const PersonInfo = (props) => {
     const { person, styles, movieCredits, tvCredits, movieCrew, tvCrew, navigation } = props;

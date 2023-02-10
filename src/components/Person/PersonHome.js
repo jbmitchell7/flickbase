@@ -4,7 +4,7 @@ import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { fetchGet } from '../../api/tmdb';
-import MediaCover from '../MediaCover';
+import MediaCover from '../../ui/MediaCover';
 
 const PersonHome = (props) => {
     const [dataLoaded, setDataLoaded] = useState(false);

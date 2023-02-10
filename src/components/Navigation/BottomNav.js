@@ -2,10 +2,10 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Watchlist from '../Account/Watchlist';
-import Login from '../Account/Login';
+import Watchlist from '../User/Watchlist';
+import Login from '../User/Login';
 import Search from '../Search/Search';
-import Home from '../Home/Home';
+import HomeLayout from '../Home/HomeLayout';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +29,7 @@ const BottomNav = () => (
     >
         <Tab.Screen
             name='Home'
-            component={Home}
+            component={HomeLayout}
             options={{
                 tabBarLabel: 'Home',
                 tabBarIcon: ({ color }) => (

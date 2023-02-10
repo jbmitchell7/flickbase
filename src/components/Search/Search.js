@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
-import ListCard from '../ListCard';
+import ListCard from '../../ui/ListCard';
 import colors from '../../assets/colors';
 import { setSearchResults } from '../../redux/search/searchSlice';
 
