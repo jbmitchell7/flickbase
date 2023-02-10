@@ -1,18 +1,14 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { DefaultTheme as DefaultPaper, Provider as PaperProvider } from 'react-native-paper';
-import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MediaInfo from './src/components/MediaInfo';
 import colors from './src/assets/colors';
-import flickbaseApp from './src/reducers/reducers';
 import BottomNav from './src/components/Navigation/BottomNav';
-
-const store = createStore(flickbaseApp, devToolsEnhancer());
+import { store } from './src/redux/store/store';
 
 const theme = {
   ...DefaultTheme,

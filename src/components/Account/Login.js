@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Linking, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, Button } from 'react-native-paper';
-import { connect } from 'react-redux';
-
-import { setWatchlist, setLoginStatus } from '../../actions/actions';
+import { setLoginStatus } from '../../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWatchlist } from '../../redux/watchlist/watchlistSlice';
 import { fetchPost, fetchGet, fetchDelete } from '../../api/tmdb';
 import colors from '../../assets/colors';
 import Snack from '../Snack';
 
-const Login = (props) => {
-  const { loginStatus } = props;
-
+const Login = () => {
+  const dispatch = useDispatch();
+  const loginStatus = useSelector((state) => state.user.value);
   const [approvedToken, setApprovedToken] = useState(false);
   const [visible, setVisible] = useState(false);
   const [snackText, setSnackText] = useState('');
@@ -44,7 +44,7 @@ const Login = (props) => {
       await AsyncStorage.setItem('userId', response.account_id);
       await AsyncStorage.setItem('token', response.access_token);
       setUserWatchlist();
-      props.setLoginStatus(true);
+      dispatch(setLoginStatus(true));
     }
     catch {
       setSnackText('Error Logging In');
@@ -81,8 +81,8 @@ const Login = (props) => {
         await AsyncStorage.setItem('token', '');
         await AsyncStorage.setItem('userId', '');
         await AsyncStorage.setItem('watchlistId', '');
-        props.setLoginStatus(false);
-        props.setWatchlist([]);
+        dispatch(setLoginStatus(false));
+        dispatch(setWatchlist([]));
         setApprovedToken(false);
       }
     }
@@ -164,11 +164,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    watchlist: state.watchlist,
-    loginStatus: state.loginStatus
-  }
-}
-
-export default connect(mapStateToProps, { setWatchlist, setLoginStatus })(Login);
+export default Login;

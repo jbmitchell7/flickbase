@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setSearchResult, setSearch } from '../../actions/actions';
 import { fetchGet } from '../../api/tmdb';
 import SearchForm from './SearchForm';
 import ListCard from '../ListCard';
 import colors from '../../assets/colors';
+import { setSearchResults } from '../../redux/search/searchSlice';
 
 const Search = (props) => {
-    const { searchItem, searchResult } = props;
+    const dispatch = useDispatch();
+    const searchResult = useSelector(state => state.search.value.results);
+    const searchQuery = useSelector(state => state.search.value.query);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -23,8 +25,8 @@ const Search = (props) => {
             const getMedia = async () => {
                 try {
                     if (isActive) {
-                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}&page=${currentPage}`);
-                        props.setSearchResult(getResponse.results);
+                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchQuery}&page=${currentPage}`);
+                        dispatch(setSearchResults(getResponse.results));
                         setTotalPages(getResponse.total_pages);
                     }
                 }
@@ -32,14 +34,14 @@ const Search = (props) => {
                     throw new Error('error querying for media');
                 }
             }
-            if (searchItem != '') {
+            if (searchQuery != '') {
                 getMedia();
             }
 
             return () => {
                 isActive = false;
             }
-        }, [searchItem, currentPage])
+        }, [searchQuery, currentPage])
     )
 
     if (!filteredResult || filteredResult.length == 0) {
@@ -104,11 +106,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginHorizontal: 5
     },
-})
+});
 
-const mapStateToProps = state => {
-    const { searchItem, searchResult } = state;
-    return { searchItem, searchResult };
-}
-
-export default connect(mapStateToProps, { setSearchResult, setSearch })(Search);
+export default Search;

@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Image, FlatList, TouchableOpacity, Linking } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 
 import MovieInfo from './Movie/MovieInfo';
 import PersonInfo from './Person/PersonInfo';
 import TvShowInfo from './TvShow/TvShowInfo';
-import { setChoice } from '../actions/actions';
 import { fetchGet } from '../api/tmdb';
 import ImageComponent from './ImageComponent';
 import WatchlistBtn from './WatchlistBtn';
 import { IMAGE_URL } from './ImageComponent';
 import colors from '../assets/colors';
 import Streamers from './Streamers';
+import { setMediaChoice } from '../redux/media/mediaSlice';
 
 const YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
 
 const MediaInfo = (props) => {
     const { mediaId, mediaType } = props.route.params;
-    const { choice } = props;
     const [streamers, setStreamers] = useState([]);
     const [freeStreamers, setFreeStreamers] = useState([]);
     const [cast, setCast] = useState([]);
@@ -29,6 +28,8 @@ const MediaInfo = (props) => {
     const [movieCrew, setMovieCrew] = useState([]);
     const [tvCrew, setTvCrew] = useState([]);
     const [videos, setVideos] = useState([]);
+    const media = useSelector(state => state.media.value);
+    const dispatch = useDispatch();
 
     const openVideo = async (key) => {
         try {
@@ -47,7 +48,7 @@ const MediaInfo = (props) => {
                 try {
                     if (isActive) {
                         const mediaResponse = await fetchGet(`/3/${mediaType}/${mediaId}`);
-                        props.setChoice(mediaResponse);
+                        dispatch(setMediaChoice(mediaResponse));
                         if (mediaType != 'person') {
                             const mediaCredits = await fetchGet(`/3/${mediaType}/${mediaId}/credits`);
                             const cast = mediaCredits.cast;
@@ -96,31 +97,31 @@ const MediaInfo = (props) => {
         }, [])
     );
 
-    if (choice) {
+    if (media) {
         return (
             <View style={styles.textContainer}>
                 <ScrollView
                     stickyHeaderIndices={[2]}
                     showsVerticalScrollIndicator={false}>
                     {(mediaType == 'movie') ?
-                        <MovieInfo movie={choice} styles={styles} streamers={streamers} />
+                        <MovieInfo movie={media} styles={styles} streamers={streamers} />
                         : (mediaType == 'person') ?
                             <PersonInfo
-                                person={choice}
+                                person={media}
                                 styles={styles}
                                 movieCredits={movieCredits}
                                 tvCredits={tvCredits}
                                 movieCrew={movieCrew}
                                 tvCrew={tvCrew}
                                 navigation={props.navigation} />
-                            : <TvShowInfo show={choice} styles={styles} streamers={streamers} />}
+                            : <TvShowInfo show={media} styles={styles} streamers={streamers} />}
                     {(mediaType == 'movie' || mediaType == 'tv') ?
                         <View style={styles.lastText}>
                             <Text style={styles.bioText}>
                                 <Text style={styles.bioTextHeader}>Total Ratings: </Text>
-                                <Text>{choice.vote_count}</Text>
+                                <Text>{media.vote_count}</Text>
                                 <Text style={styles.bioTextHeader}> Average Rating: </Text>
-                                <Text>{choice.vote_average}/10</Text>
+                                <Text>{media.vote_average}/10</Text>
                             </Text>
                             <Text style={[styles.bioTextHeader, styles.bioText]}>Cast: </Text>
                             {(cast.length > 0) ?
@@ -171,8 +172,8 @@ const MediaInfo = (props) => {
                             <Streamers title='Streaming Free ' items={freeStreamers} styles={styles} />
                             <Streamers title='Streaming With Subscription ' items={streamers} styles={styles} />
                             <View style={styles.buttonContainer}>
-                                <WatchlistBtn media={choice} type={mediaType} buttonType='add' />
-                                <WatchlistBtn media={choice} type={mediaType} buttonType='remove' />
+                                <WatchlistBtn media={media} type={mediaType} buttonType='add' />
+                                <WatchlistBtn media={media} type={mediaType} buttonType='remove' />
                             </View>
                             {(videos.length > 0) ?
                                 <Button
@@ -185,7 +186,7 @@ const MediaInfo = (props) => {
                                 </Button> : null}
 
                         </View> : null}
-                    <ImageComponent item={choice} media={mediaType} />
+                    <ImageComponent item={media} media={mediaType} />
                 </ScrollView>
             </View>
         )
@@ -281,9 +282,4 @@ const styles = StyleSheet.create({
     },
 });
 
-const mapStateToProps = state => {
-    const { choice } = state;
-    return { choice };
-}
-
-export default connect(mapStateToProps, { setChoice })(MediaInfo);
+export default MediaInfo;

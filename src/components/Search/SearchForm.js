@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setSearch } from '../../actions/actions';
+import { setSearchQuery } from '../../redux/search/searchSlice';
 import colors from '../../assets/colors';
 
-const SearchForm = (props) => {
-    const [searchQuery, setSearchQuery] = useState('');
+const SearchForm = () => {
+    const [searchText, setSearchText] = useState('');
+    const searchQuery = useSelector(state => state.search.value.query);
+    const dispatch = useDispatch();
 
     return (
         <Searchbar
             placeholder='Movie, TV Show, or Person'
-            onChangeText={query => setSearchQuery(query)}
-            onIconPress={() => props.setSearch(searchQuery)}
-            onSubmitEditing={() => props.setSearch(searchQuery)}
-            value={props.searchItem}
+            onChangeText={query => setSearchText(query)}
+            onIconPress={() => dispatch(setSearchQuery(searchText))}
+            onSubmitEditing={() => dispatch(setSearchQuery(searchText))}
+            value={searchQuery}
             style={styles.searchBar}
         />
     )
@@ -30,4 +32,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(null, { setSearch })(SearchForm);
+export default SearchForm;

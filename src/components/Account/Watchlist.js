@@ -3,21 +3,22 @@ import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-nati
 import RNPickerSelect from 'react-native-picker-select';
 import { Text, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { connect } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-
-import { setWatchlist } from '../../actions/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setWatchlist } from '../../redux/watchlist/watchlistSlice';
 import { fetchGet, fetchPost } from '../../api/tmdb';
 import colors from '../../assets/colors';
 import ListCard from '../ListCard';
 
 const Watchlist = (props) => {
-  const { watchlist, loginStatus, watchlistChanged } = props;
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [watchlistPage, setWatchlistPage] = useState(1);
   const [filterBy, setFilterBy] = useState('primary_release_date.desc');
+  const dispatch = useDispatch();
+  const watchlistChanged = useSelector(state => state.watchlist.value.changed);
+  const loginStatus = useSelector(state => state.user.value);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -40,7 +41,7 @@ const Watchlist = (props) => {
                   if (fbList) {
                     setHasWatchlist(true);
                     setTotalPages(fbList.total_pages);
-                    props.setWatchlist(fbList.results);
+                    dispatch(setWatchlist(fbList.results));
                   }
                 }
               }
@@ -50,7 +51,7 @@ const Watchlist = (props) => {
               if (fbList) {
                 setHasWatchlist(true);
                 setTotalPages(fbList.total_pages);
-                props.setWatchlist(fbList.results);
+                dispatch(setWatchlist(fbList.results));
               }
             }
           }
@@ -234,12 +235,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  return {
-    watchlist: state.watchlist,
-    watchlistChanged: state.watchlistChanged,
-    loginStatus: state.loginStatus
-  }
-}
-
-export default connect(mapStateToProps, { setWatchlist })(Watchlist);
+export default Watchlist;

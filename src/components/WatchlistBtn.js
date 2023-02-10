@@ -6,18 +6,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchPost, fetchDelete } from '../api/tmdb';
 import Snack from './Snack';
 import colors from '../assets/colors';
-import { setWatchlistChanged } from '../actions/actions';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const WatchlistBtn = (props) => {
-    const { media, type, buttonType, watchlistChanged } = props;
+    const { media, type, buttonType } = props;
     const [visible, setVisible] = useState(false);
     const [snackText, setSnackText] = useState('');
+    const watchlistChanged = useSelector(state => state.watchlist.value.changed);
+    const dispatch = useDispatch();
 
     const onToggleSnackBar = (result) => {
         setVisible(!visible);
         setSnackText(result);
-        props.setWatchlistChanged(!watchlistChanged);
+        dispatch(setWatchlistChanged(!watchlistChanged));
     };
 
     const onDismissSnackBar = () => setVisible(false);
@@ -78,10 +79,4 @@ const WatchlistBtn = (props) => {
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        watchlistChanged: state.watchlistChanged,
-    }
-}
-
-export default connect(mapStateToProps, { setWatchlistChanged })(WatchlistBtn);
+export default WatchlistBtn;

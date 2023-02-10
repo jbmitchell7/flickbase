@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { setLoginStatus } from '../../actions/actions';
 import MediaBtn from '../MediaBtn';
 import MovieHome from '../Movie/MovieHome';
 import PersonHome from '../Person/PersonHome';
 import TvHome from '../TvShow/TvHome';
+import { setLoginStatus } from '../../redux/user/userSlice';
 
 const HomeStack = createNativeStackNavigator();
 
 const Home = (props) => {
     const [media, setMedia] = useState('movie');
+    const dispatch = useDispatch();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -26,7 +27,7 @@ const Home = (props) => {
                     if (isActive) {
                         const userLoggedIn = await AsyncStorage.getItem('token');
                         if (userLoggedIn != null) {
-                            props.setLoginStatus(true);
+                            dispatch(setLoginStatus(true));
                         }
                     }
                 }
@@ -108,13 +109,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = state => {
-    return {
-        loginStatus: state.loginStatus
-    }
-}
-
-export default connect(
-    mapStateToProps, {
-    setLoginStatus
-})(Home);
+export default Home;
