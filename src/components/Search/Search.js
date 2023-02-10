@@ -61,7 +61,7 @@ const Search = (props) => {
                 <View style={styles.pageBtns}>
                     {(currentPage != 1) ?
                         <Button
-                            color={colors.yellow}
+                            buttonColor={colors.yellow}
                             dark={true}
                             icon='arrow-left-circle'
                             mode='contained'
@@ -72,7 +72,7 @@ const Search = (props) => {
                     }
                     {(currentPage != totalPages) ?
                         <Button
-                            color={colors.yellow}
+                            buttonColor={colors.yellow}
                             dark={true}
                             icon='arrow-right-circle'
                             mode='contained'

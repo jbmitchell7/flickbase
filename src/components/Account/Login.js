@@ -107,7 +107,7 @@ const Login = (props) => {
           Step 3: Login
         </Text>
         <Button
-          color={colors.yellow}
+          buttonColor={colors.yellow}
           mode='contained'
           style={styles.btn}
           icon='plus-circle'
@@ -116,7 +116,7 @@ const Login = (props) => {
           Approve Access
         </Button>
         <Button
-          color={colors.yellow}
+          buttonColor={colors.yellow}
           mode='contained'
           disabled={!approvedToken}
           icon='login'
@@ -133,7 +133,7 @@ const Login = (props) => {
     <ScrollView>
       <Text style={styles.header}>Account</Text>
       <Button
-        color={colors.yellow}
+        buttonColor={colors.yellow}
         mode='contained'
         icon='logout'
         style={styles.btn}

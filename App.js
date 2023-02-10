@@ -20,7 +20,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     background: colors.backgroundBlue,
-    text: 'white',
+    text: colors.white,
   },
 };
 
@@ -29,11 +29,15 @@ const paperTheme = {
   dark: true,
   colors: {
     ...DefaultPaper.colors,
-    primary: colors.blueGreen,
+    primary: colors.primaryBlue,
     background: colors.backgroundBlue,
-    text: 'white',
-    placeholder: 'white',
-    surface: colors.primaryBlue
+    // button outline and other outlines
+    outline: colors.white,
+    // text color
+    onSurface: colors.white,
+    // disabled item theme
+    surfaceDisabled: colors.lightGray,
+    onSurfaceDisabled: colors.darkGray
   },
 };
 

@@ -102,7 +102,7 @@ const Watchlist = (props) => {
         <Text style={styles.header}>Watchlist</Text>
         <Text style={styles.watchlistMsg}>You have not created a watchlist for Flickbase yet.</Text>
         <Button
-          color={colors.yellow}
+          buttonColor={colors.yellow}
           dark={true}
           icon='book-plus'
           mode='contained'
@@ -163,7 +163,7 @@ const Watchlist = (props) => {
           <View style={styles.pageBtns}>
             {(watchlistPage != 1) ?
               <Button
-                color={colors.yellow}
+                buttonColor={colors.yellow}
                 dark={true}
                 icon='arrow-left-circle'
                 mode='contained'
@@ -174,7 +174,7 @@ const Watchlist = (props) => {
             }
             {(watchlistPage != totalPages) ?
               <Button
-                color={colors.yellow}
+                buttonColor={colors.yellow}
                 dark={true}
                 icon='arrow-right-circle'
                 mode='contained'

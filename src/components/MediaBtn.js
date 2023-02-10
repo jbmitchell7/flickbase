@@ -15,7 +15,7 @@ const MediaBtn = (props) => {
     if (mediaState == media) {
         return (
             <Button compact={true}
-                color={colors.yellow}
+                buttonColor={colors.yellow}
                 dark={true}
                 icon={icon}
                 mode='contained'
@@ -28,7 +28,7 @@ const MediaBtn = (props) => {
 
     return (
         <Button compact={true}
-            color={colors.yellow}
+            textColor={colors.yellow}
             dark={true}
             icon={icon}
             mode='outlined'

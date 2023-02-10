@@ -176,7 +176,7 @@ const MediaInfo = (props) => {
                             </View>
                             {(videos.length > 0) ?
                                 <Button
-                                    color={colors.yellow}
+                                    buttonColor={colors.yellow}
                                     style={styles.yellowBtn}
                                     mode='contained'
                                     dark={true}
