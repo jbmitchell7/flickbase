@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import { StyleSheet, FlatList, SafeAreaView, ScrollView, View } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
-import { Text, Button } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setWatchlist } from '../../redux/watchlist/watchlistSlice';
-import { fetchGet, fetchPost } from '../../api/tmdb';
-import colors from '../../assets/colors';
-import ListCard from '../../ui/ListCard';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import { Text, Button } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
+import { fetchGet, fetchPost } from "../../api/tmdb";
+import colors from "../../assets/colors";
+import ListCard from "../../ui/ListCard";
 
 const Watchlist = (props) => {
   const [fbWatchlist, setFbWatchlist] = useState([]);
   const [hasWatchlist, setHasWatchlist] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
   const [watchlistPage, setWatchlistPage] = useState(1);
-  const [filterBy, setFilterBy] = useState('primary_release_date.desc');
+  const [filterBy, setFilterBy] = useState("primary_release_date.desc");
   const dispatch = useDispatch();
-  const watchlistChanged = useSelector(state => state.watchlist.value.changed);
-  const loginStatus = useSelector(state => state.user.value);
+  const watchlistChanged = useSelector(
+    (state) => state.watchlist.value.changed
+  );
+  const loginStatus = useSelector((state) => state.user.value);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -27,17 +35,21 @@ const Watchlist = (props) => {
       const getWatchlist = async () => {
         try {
           if (isActive) {
-            const watchlistId = await AsyncStorage.getItem('watchlistId');
-            if (watchlistId == '' || watchlistId == null) {
-              const id = await AsyncStorage.getItem('userId');
+            const watchlistId = await AsyncStorage.getItem("watchlistId");
+            if (watchlistId == "" || watchlistId == null) {
+              const id = await AsyncStorage.getItem("userId");
               const listRes = await fetchGet(`/4/account/${id}/lists`);
               if (listRes) {
                 let results = listRes.results;
-                let fbListData = results.find(list => list.name === 'Flickbase Watchlist');
+                let fbListData = results.find(
+                  (list) => list.name === "Flickbase Watchlist"
+                );
                 if (fbListData) {
                   let listId = fbListData.id;
-                  await AsyncStorage.setItem('watchlistId', listId.toString());
-                  const fbList = await fetchGet(`/4/list/${listId}?page=${watchlistPage}&sort_by=${filterBy}`);
+                  await AsyncStorage.setItem("watchlistId", listId.toString());
+                  const fbList = await fetchGet(
+                    `/4/list/${listId}?page=${watchlistPage}&sort_by=${filterBy}`
+                  );
                   if (fbList) {
                     setHasWatchlist(true);
                     setTotalPages(fbList.total_pages);
@@ -47,7 +59,9 @@ const Watchlist = (props) => {
               }
             }
             if (watchlistId) {
-              const fbList = await fetchGet(`/4/list/${watchlistId}?page=${watchlistPage}&sort_by=${filterBy}`);
+              const fbList = await fetchGet(
+                `/4/list/${watchlistId}?page=${watchlistPage}&sort_by=${filterBy}`
+              );
               if (fbList) {
                 setHasWatchlist(true);
                 setTotalPages(fbList.total_pages);
@@ -55,13 +69,11 @@ const Watchlist = (props) => {
               }
             }
           }
-
+        } catch (error) {
+          await AsyncStorage.setItem("watchlistId", "");
+          throw new Error("error getting watchlist");
         }
-        catch (error) {
-          await AsyncStorage.setItem('watchlistId', '');
-          throw new Error('error getting watchlist');
-        }
-      }
+      };
 
       getWatchlist();
 
@@ -73,46 +85,48 @@ const Watchlist = (props) => {
 
   const createFlickbaseList = async () => {
     try {
-      const watchlistRes = await fetchPost(`/4/list`,
-        {
-          name: "Flickbase Watchlist",
-          iso_639_1: "en"
-        }
-      );
+      const watchlistRes = await fetchPost(`/4/list`, {
+        name: "Flickbase Watchlist",
+        iso_639_1: "en",
+      });
       setFbWatchlist(watchlistRes.id);
-      await AsyncStorage.setItem('watchlistId', fbWatchlist.toString());
+      await AsyncStorage.setItem("watchlistId", fbWatchlist.toString());
       setHasWatchlist(true);
+    } catch (error) {
+      throw new Error("error creating watchlist");
     }
-    catch (error) {
-      throw new Error('error creating watchlist');
-    }
-  }
+  };
 
   if (!loginStatus) {
     return (
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
-        <Text style={styles.watchlistMsg}>Must be logged in to view watchlist.</Text>
+        <Text style={styles.watchlistMsg}>
+          Must be logged in to view watchlist.
+        </Text>
       </SafeAreaView>
-    )
+    );
   }
 
   if (!hasWatchlist) {
     return (
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
-        <Text style={styles.watchlistMsg}>You have not created a watchlist for Flickbase yet.</Text>
+        <Text style={styles.watchlistMsg}>
+          You have not created a watchlist for Flickbase yet.
+        </Text>
         <Button
           buttonColor={colors.yellow}
           dark={true}
-          icon='book-plus'
-          mode='contained'
+          icon="book-plus"
+          mode="contained"
           style={styles.yellowBtn}
-          onPress={() => createFlickbaseList()}>
+          onPress={() => createFlickbaseList()}
+        >
           Create Flickbase Watchlist
         </Button>
       </SafeAreaView>
-    )
+    );
   }
 
   if (watchlist.length == 0) {
@@ -120,12 +134,11 @@ const Watchlist = (props) => {
       <SafeAreaView style={styles.viewContainer}>
         <Text style={styles.header}>Watchlist</Text>
         <Text style={styles.watchlistMsg}>
-          Looks like your watchlist is empty.
-          Find movies or TV shows to watch on the home screen
-          or search for them with the search function.
+          Looks like your watchlist is empty. Find movies or TV shows to watch
+          on the home screen or search for them with the search function.
         </Text>
       </SafeAreaView>
-    )
+    );
   }
 
   return (
@@ -141,64 +154,84 @@ const Watchlist = (props) => {
               setWatchlistPage(1);
             }}
             items={[
-              { label: 'Release Date (Newest First)', value: 'primary_release_date.desc' },
-              { label: 'Release Date (Oldest First)', value: 'primary_release_date.asc' },
-              { label: 'Title (A->Z)', value: 'title.asc' },
-              { label: 'Title (Z->A)', value: 'title.desc' },
-              { label: 'Rating (Highest First)', value: 'vote_average.desc' },
-              { label: 'Rating (Lowest First)', value: 'vote_average.asc' },
-              { label: 'Recently Added (Recents First)', value: 'original_order.desc' },
-              { label: 'Recently Added (Oldest First)', value: 'original_order.asc' }
+              {
+                label: "Release Date (Newest First)",
+                value: "primary_release_date.desc",
+              },
+              {
+                label: "Release Date (Oldest First)",
+                value: "primary_release_date.asc",
+              },
+              { label: "Title (A->Z)", value: "title.asc" },
+              { label: "Title (Z->A)", value: "title.desc" },
+              { label: "Rating (Highest First)", value: "vote_average.desc" },
+              { label: "Rating (Lowest First)", value: "vote_average.asc" },
+              {
+                label: "Recently Added (Recents First)",
+                value: "original_order.desc",
+              },
+              {
+                label: "Recently Added (Oldest First)",
+                value: "original_order.asc",
+              },
             ]}
           />
         </View>
         <FlatList
           data={watchlist}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <ListCard media={item} navigation={props.navigation} type='watchlist' />
+            <ListCard
+              media={item}
+              navigation={props.navigation}
+              type="watchlist"
+            />
           )}
         />
-        {(totalPages > 1) ?
+        {totalPages > 1 ? (
           <View style={styles.pageBtns}>
-            {(watchlistPage != 1) ?
+            {watchlistPage != 1 ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
-                icon='arrow-left-circle'
-                mode='contained'
+                icon="arrow-left-circle"
+                mode="contained"
                 style={styles.pageBtn}
-                onPress={() => setWatchlistPage(watchlistPage - 1)}>
+                onPress={() => setWatchlistPage(watchlistPage - 1)}
+              >
                 Prev
-              </Button> : null
-            }
-            {(watchlistPage != totalPages) ?
+              </Button>
+            ) : null}
+            {watchlistPage != totalPages ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
-                icon='arrow-right-circle'
-                mode='contained'
+                icon="arrow-right-circle"
+                mode="contained"
                 style={styles.pageBtn}
-                onPress={() => setWatchlistPage(watchlistPage + 1)}>
+                onPress={() => setWatchlistPage(watchlistPage + 1)}
+              >
                 Next
-              </Button> : null}
-          </View> : null}
+              </Button>
+            ) : null}
+          </View>
+        ) : null}
       </ScrollView>
     </>
-  )
-}
+  );
+};
 
 const pickerStyle = {
   inputIOS: {
-    color: 'white',
-    backgroundColor: colors.yellow
+    color: "white",
+    backgroundColor: colors.yellow,
   },
   placeholder: {
-    color: 'white',
+    color: "white",
   },
   inputAndroid: {
-    color: 'white',
+    color: "white",
     backgroundColor: colors.yellow,
   },
 };
@@ -213,26 +246,26 @@ const styles = StyleSheet.create({
   yellowBtn: {
     marginBottom: 20,
     padding: 1,
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   watchlistMsg: {
     marginBottom: 20,
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   pageBtns: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
   pageBtn: {
     padding: 1,
     marginBottom: 20,
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   pickerContainer: {
     marginHorizontal: 50,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });
 
 export default Watchlist;
