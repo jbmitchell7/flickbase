@@ -1,14 +1,13 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let apiV4Key = process.env.V4KEY;
 const API_URL = 'https://api.themoviedb.org';
 
 const tmdbFetch = async (url, method = 'GET', payload = {}) => {
 
     let headers = {
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization: `Bearer ${apiV4Key}`,
+        Authorization: `Bearer ${process.env.V4KEY}`,
     }
 
     try {
