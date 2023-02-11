@@ -1,7 +1,4 @@
-import { useDispatch } from "react-redux";
 import { fetchPost } from "./tmdb";
-
-// const dispatch = useDispatch();
 
 export const createFlickbaseList = async () => {
   try {
@@ -9,7 +6,6 @@ export const createFlickbaseList = async () => {
       name: "Flickbase Watchlist",
       iso_639_1: "en",
     });
-    // dispatch(setWatchlistChanged(!watchlistChanged));
     await AsyncStorage.setItem("watchlistId", watchlistRes.id);
   } catch {
     throw new Error("error creating watchlist");

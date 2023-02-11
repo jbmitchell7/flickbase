@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Text, Button } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import RNPickerSelect from "react-native-picker-select-updated";
 
 import NotLoggedIn from "./layouts/NotLoggedIn";
 import NoWatchlist from "./layouts/NoWatchlist";
@@ -25,21 +25,15 @@ const WatchlistComponent = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("primary_release_date.desc");
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     let isActive = true;
-  //     const updateWatchlist = async () => {
-  //       if (isActive) {
-  //         console.log(watchlistId.length);
-  //       }
-  //     };
-
-  //     updateWatchlist();
-  //     return () => {
-  //       isActive = false;
-  //     };
-  //   }, [watchlistChanged, filter, currentPage, watchlist, watchlistId])
-  // );
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+    
+      return () => {
+        isActive = false;
+      };
+    }, [watchlistChanged, filter, currentPage, watchlist, watchlistId])
+  );
 
   if (!loggedIn) {
     return <NotLoggedIn />;

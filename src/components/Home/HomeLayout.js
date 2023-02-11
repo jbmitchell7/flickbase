@@ -11,37 +11,53 @@ import MovieHome from "../Movie/MovieHome";
 import PersonHome from "../Person/PersonHome";
 import TvHome from "../TvShow/TvHome";
 import { setLoginStatus } from "../../redux/user/userSlice";
+import {
+  setId,
+  setTotalPages,
+  setWatchlist,
+} from "../../redux/watchlist/watchlistSlice";
+import { fetchGet } from "../../api/tmdb";
 
 const HomeStack = createNativeStackNavigator();
 
 const HomeLayout = (props) => {
-  const [media, setMedia] = useState("movie");
   const dispatch = useDispatch();
+
+  const [media, setMedia] = useState("movie");
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
 
-      const checkLogin = async () => {
-        try {
-          if (isActive) {
-            const userLoggedIn = await AsyncStorage.getItem("token");
-            if (userLoggedIn) {
-              dispatch(setLoginStatus(true));
-            }
-          }
-        } catch {
-          throw new Error("error setting Home info");
-        }
-      };
-
-      checkLogin();
+      if (isActive) {
+        checkLogin();
+      }
 
       return () => {
         isActive = false;
       };
     }, [])
   );
+
+  const checkLogin = async () => {
+    try {
+      const userLoggedIn = await AsyncStorage.getItem("token");
+      const watchlistId = await AsyncStorage.getItem("watchlistId");
+      if (userLoggedIn) {
+        dispatch(setLoginStatus(true));
+      }
+      if (watchlistId) {
+        dispatch(setId(watchlistId));
+        const fbList = await fetchGet(
+          `/4/list/${watchlistId}?sort_by=primary_release_date.desc`
+        );
+        dispatch(setTotalPages(fbList.total_pages));
+        dispatch(setWatchlist(fbList.results));
+      }
+    } catch {
+      throw new Error("error setting Home info");
+    }
+  };
 
   return (
     <View style={styles.background}>
