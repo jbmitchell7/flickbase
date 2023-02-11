@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Text, Button } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
 import RNPickerSelect from "react-native-picker-select-updated";
@@ -12,13 +12,13 @@ import { watchlistStyles } from "./WatchlistComponentStyles";
 import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
+import { fetchGet } from "../../api/tmdb";
+import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
 
 const WatchlistComponent = (props) => {
-	const watchlistId = useSelector(state =>  state.watchlist.id);
+  const dispatch = useDispatch();
+  const watchlistId = useSelector((state) => state.watchlist.id);
   const watchlist = useSelector((state) => state.watchlist.watchlist);
-  const watchlistChanged = useSelector(
-    (state) => state.watchlist.watchlistChanged
-  );
   const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
 
@@ -28,12 +28,23 @@ const WatchlistComponent = (props) => {
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
-    
+
       return () => {
         isActive = false;
       };
-    }, [watchlistChanged, filter, currentPage, watchlist, watchlistId])
+    }, [filter, currentPage, watchlist, watchlistId])
   );
+
+  const updateWatchlist = async () => {
+    try {
+      const updatedList = await fetchGet(
+        `/4/list/${watchlistId}?page=${currentPage}&sort_by=${filter}`
+      );
+      dispatch(setWatchlist(updatedList));
+    } catch {
+      throw new Error("error getting watchlist");
+    }
+  };
 
   if (!loggedIn) {
     return <NotLoggedIn />;
@@ -58,6 +69,7 @@ const WatchlistComponent = (props) => {
             onValueChange={(value) => {
               setFilter(value);
               setCurrentPage(1);
+              updateWatchlist();
             }}
             items={[
               {

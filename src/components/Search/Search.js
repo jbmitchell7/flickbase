@@ -26,7 +26,7 @@ const Search = (props) => {
         try {
           if (isActive) {
             const getResponse = await fetchGet(
-              `/3/search/multi/?query=${searchQuery}&page=${currentPage}`
+              `/3/search/multi?query=${searchQuery}&page=${currentPage}`
             );
             dispatch(setSearchResults(getResponse.results));
             setTotalPages(getResponse.total_pages);
@@ -42,7 +42,7 @@ const Search = (props) => {
       return () => {
         isActive = false;
       };
-    }, [searchQuery, currentPage])
+    }, [searchResult, searchQuery, currentPage])
   );
 
   if (!filteredResult || filteredResult.length == 0) {

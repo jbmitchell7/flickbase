@@ -17,7 +17,7 @@ const SearchForm = () => {
       onChangeText={(query) => setSearchText(query)}
       onIconPress={() => dispatch(setSearchQuery(searchText))}
       onSubmitEditing={() => dispatch(setSearchQuery(searchText))}
-      value={searchQuery}
+      value={searchText}
       style={styles.searchBar}
     />
   );
