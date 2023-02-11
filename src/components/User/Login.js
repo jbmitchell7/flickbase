@@ -4,14 +4,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, Button } from "react-native-paper";
 import { setLoginStatus } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
+import {
+    setId,
+  setTotalPages,
+  setWatchlist,
+} from "../../redux/watchlist/watchlistSlice";
 import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
 import colors from "../../assets/colors";
 import Snack from "../../ui/Snack";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const loginStatus = useSelector((state) => state.user.value);
+  const loginStatus = useSelector((state) => state.user.loginStatus);
   const [approvedToken, setApprovedToken] = useState(false);
   const [visible, setVisible] = useState(false);
   const [snackText, setSnackText] = useState("");
@@ -46,8 +50,8 @@ const Login = () => {
       });
       await AsyncStorage.setItem("userId", response.account_id);
       await AsyncStorage.setItem("token", response.access_token);
-      setUserWatchlist();
       dispatch(setLoginStatus(true));
+      setUserWatchlist();
     } catch {
       setSnackText("Error Logging In");
       onToggleSnackBar(snackText);
@@ -66,13 +70,18 @@ const Login = () => {
       );
       //if it exists, set id in asyncstorage
       if (fbListData) {
+        console.log('has list data');
         let listId = fbListData.id;
-        await AsyncStorage.setItem("watchlistId", listId.toString());
-      } else {
-        await AsyncStorage.setItem("watchlistId", "");
+        dispatch(setId(listId));
+        await AsyncStorage.setItem("watchlistId", listId);
+        const fbList = await fetchGet(
+          `/4/list/${listId}?sort_by=primary_release_date.desc`
+        );
+        dispatch(setTotalPages(fbList.total_pages));
+        dispatch(setWatchlist(fbList.results));
       }
-    } catch (error) {
-      throw new Error("error getting user watchlist");
+    } catch {
+      throw new Error("watchlist not created");
     }
   };
 
@@ -88,6 +97,7 @@ const Login = () => {
         await AsyncStorage.setItem("watchlistId", "");
         dispatch(setLoginStatus(false));
         dispatch(setWatchlist([]));
+        dispatch(setTotalPages(0));
         setApprovedToken(false);
       }
     } catch (error) {

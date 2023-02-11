@@ -13,7 +13,7 @@ const WatchlistBtn = (props) => {
   const [visible, setVisible] = useState(false);
   const [snackText, setSnackText] = useState("");
   const watchlistChanged = useSelector(
-    (state) => state.watchlist.value.changed
+    (state) => state.watchlist.changed
   );
   const dispatch = useDispatch();
 

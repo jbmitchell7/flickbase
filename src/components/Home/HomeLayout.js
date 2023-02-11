@@ -26,7 +26,7 @@ const HomeLayout = (props) => {
         try {
           if (isActive) {
             const userLoggedIn = await AsyncStorage.getItem("token");
-            if (userLoggedIn != null) {
+            if (userLoggedIn) {
               dispatch(setLoginStatus(true));
             }
           }

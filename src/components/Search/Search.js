@@ -12,8 +12,8 @@ import { setSearchResults } from "../../redux/search/searchSlice";
 
 const Search = (props) => {
   const dispatch = useDispatch();
-  const searchResult = useSelector((state) => state.search.value.results);
-  const searchQuery = useSelector((state) => state.search.value.query);
+  const searchResult = useSelector((state) => state.search.results);
+  const searchQuery = useSelector((state) => state.search.query);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
 

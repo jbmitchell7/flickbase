@@ -8,7 +8,7 @@ import colors from "../../assets/colors";
 
 const SearchForm = () => {
   const [searchText, setSearchText] = useState("");
-  const searchQuery = useSelector((state) => state.search.value.query);
+  const searchQuery = useSelector((state) => state.search.query);
   const dispatch = useDispatch();
 
   return (

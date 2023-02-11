@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Watchlist from "../User/Watchlist";
+import WatchlistComponent from "../Watchlist/WatchlistComponent";
 import Login from "../User/Login";
 import Search from "../Search/Search";
 import HomeLayout from "../Home/HomeLayout";
@@ -48,7 +49,7 @@ const BottomNav = () => (
     />
     <Tab.Screen
       name="Watchlist"
-      component={Watchlist}
+      component={WatchlistComponent}
       options={{
         tabBarLabel: "Watchlist",
         tabBarIcon: ({ color }) => (

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: {
-    watchlist: [],
-    changed: false,
-  },
+  watchlist: [],
+  changed: false,
+  pages: 0,
+  currentPage: 1,
+  id: "",
 };
 
 export const watchlistSlice = createSlice({
@@ -12,14 +13,29 @@ export const watchlistSlice = createSlice({
   initialState,
   reducers: {
     setWatchlist: (state, action) => {
-      state.value.watchlist = action.payload;
+      state.watchlist = action.payload;
     },
     setWatchlistChanged: (state, action) => {
-      state.value.changed = action.payload;
+      state.changed = action.payload;
+    },
+    setTotalPages: (state, action) => {
+      state.pages = action.payload;
+    },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
+    setId: (state, action) => {
+      state.id = action.payload;
     },
   },
 });
 
-export const { setWatchlist, setWatchlistChanged } = watchlistSlice.actions;
+export const {
+  setWatchlist,
+  setWatchlistChanged,
+  setTotalPages,
+  setCurrentPage,
+  setId,
+} = watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

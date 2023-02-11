@@ -28,7 +28,7 @@ const Watchlist = (props) => {
   const watchlistChanged = useSelector(
     (state) => state.watchlist.value.changed
   );
-  const loginStatus = useSelector((state) => state.user.value);
+  const loginStatus = useSelector((state) => state.user.loginStatus);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -50,15 +50,12 @@ const Watchlist = (props) => {
       getWatchlist();
 
       return () => {
-				if (hasWatchlist) {
-          getUserWatchlist();
-        }
         isActive = false;
       };
     }, [fbWatchlist, watchlistPage, filterBy, watchlistChanged])
   );
 
-	const getUserWatchlist = async () => {
+  const getUserWatchlist = async () => {
     const id = await AsyncStorage.getItem("watchlistId");
     const fbList = await fetchGet(
       `/4/list/${id}?page=${watchlistPage}&sort_by=${filterBy}`
@@ -79,7 +76,7 @@ const Watchlist = (props) => {
       if (fbListData) {
         let listId = fbListData.id;
         await AsyncStorage.setItem("watchlistId", listId.toString());
-				setHasWatchlist(true);
+        setHasWatchlist(true);
       }
     }
   };
