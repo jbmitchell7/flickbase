@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet, Image } from "react-native";
 
 import { IMAGE_URL } from "./ImageComponent";
 
-const MediaCover = (props) => {
+const MediaCoverComponent = (props) => {
   const { navigation, media } = props;
 
   if ("gender" in media) {
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediaCover;
+export default MediaCoverComponent;

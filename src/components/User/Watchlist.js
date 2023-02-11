@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
 import { fetchGet, fetchPost } from "../../api/tmdb";
 import colors from "../../assets/colors";
-import ListCard from "../../ui/ListCard";
+import ListCardComponent from "../../ui/ListCardComponent";
 
 const Watchlist = (props) => {
   const [fbWatchlist, setFbWatchlist] = useState([]);
@@ -22,7 +22,9 @@ const Watchlist = (props) => {
   const [totalPages, setTotalPages] = useState(1);
   const [watchlistPage, setWatchlistPage] = useState(1);
   const [filterBy, setFilterBy] = useState("primary_release_date.desc");
+
   const dispatch = useDispatch();
+  const watchlist = useSelector((state) => state.watchlist.value.watchlist);
   const watchlistChanged = useSelector(
     (state) => state.watchlist.value.changed
   );
@@ -37,51 +39,57 @@ const Watchlist = (props) => {
           if (isActive) {
             const watchlistId = await AsyncStorage.getItem("watchlistId");
             if (watchlistId == "" || watchlistId == null) {
-              const id = await AsyncStorage.getItem("userId");
-              const listRes = await fetchGet(`/4/account/${id}/lists`);
-              if (listRes) {
-                let results = listRes.results;
-                let fbListData = results.find(
-                  (list) => list.name === "Flickbase Watchlist"
-                );
-                if (fbListData) {
-                  let listId = fbListData.id;
-                  await AsyncStorage.setItem("watchlistId", listId.toString());
-                  const fbList = await fetchGet(
-                    `/4/list/${listId}?page=${watchlistPage}&sort_by=${filterBy}`
-                  );
-                  if (fbList) {
-                    setHasWatchlist(true);
-                    setTotalPages(fbList.total_pages);
-                    dispatch(setWatchlist(fbList.results));
-                  }
-                }
-              }
-            }
-            if (watchlistId) {
-              const fbList = await fetchGet(
-                `/4/list/${watchlistId}?page=${watchlistPage}&sort_by=${filterBy}`
-              );
-              if (fbList) {
-                setHasWatchlist(true);
-                setTotalPages(fbList.total_pages);
-                dispatch(setWatchlist(fbList.results));
-              }
+              handleEmptyWatchlist();
             }
           }
-        } catch (error) {
+        } catch {
           await AsyncStorage.setItem("watchlistId", "");
-          throw new Error("error getting watchlist");
         }
       };
 
       getWatchlist();
 
       return () => {
+				if (hasWatchlist) {
+          getUserWatchlist();
+        }
         isActive = false;
       };
     }, [fbWatchlist, watchlistPage, filterBy, watchlistChanged])
   );
+
+	const getUserWatchlist = async () => {
+    const id = await AsyncStorage.getItem("watchlistId");
+    const fbList = await fetchGet(
+      `/4/list/${id}?page=${watchlistPage}&sort_by=${filterBy}`
+    );
+    if (fbList) {
+      setTotalPages(fbList.total_pages);
+      dispatch(setWatchlist(fbList.results));
+    }
+  };
+
+  const checkUserLists = async (id) => {
+    const listRes = await fetchGet(`/4/account/${id}/lists`);
+    if (listRes) {
+      let results = listRes.results;
+      let fbListData = results.find(
+        (list) => list.name === "Flickbase Watchlist"
+      );
+      if (fbListData) {
+        let listId = fbListData.id;
+        await AsyncStorage.setItem("watchlistId", listId.toString());
+				setHasWatchlist(true);
+      }
+    }
+  };
+
+  const handleEmptyWatchlist = async () => {
+    const id = await AsyncStorage.getItem("userId");
+    if (!!id && id.length > 0) {
+      checkUserLists(id);
+    }
+  };
 
   const createFlickbaseList = async () => {
     try {
@@ -182,7 +190,7 @@ const Watchlist = (props) => {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <ListCard
+            <ListCardComponent
               media={item}
               navigation={props.navigation}
               type="watchlist"

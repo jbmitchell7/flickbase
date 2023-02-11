@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MediaInfo from './src/ui/MediaInfo';
+import MediaInfoComponent from './src/ui/MediaInfoComponent';
 import colors from './src/assets/colors';
 import BottomNav from './src/components/Navigation/BottomNav';
 import { store } from './src/redux/store/store';
@@ -63,7 +63,7 @@ const App = () => {
             />
             <Stack.Screen
               name='MediaInfo'
-              component={MediaInfo}
+              component={MediaInfoComponent}
               options={{ title: '' }}
             />
           </Stack.Navigator>

@@ -10,7 +10,7 @@ import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { fetchGet } from "../../api/tmdb";
-import MediaCover from "../../ui/MediaCover";
+import MediaCoverComponent from "../../ui/MediaCoverComponent";
 
 const PersonHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -72,7 +72,7 @@ const PersonHome = (props) => {
                 data={section.data}
                 renderItem={({ item }) => (
                   <View style={styles.personCard}>
-                    <MediaCover
+                    <MediaCoverComponent
                       media={item}
                       key={item.id}
                       navigation={props.navigation}

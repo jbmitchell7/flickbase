@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchGet } from "../../api/tmdb";
 import SearchForm from "./SearchForm";
-import ListCard from "../../ui/ListCard";
+import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
 import { setSearchResults } from "../../redux/search/searchSlice";
 
@@ -58,7 +58,7 @@ const Search = (props) => {
     <ScrollView showsVerticalScrollIndicator={false}>
       <SearchForm />
       {filteredResult.map((item) => (
-        <ListCard
+        <ListCardComponent
           key={item.id}
           media={item}
           navigation={props.navigation}

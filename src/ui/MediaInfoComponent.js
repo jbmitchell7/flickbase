@@ -16,7 +16,7 @@ import MovieInfo from "../components/Movie/MovieInfo";
 import PersonInfo from "../components/Person/PersonInfo";
 import TvShowInfo from "../components/TvShow/TvShowInfo";
 import { fetchGet } from "../api/tmdb";
-import ImageComponent from "../ui/ImageComponent";
+import ImageComponent from "./ImageComponent";
 import WatchlistBtn from "./WatchlistBtn";
 import { IMAGE_URL } from "./ImageComponent";
 import colors from "../assets/colors";
@@ -25,7 +25,7 @@ import { setMediaChoice } from "../redux/media/mediaSlice";
 
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
-const MediaInfo = (props) => {
+const MediaInfoComponent = (props) => {
   const { mediaId, mediaType } = props.route.params;
   const [streamers, setStreamers] = useState([]);
   const [freeStreamers, setFreeStreamers] = useState([]);
@@ -340,4 +340,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MediaInfo;
+export default MediaInfoComponent;

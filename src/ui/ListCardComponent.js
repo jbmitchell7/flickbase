@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
-import MediaCover from "./MediaCover";
+import MediaCoverComponent from "./MediaCoverComponent";
 import WatchlistBtn from "./WatchlistBtn";
 
-const ListCard = (props) => {
+const ListCardComponent = (props) => {
   const { navigation, media, type } = props;
 
   const getYear = (date) => {
@@ -15,7 +15,7 @@ const ListCard = (props) => {
   if (media.media_type == "person") {
     return (
       <View style={styles.watchlistItemContainer}>
-        <MediaCover media={media} key={media.id} navigation={navigation} />
+        <MediaCoverComponent media={media} key={media.id} navigation={navigation} />
         <View style={styles.column}>
           <Text style={[styles.itemTitle, styles.itemText]}>{media.name}</Text>
           <Text style={styles.itemText}>(Person)</Text>
@@ -26,7 +26,7 @@ const ListCard = (props) => {
 
   return (
     <View style={styles.watchlistItemContainer}>
-      <MediaCover media={media} key={media.id} navigation={navigation} />
+      <MediaCoverComponent media={media} key={media.id} navigation={navigation} />
       <View style={styles.column}>
         <View>
           {media.media_type == "movie" ? (
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListCard;
+export default ListCardComponent;
