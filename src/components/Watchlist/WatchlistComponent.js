@@ -19,35 +19,33 @@ const WatchlistComponent = (props) => {
   const watchlist = useSelector((state) => state.watchlist.watchlist);
   const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
+  const watchlistChanged = useSelector((state) => state.watchlist.changed);
 
-	const [watchlistView, setWatchlistView] = useState(watchlist);
+  const [watchlistView, setWatchlistView] = useState(watchlist);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("primary_release_date.desc");
+  const [filter, setFilter] = useState("release_date.desc");
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
-
-			if (isActive) {
-				updateWatchlist();
-			}
-
-      return () => {
-        isActive = false;
+      const updateWatchlist = async () => {
+        try {
+          const updatedList = await fetchGet(
+            `/4/list/${watchlistId}?page=${currentPage}&sort_by=${filter}`
+          );
+          setWatchlistView(updatedList.results);
+        } catch {
+          throw new Error("error getting watchlist");
+        }
       };
-    }, [filter, currentPage])
-  );
 
-  const updateWatchlist = async () => {
-    try {
-      const updatedList = await fetchGet(
-        `/4/list/${watchlistId}?page=${currentPage}&sort_by=${filter}`
-      );
-      setWatchlistView(updatedList.results);
-    } catch {
-      throw new Error("error getting watchlist");
-    }
-  };
+      if (watchlistId.length > 0) {
+        updateWatchlist();
+      }
+
+      return () => (isActive = false);
+    }, [filter, currentPage, watchlistChanged, watchlistId])
+  );
 
   if (!loggedIn) {
     return <NotLoggedIn />;
@@ -76,11 +74,11 @@ const WatchlistComponent = (props) => {
             items={[
               {
                 label: "Release Date (Newest First)",
-                value: "primary_release_date.desc",
+                value: "release_date.desc",
               },
               {
                 label: "Release Date (Oldest First)",
-                value: "primary_release_date.asc",
+                value: "release_date.asc",
               },
               { label: "Title (A->Z)", value: "title.asc" },
               { label: "Title (Z->A)", value: "title.desc" },

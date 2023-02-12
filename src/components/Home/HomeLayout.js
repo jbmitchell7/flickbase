@@ -49,7 +49,7 @@ const HomeLayout = (props) => {
       if (watchlistId) {
         dispatch(setId(watchlistId));
         const fbList = await fetchGet(
-          `/4/list/${watchlistId}?sort_by=primary_release_date.desc`
+          `/4/list/${watchlistId}?sort_by=release_date.desc`
         );
         dispatch(setTotalPages(fbList.total_pages));
         dispatch(setWatchlist(fbList.results));

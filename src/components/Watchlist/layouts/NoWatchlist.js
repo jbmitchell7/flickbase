@@ -1,10 +1,31 @@
 import { SafeAreaView } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { createFlickbaseList } from "../../../api/flickbase";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import {fetchPost} from '../../../api/tmdb';
 import { watchlistStyles } from "../WatchlistComponentStyles";
 import colors from "../../../assets/colors";
+import { setId, setWatchlistChanged } from "../../../redux/watchlist/watchlistSlice";
 
 const NoWatchlist = () => {
+  const dispatch = useDispatch();
+  const watchlistChanged = useSelector((state) => state.watchlist.changed);
+
+  const createFlickbaseList = async () => {
+    try {
+      const watchlistRes = await fetchPost(`/4/list`, {
+        name: "Flickbase Watchlist",
+        iso_639_1: "en",
+      });
+      await AsyncStorage.setItem("watchlistId", watchlistRes.id.toString());
+      dispatch(setWatchlistChanged(!watchlistChanged));
+      dispatch(setId(watchlistRes.id.toString()));
+    } catch {
+      throw new Error("error creating watchlist");
+    }
+  };
+
   return (
     <SafeAreaView style={watchlistStyles.viewContainer}>
       <Text style={watchlistStyles.header}>Watchlist</Text>
@@ -17,7 +38,9 @@ const NoWatchlist = () => {
         icon="book-plus"
         mode="contained"
         style={watchlistStyles.yellowBtn}
-        onPress={() => createFlickbaseList()}
+        onPress={() => {
+          createFlickbaseList();
+        }}
       >
         Create Flickbase Watchlist
       </Button>

@@ -5,7 +5,7 @@ import { Text, Button } from "react-native-paper";
 import { setLoginStatus } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    setId,
+  setId,
   setTotalPages,
   setWatchlist,
 } from "../../redux/watchlist/watchlistSlice";
@@ -71,10 +71,10 @@ const Login = () => {
       //if it exists, set id in asyncstorage
       if (fbListData) {
         let listId = fbListData.id;
-        dispatch(setId(listId));
+        dispatch(setId(listId.toString()));
         await AsyncStorage.setItem("watchlistId", listId.toString());
         const fbList = await fetchGet(
-          `/4/list/${listId}?sort_by=primary_release_date.desc`
+          `/4/list/${listId}?sort_by=release_date.desc`
         );
         dispatch(setTotalPages(fbList.total_pages));
         dispatch(setWatchlist(fbList.results));

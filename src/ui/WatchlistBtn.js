@@ -6,13 +6,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { fetchPost, fetchDelete } from "../api/tmdb";
 import Snack from "./Snack";
 import colors from "../assets/colors";
-import { useDispatch } from "react-redux";
-import { setTotalPages, setWatchlist } from "../redux/watchlist/watchlistSlice";
-import { getUserWatchlist } from "../api/flickbase";
+import { useDispatch, useSelector } from "react-redux";
+import { setWatchlistChanged } from "../redux/watchlist/watchlistSlice";
 
 const WatchlistBtn = (props) => {
   const dispatch = useDispatch();
-
+  const watchlistChanged = useSelector((state) => state.watchlist.changed);
   const { media, type, buttonType } = props;
   const [visible, setVisible] = useState(false);
   const [snackText, setSnackText] = useState("");
@@ -27,12 +26,11 @@ const WatchlistBtn = (props) => {
   const addToWatchlist = async () => {
     try {
       const listId = await AsyncStorage.getItem("watchlistId");
-      const res = await fetchPost(`/4/list/${listId}/items`, {
+      await fetchPost(`/4/list/${listId}/items`, {
         items: [{ media_type: type, media_id: media.id }],
       });
-      if (res.success) {
-        getUpdatedList("Added to");
-      }
+      dispatch(setWatchlistChanged(!watchlistChanged));
+      onToggleSnackBar(`Added to Watchlist`);
     } catch {
       onToggleSnackBar("Error Adding to Watchlist");
       throw new Error("error adding to watchlist");
@@ -42,24 +40,14 @@ const WatchlistBtn = (props) => {
   const removeFromWatchlist = async () => {
     try {
       const listId = await AsyncStorage.getItem("watchlistId");
-      const res = await fetchDelete(`/4/list/${listId}/items`, {
+      await fetchDelete(`/4/list/${listId}/items`, {
         items: [{ media_type: type, media_id: media.id }],
       });
-      if (res.success) {
-        getUpdatedList("Removed from");
-      }
+      dispatch(setWatchlistChanged(!watchlistChanged));
+      onToggleSnackBar(`Removed from Watchlist`);
     } catch {
       onToggleSnackBar("Error Removing from Watchlist");
       throw new Error("error removing to watchlist");
-    }
-  };
-
-  const getUpdatedList = async (updateType) => {
-    const updatedList = await getUserWatchlist();
-    if (updatedList !== null) {
-      dispatch(setWatchlist(updatedList.results));
-      dispatch(setTotalPages(updatedList.total_pages));
-      onToggleSnackBar(`${updateType} Watchlist`);
     }
   };
 
