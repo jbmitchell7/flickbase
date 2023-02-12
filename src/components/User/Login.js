@@ -8,6 +8,7 @@ import {
   setId,
   setTotalPages,
   setWatchlist,
+  setWatchlistChanged,
 } from "../../redux/watchlist/watchlistSlice";
 import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
 import colors from "../../assets/colors";
@@ -78,6 +79,7 @@ const Login = () => {
         );
         dispatch(setTotalPages(fbList.total_pages));
         dispatch(setWatchlist(fbList.results));
+        dispatch(setWatchlistChanged(true));
       }
     } catch {
       throw new Error("watchlist not created");
@@ -97,6 +99,8 @@ const Login = () => {
         dispatch(setLoginStatus(false));
         dispatch(setWatchlist([]));
         dispatch(setTotalPages(0));
+        dispatch(setWatchlistChanged(false));
+        dispatch(setId(""));
         setApprovedToken(false);
       }
     } catch (error) {

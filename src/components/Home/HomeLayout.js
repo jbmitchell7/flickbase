@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,6 +22,8 @@ const HomeStack = createNativeStackNavigator();
 
 const HomeLayout = (props) => {
   const dispatch = useDispatch();
+  const loginStatus = useSelector(state => state.user.loginStatus);
+  const watchlistData = useSelector((state) => state.watchlist);
 
   const [media, setMedia] = useState("movie");
 
@@ -29,9 +31,7 @@ const HomeLayout = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
-      if (isActive) {
-        checkLogin();
-      }
+      checkLogin();
 
       return () => {
         isActive = false;
@@ -43,16 +43,18 @@ const HomeLayout = (props) => {
     try {
       const userLoggedIn = await AsyncStorage.getItem("token");
       const watchlistId = await AsyncStorage.getItem("watchlistId");
-      if (userLoggedIn) {
+      if (userLoggedIn && !loginStatus) {
         dispatch(setLoginStatus(true));
       }
-      if (watchlistId) {
+      if (watchlistId && watchlistData.id === "") {
         dispatch(setId(watchlistId));
-        const fbList = await fetchGet(
-          `/4/list/${watchlistId}?sort_by=release_date.desc`
-        );
-        dispatch(setTotalPages(fbList.total_pages));
-        dispatch(setWatchlist(fbList.results));
+        if (watchlistData.watchlist.length === 0 && !!watchlistData.changed) {
+          const fbList = await fetchGet(
+            `/4/list/${watchlistId}?sort_by=release_date.desc`
+          );
+          dispatch(setTotalPages(fbList.total_pages));
+          dispatch(setWatchlist(fbList.results));
+        }
       }
     } catch {
       throw new Error("error setting Home info");
