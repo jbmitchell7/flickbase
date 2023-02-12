@@ -70,10 +70,9 @@ const Login = () => {
       );
       //if it exists, set id in asyncstorage
       if (fbListData) {
-        console.log('has list data');
         let listId = fbListData.id;
         dispatch(setId(listId));
-        await AsyncStorage.setItem("watchlistId", listId);
+        await AsyncStorage.setItem("watchlistId", listId.toString());
         const fbList = await fetchGet(
           `/4/list/${listId}?sort_by=primary_release_date.desc`
         );

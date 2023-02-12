@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Text, Button } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
 import RNPickerSelect from "react-native-picker-select-updated";
@@ -13,15 +13,14 @@ import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
 import { fetchGet } from "../../api/tmdb";
-import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
 
 const WatchlistComponent = (props) => {
-  const dispatch = useDispatch();
   const watchlistId = useSelector((state) => state.watchlist.id);
   const watchlist = useSelector((state) => state.watchlist.watchlist);
   const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
 
+	const [watchlistView, setWatchlistView] = useState(watchlist);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("primary_release_date.desc");
 
@@ -29,10 +28,14 @@ const WatchlistComponent = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
+			if (isActive) {
+				updateWatchlist();
+			}
+
       return () => {
         isActive = false;
       };
-    }, [filter, currentPage, watchlist, watchlistId])
+    }, [filter, currentPage])
   );
 
   const updateWatchlist = async () => {
@@ -40,7 +43,7 @@ const WatchlistComponent = (props) => {
       const updatedList = await fetchGet(
         `/4/list/${watchlistId}?page=${currentPage}&sort_by=${filter}`
       );
-      dispatch(setWatchlist(updatedList));
+      setWatchlistView(updatedList.results);
     } catch {
       throw new Error("error getting watchlist");
     }
@@ -69,7 +72,6 @@ const WatchlistComponent = (props) => {
             onValueChange={(value) => {
               setFilter(value);
               setCurrentPage(1);
-              updateWatchlist();
             }}
             items={[
               {
@@ -96,7 +98,7 @@ const WatchlistComponent = (props) => {
           />
         </View>
         <FlatList
-          data={watchlist}
+          data={watchlistView}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (

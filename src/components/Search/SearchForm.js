@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { setSearchQuery } from "../../redux/search/searchSlice";
 import colors from "../../assets/colors";
 
 const SearchForm = () => {
   const [searchText, setSearchText] = useState("");
-  const searchQuery = useSelector((state) => state.search.query);
   const dispatch = useDispatch();
 
   return (
@@ -27,7 +26,7 @@ const styles = StyleSheet.create({
   searchBar: {
     marginVertical: 40,
     backgroundColor: colors.primaryBlue,
-    width: "90%",
+    width: "95%",
     alignSelf: "center",
   },
 });
