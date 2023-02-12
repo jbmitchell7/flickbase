@@ -3,7 +3,7 @@
     "name": "Flickbase",
     "description": "movie app using the tmdb api",
     "slug": "flickbase",
-    "version": "1.5.5",
+    "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -30,6 +30,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "26ba2b36-9fcf-4c7b-a16d-003a7a1bd5d9"
+      }
     }
   }
 }

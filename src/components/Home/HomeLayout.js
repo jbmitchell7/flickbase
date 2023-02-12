@@ -48,7 +48,7 @@ const HomeLayout = (props) => {
       }
       if (watchlistId && watchlistData.id === "") {
         dispatch(setId(watchlistId));
-        if (watchlistData.watchlist.length === 0 && !!watchlistData.changed) {
+        if (watchlistData.watchlist.length === 0) {
           const fbList = await fetchGet(
             `/4/list/${watchlistId}?sort_by=release_date.desc`
           );
