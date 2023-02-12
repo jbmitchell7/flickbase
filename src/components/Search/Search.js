@@ -23,7 +23,7 @@ const Search = (props) => {
             const getMedia = async () => {
                 try {
                     if (isActive) {
-                        const getResponse = await fetchGet(`/3/search/multi/?query=${searchItem}&page=${currentPage}`);
+                        const getResponse = await fetchGet(`/3/search/multi?query=${searchItem}&page=${currentPage}`);
                         props.setSearchResult(getResponse.results);
                         setTotalPages(getResponse.total_pages);
                     }
