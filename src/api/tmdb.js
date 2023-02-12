@@ -6,9 +6,9 @@ const API_URL = 'https://api.themoviedb.org';
 const tmdbFetch = async (url, method = 'GET', payload = {}) => {
 
     let headers = {
-      "Content-Type": "application/json;charset=utf-8",
-      Authorization: `Bearer ${process.env.V4KEY}`,
-    };
+        'Content-Type': 'application/json;charset=utf-8',
+        Authorization: `Bearer ${process.env.V4KEY}`,
+    }
 
     try {
         const status = await AsyncStorage.getItem('userId');

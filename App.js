@@ -1,18 +1,14 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { DefaultTheme as DefaultPaper, Provider as PaperProvider } from 'react-native-paper';
-import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MediaInfo from './src/components/MediaInfo';
+import MediaInfoComponent from './src/ui/MediaInfoComponent';
 import colors from './src/assets/colors';
-import flickbaseApp from './src/reducers/reducers';
 import BottomNav from './src/components/Navigation/BottomNav';
-
-const store = createStore(flickbaseApp, devToolsEnhancer());
+import { store } from './src/redux/store/store';
 
 const theme = {
   ...DefaultTheme,
@@ -20,7 +16,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     background: colors.backgroundBlue,
-    text: 'white',
+    text: colors.white,
   },
 };
 
@@ -29,11 +25,15 @@ const paperTheme = {
   dark: true,
   colors: {
     ...DefaultPaper.colors,
-    primary: colors.blueGreen,
+    primary: colors.primaryBlue,
     background: colors.backgroundBlue,
-    text: 'white',
-    placeholder: 'white',
-    surface: colors.primaryBlue
+    // button outline and other outlines
+    outline: colors.white,
+    // text color
+    onSurface: colors.white,
+    // disabled item theme
+    surfaceDisabled: colors.lightGray,
+    onSurfaceDisabled: colors.darkGray
   },
 };
 
@@ -63,7 +63,7 @@ const App = () => {
             />
             <Stack.Screen
               name='MediaInfo'
-              component={MediaInfo}
+              component={MediaInfoComponent}
               options={{ title: '' }}
             />
           </Stack.Navigator>
