@@ -13,6 +13,7 @@ import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
 import { fetchGet } from "../../api/tmdb";
+import Snack from "../../ui/Snack";
 
 const WatchlistComponent = (props) => {
   const watchlistId = useSelector((state) => state.watchlist.id);
@@ -61,6 +62,7 @@ const WatchlistComponent = (props) => {
 
   return (
     <>
+      <Snack />
       <Text style={watchlistStyles.header}>Watchlist</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={watchlistStyles.pickerContainer}>

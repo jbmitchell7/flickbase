@@ -22,6 +22,7 @@ import { IMAGE_URL } from "./ImageComponent";
 import colors from "../assets/colors";
 import Streamers from "./Streamers";
 import { setMediaChoice } from "../redux/media/mediaSlice";
+import Snack from "./Snack";
 
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
@@ -118,6 +119,7 @@ const MediaInfoComponent = (props) => {
   if (media) {
     return (
       <View style={styles.textContainer}>
+        <Snack />
         <ScrollView
           stickyHeaderIndices={[2]}
           showsVerticalScrollIndicator={false}

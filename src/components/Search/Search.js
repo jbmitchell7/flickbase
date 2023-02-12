@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGet } from "../../api/tmdb";
 import SearchForm from "./SearchForm";
 import ListCardComponent from "../../ui/ListCardComponent";
+import Snack from "../../ui/Snack";
 import colors from "../../assets/colors";
 import { setSearchResults } from "../../redux/search/searchSlice";
 
@@ -42,7 +43,7 @@ const Search = (props) => {
       return () => {
         isActive = false;
       };
-    }, [searchResult, searchQuery, currentPage])
+    }, [searchQuery, currentPage])
   );
 
   if (!filteredResult || filteredResult.length == 0) {
@@ -55,45 +56,48 @@ const Search = (props) => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <SearchForm />
-      {filteredResult.map((item) => (
-        <ListCardComponent
-          key={item.id}
-          media={item}
-          navigation={props.navigation}
-          type="search"
-        />
-      ))}
-      {totalPages > 1 ? (
-        <View style={styles.pageBtns}>
-          {currentPage != 1 ? (
-            <Button
-              buttonColor={colors.yellow}
-              dark={true}
-              icon="arrow-left-circle"
-              mode="contained"
-              style={styles.pageBtn}
-              onPress={() => setCurrentPage(currentPage - 1)}
-            >
-              Prev
-            </Button>
-          ) : null}
-          {currentPage != totalPages ? (
-            <Button
-              buttonColor={colors.yellow}
-              dark={true}
-              icon="arrow-right-circle"
-              mode="contained"
-              style={styles.pageBtn}
-              onPress={() => setCurrentPage(currentPage + 1)}
-            >
-              Next
-            </Button>
-          ) : null}
-        </View>
-      ) : null}
-    </ScrollView>
+    <>
+      <Snack />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <SearchForm />
+        {filteredResult.map((item) => (
+          <ListCardComponent
+            key={item.id}
+            media={item}
+            navigation={props.navigation}
+            type="search"
+          />
+        ))}
+        {totalPages > 1 ? (
+          <View style={styles.pageBtns}>
+            {currentPage != 1 ? (
+              <Button
+                buttonColor={colors.yellow}
+                dark={true}
+                icon="arrow-left-circle"
+                mode="contained"
+                style={styles.pageBtn}
+                onPress={() => setCurrentPage(currentPage - 1)}
+              >
+                Prev
+              </Button>
+            ) : null}
+            {currentPage != totalPages ? (
+              <Button
+                buttonColor={colors.yellow}
+                dark={true}
+                icon="arrow-right-circle"
+                mode="contained"
+                style={styles.pageBtn}
+                onPress={() => setCurrentPage(currentPage + 1)}
+              >
+                Next
+              </Button>
+            ) : null}
+          </View>
+        ) : null}
+      </ScrollView>
+    </>
   );
 };
 

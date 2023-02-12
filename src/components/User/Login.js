@@ -13,20 +13,17 @@ import {
 import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
 import colors from "../../assets/colors";
 import Snack from "../../ui/Snack";
+import { setVisible, setSnackText } from "../../redux/snack/snackSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
   const loginStatus = useSelector((state) => state.user.loginStatus);
   const [approvedToken, setApprovedToken] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [snackText, setSnackText] = useState("");
 
   const onToggleSnackBar = (result) => {
-    setVisible(!visible);
-    setSnackText(result);
+    dispatch(setVisible(true));
+    dispatch(setSnackText(result));
   };
-
-  const onDismissSnackBar = () => setVisible(false);
 
   const createRequest = async () => {
     try {
@@ -37,9 +34,7 @@ const Login = () => {
       await AsyncStorage.setItem("token", token.request_token);
       setApprovedToken(true);
     } catch (error) {
-      setSnackText("Error Requesting Token");
-      onToggleSnackBar(snackText);
-      throw new Error("error requesting token");
+      onToggleSnackBar("Error Requesting Token");
     }
   };
 
@@ -54,9 +49,7 @@ const Login = () => {
       dispatch(setLoginStatus(true));
       setUserWatchlist();
     } catch {
-      setSnackText("Error Logging In");
-      onToggleSnackBar(snackText);
-      throw new Error("error logging in");
+      onToggleSnackBar("Error Logging In");
     }
   };
 
@@ -104,9 +97,7 @@ const Login = () => {
         setApprovedToken(false);
       }
     } catch (error) {
-      setSnackText("Error Logging Out");
-      onToggleSnackBar(snackText);
-      throw new Error("error logging out");
+      onToggleSnackBar("Error Logging Out");
     }
   };
 
@@ -139,11 +130,7 @@ const Login = () => {
         >
           Login
         </Button>
-        <Snack
-          visible={visible}
-          onDismissSnackBar={onDismissSnackBar}
-          snackText={snackText}
-        />
+        <Snack />
       </View>
     );
   }
@@ -160,11 +147,7 @@ const Login = () => {
       >
         Logout
       </Button>
-      <Snack
-        visible={visible}
-        onDismissSnackBar={onDismissSnackBar}
-        snackText={snackText}
-      />
+      <Snack />
     </ScrollView>
   );
 };

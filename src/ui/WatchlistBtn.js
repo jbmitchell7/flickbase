@@ -1,27 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { fetchPost, fetchDelete } from "../api/tmdb";
-import Snack from "./Snack";
 import colors from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { setWatchlistChanged } from "../redux/watchlist/watchlistSlice";
+import { setSnackText, setVisible } from "../redux/snack/snackSlice";
 
 const WatchlistBtn = (props) => {
   const dispatch = useDispatch();
   const watchlistChanged = useSelector((state) => state.watchlist.changed);
   const { media, type, buttonType } = props;
-  const [visible, setVisible] = useState(false);
-  const [snackText, setSnackText] = useState("");
-
-  const onToggleSnackBar = (result) => {
-    setVisible(!visible);
-    setSnackText(result);
-  };
-
-  const onDismissSnackBar = () => setVisible(false);
 
   const addToWatchlist = async () => {
     try {
@@ -30,10 +21,11 @@ const WatchlistBtn = (props) => {
         items: [{ media_type: type, media_id: media.id }],
       });
       dispatch(setWatchlistChanged(!watchlistChanged));
-      onToggleSnackBar(`Added to Watchlist`);
+      dispatch(setVisible(true));
+      dispatch(setSnackText("Added to Watchlist"));
     } catch {
-      onToggleSnackBar("Error Adding to Watchlist");
-      throw new Error("error adding to watchlist");
+      dispatch(setVisible(true));
+      dispatch(setSnackText("Error Adding to Watchlist"));
     }
   };
 
@@ -44,10 +36,11 @@ const WatchlistBtn = (props) => {
         items: [{ media_type: type, media_id: media.id }],
       });
       dispatch(setWatchlistChanged(!watchlistChanged));
-      onToggleSnackBar(`Removed from Watchlist`);
+      dispatch(setVisible(true));
+      dispatch(setSnackText("Removed from Watchlist"));
     } catch {
-      onToggleSnackBar("Error Removing from Watchlist");
-      throw new Error("error removing to watchlist");
+      dispatch(setVisible(true));
+      dispatch(setSnackText("Error Removing from Watchlist"));
     }
   };
 
@@ -68,11 +61,6 @@ const WatchlistBtn = (props) => {
           onPress={() => removeFromWatchlist()}
         ></IconButton>
       )}
-      <Snack
-        visible={visible}
-        onDismissSnackbar={onDismissSnackBar}
-        snackText={snackText}
-      />
     </View>
   );
 };
