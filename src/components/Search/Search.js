@@ -18,7 +18,7 @@ const Search = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   let filteredResult = searchResult;
-
+  
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
