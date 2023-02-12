@@ -21,10 +21,11 @@ const WatchlistComponent = (props) => {
   const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
   const watchlistChanged = useSelector((state) => state.watchlist.changed);
+  const snackVisible = useSelector((state) => state.snack.visible);
 
   const [watchlistView, setWatchlistView] = useState(watchlist);
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("release_date.desc");
+  const [filter, setFilter] = useState("original_order.desc");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -45,7 +46,7 @@ const WatchlistComponent = (props) => {
       }
 
       return () => (isActive = false);
-    }, [filter, currentPage, watchlistChanged, watchlistId])
+    }, [filter, currentPage, watchlistChanged, watchlistId, snackVisible])
   );
 
   if (!loggedIn) {
@@ -62,7 +63,6 @@ const WatchlistComponent = (props) => {
 
   return (
     <>
-      <Snack />
       <Text style={watchlistStyles.header}>Watchlist</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={watchlistStyles.pickerContainer}>
@@ -75,6 +75,14 @@ const WatchlistComponent = (props) => {
             }}
             items={[
               {
+                label: "Recently Added (Recents First)",
+                value: "original_order.desc",
+              },
+              {
+                label: "Recently Added (Oldest First)",
+                value: "original_order.asc",
+              },
+              {
                 label: "Release Date (Newest First)",
                 value: "release_date.desc",
               },
@@ -86,14 +94,6 @@ const WatchlistComponent = (props) => {
               { label: "Title (Z->A)", value: "title.desc" },
               { label: "Rating (Highest First)", value: "vote_average.desc" },
               { label: "Rating (Lowest First)", value: "vote_average.asc" },
-              {
-                label: "Recently Added (Recents First)",
-                value: "original_order.desc",
-              },
-              {
-                label: "Recently Added (Oldest First)",
-                value: "original_order.asc",
-              },
             ]}
           />
         </View>
@@ -138,6 +138,7 @@ const WatchlistComponent = (props) => {
           </View>
         ) : null}
       </ScrollView>
+      <Snack />
     </>
   );
 };

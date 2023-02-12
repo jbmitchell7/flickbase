@@ -17,7 +17,7 @@ const Snack = () => {
     <Snackbar
       visible={snackData.visible}
       onDismiss={onDismissSnack}
-      duration={3000}
+      duration={1500}
       style={styles.snack}
     >
       {snackData.text}
@@ -27,8 +27,6 @@ const Snack = () => {
 
 const styles = StyleSheet.create({
   snack: {
-    height: 100,
-    width: 100,
     padding: 5,
     alignSelf: "center",
   },

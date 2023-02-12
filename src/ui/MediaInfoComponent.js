@@ -28,6 +28,9 @@ const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
 const MediaInfoComponent = (props) => {
   const { mediaId, mediaType } = props.route.params;
+  const dispatch = useDispatch();
+  const snackVisible = useSelector((state) => state.snack.visible);
+
   const [streamers, setStreamers] = useState([]);
   const [freeStreamers, setFreeStreamers] = useState([]);
   const [cast, setCast] = useState([]);
@@ -38,7 +41,6 @@ const MediaInfoComponent = (props) => {
   const [tvCrew, setTvCrew] = useState([]);
   const [videos, setVideos] = useState([]);
   const media = useSelector((state) => state.media.value);
-  const dispatch = useDispatch();
 
   const openVideo = async (key) => {
     try {
@@ -113,13 +115,12 @@ const MediaInfoComponent = (props) => {
       return () => {
         isActive = false;
       };
-    }, [])
+    }, [snackVisible])
   );
 
   if (media) {
     return (
       <View style={styles.textContainer}>
-        <Snack />
         <ScrollView
           stickyHeaderIndices={[2]}
           showsVerticalScrollIndicator={false}
@@ -250,6 +251,7 @@ const MediaInfoComponent = (props) => {
           ) : null}
           <ImageComponent item={media} media={mediaType} />
         </ScrollView>
+        <Snack />
       </View>
     );
   }

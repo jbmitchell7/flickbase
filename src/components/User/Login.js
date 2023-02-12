@@ -14,11 +14,24 @@ import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
 import colors from "../../assets/colors";
 import Snack from "../../ui/Snack";
 import { setVisible, setSnackText } from "../../redux/snack/snackSlice";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Login = () => {
   const dispatch = useDispatch();
   const loginStatus = useSelector((state) => state.user.loginStatus);
+  const snackVisible = useSelector((state) => state.snack.visible);
+
   const [approvedToken, setApprovedToken] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      let isActive = true;
+
+      return () => {
+        isActive = false;
+      };
+    }, [snackVisible])
+  );
 
   const onToggleSnackBar = (result) => {
     dispatch(setVisible(true));
@@ -68,7 +81,7 @@ const Login = () => {
         dispatch(setId(listId.toString()));
         await AsyncStorage.setItem("watchlistId", listId.toString());
         const fbList = await fetchGet(
-          `/4/list/${listId}?sort_by=release_date.desc`
+          `/4/list/${listId}?sort_by=original_order.desc`
         );
         dispatch(setTotalPages(fbList.total_pages));
         dispatch(setWatchlist(fbList.results));
@@ -136,19 +149,21 @@ const Login = () => {
   }
 
   return (
-    <ScrollView>
-      <Text style={styles.header}>Account</Text>
-      <Button
-        buttonColor={colors.yellow}
-        mode="contained"
-        icon="logout"
-        style={styles.btn}
-        onPress={() => logout()}
-      >
-        Logout
-      </Button>
+    <>
+      <ScrollView>
+        <Text style={styles.header}>Account</Text>
+        <Button
+          buttonColor={colors.yellow}
+          mode="contained"
+          icon="logout"
+          style={styles.btn}
+          onPress={() => logout()}
+        >
+          Logout
+        </Button>
+      </ScrollView>
       <Snack />
-    </ScrollView>
+    </>
   );
 };
 

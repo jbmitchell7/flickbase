@@ -13,6 +13,7 @@ import { setSearchResults } from "../../redux/search/searchSlice";
 
 const Search = (props) => {
   const dispatch = useDispatch();
+  const snackVisible = useSelector((state) => state.snack.visible);
   const searchResult = useSelector((state) => state.search.results);
   const searchQuery = useSelector((state) => state.search.query);
   const [totalPages, setTotalPages] = useState(1);
@@ -43,7 +44,7 @@ const Search = (props) => {
       return () => {
         isActive = false;
       };
-    }, [searchQuery, currentPage])
+    }, [searchQuery, currentPage, snackVisible])
   );
 
   if (!filteredResult || filteredResult.length == 0) {
@@ -57,7 +58,6 @@ const Search = (props) => {
 
   return (
     <>
-      <Snack />
       <ScrollView showsVerticalScrollIndicator={false}>
         <SearchForm />
         {filteredResult.map((item) => (
@@ -97,6 +97,7 @@ const Search = (props) => {
           </View>
         ) : null}
       </ScrollView>
+      <Snack />
     </>
   );
 };
