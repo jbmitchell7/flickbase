@@ -6,11 +6,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {fetchPost} from '../../../api/tmdb';
 import { watchlistStyles } from "../WatchlistComponentStyles";
 import colors from "../../../assets/colors";
-import { setId, setWatchlistChanged } from "../../../redux/watchlist/watchlistSlice";
+import { setId } from "../../../redux/watchlist/watchlistSlice";
 
 const NoWatchlist = () => {
   const dispatch = useDispatch();
-  const watchlistChanged = useSelector((state) => state.watchlist.changed);
 
   const createFlickbaseList = async () => {
     try {
@@ -19,7 +18,6 @@ const NoWatchlist = () => {
         iso_639_1: "en",
       });
       await AsyncStorage.setItem("watchlistId", watchlistRes.id.toString());
-      dispatch(setWatchlistChanged(!watchlistChanged));
       dispatch(setId(watchlistRes.id.toString()));
     } catch {
       throw new Error("error creating watchlist");

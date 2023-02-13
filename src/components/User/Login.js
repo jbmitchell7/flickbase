@@ -8,7 +8,6 @@ import {
   setId,
   setTotalPages,
   setWatchlist,
-  setWatchlistChanged,
 } from "../../redux/watchlist/watchlistSlice";
 import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
 import colors from "../../assets/colors";
@@ -73,7 +72,7 @@ const Login = () => {
       let results = listRes.results;
       //searches for existing flickbase watchlist
       let fbListData = results.find(
-        (list) => list.name === "Flickbase Watchlist"
+        (list) => list.name.includes("Flickbase")
       );
       //if it exists, set id in asyncstorage
       if (fbListData) {
@@ -85,7 +84,6 @@ const Login = () => {
         );
         dispatch(setTotalPages(fbList.total_pages));
         dispatch(setWatchlist(fbList.results));
-        dispatch(setWatchlistChanged(true));
       }
     } catch {
       throw new Error("watchlist not created");
@@ -105,7 +103,6 @@ const Login = () => {
         dispatch(setLoginStatus(false));
         dispatch(setWatchlist([]));
         dispatch(setTotalPages(0));
-        dispatch(setWatchlistChanged(false));
         dispatch(setId(""));
         setApprovedToken(false);
       }

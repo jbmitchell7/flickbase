@@ -12,7 +12,6 @@ import { watchlistStyles } from "./WatchlistComponentStyles";
 import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
-import { fetchGet } from "../../api/tmdb";
 import Snack from "../../ui/Snack";
 
 const WatchlistComponent = (props) => {
@@ -20,33 +19,16 @@ const WatchlistComponent = (props) => {
   const watchlist = useSelector((state) => state.watchlist.watchlist);
   const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
-  const watchlistChanged = useSelector((state) => state.watchlist.changed);
-  const snackVisible = useSelector((state) => state.snack.visible);
 
-  const [watchlistView, setWatchlistView] = useState(watchlist);
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("original_order.desc");
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
-      const updateWatchlist = async () => {
-        try {
-          const updatedList = await fetchGet(
-            `/4/list/${watchlistId}?page=${currentPage}&sort_by=${filter}`
-          );
-          setWatchlistView(updatedList.results);
-        } catch {
-          throw new Error("error getting watchlist");
-        }
-      };
-
-      if (watchlistId.length > 0) {
-        updateWatchlist();
-      }
 
       return () => (isActive = false);
-    }, [filter, currentPage, watchlistChanged, watchlistId, snackVisible])
+    }, [filter, currentPage, watchlistId, watchlist])
   );
 
   if (!loggedIn) {
@@ -98,7 +80,7 @@ const WatchlistComponent = (props) => {
           />
         </View>
         <FlatList
-          data={watchlistView}
+          data={watchlist}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (

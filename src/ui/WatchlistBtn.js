@@ -3,15 +3,14 @@ import { View } from "react-native";
 import { IconButton } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { fetchPost, fetchDelete } from "../api/tmdb";
+import { fetchPost, fetchDelete, fetchGet } from "../api/tmdb";
 import colors from "../assets/colors";
-import { useDispatch, useSelector } from "react-redux";
-import { setWatchlistChanged } from "../redux/watchlist/watchlistSlice";
+import { useDispatch } from "react-redux";
+import { setWatchlist } from "../redux/watchlist/watchlistSlice";
 import { setSnackText, setVisible } from "../redux/snack/snackSlice";
 
 const WatchlistBtn = (props) => {
   const dispatch = useDispatch();
-  const watchlistChanged = useSelector((state) => state.watchlist.changed);
   const { media, type, buttonType } = props;
 
   const addToWatchlist = async () => {
@@ -20,7 +19,10 @@ const WatchlistBtn = (props) => {
       await fetchPost(`/4/list/${listId}/items`, {
         items: [{ media_type: type, media_id: media.id }],
       });
-      dispatch(setWatchlistChanged(!watchlistChanged));
+      console.log('posted');
+      const updatedList = await fetchGet(`/4/list/${listId}`);
+      console.log('got new list');
+      dispatch(setWatchlist(updatedList.results));
       dispatch(setVisible(true));
       dispatch(setSnackText("Added to Watchlist"));
     } catch {
@@ -35,7 +37,8 @@ const WatchlistBtn = (props) => {
       await fetchDelete(`/4/list/${listId}/items`, {
         items: [{ media_type: type, media_id: media.id }],
       });
-      dispatch(setWatchlistChanged(!watchlistChanged));
+      const updatedList = await fetchGet(`/4/list/${listId}`);
+      dispatch(setWatchlist(updatedList.results));
       dispatch(setVisible(true));
       dispatch(setSnackText("Removed from Watchlist"));
     } catch {
