@@ -66,7 +66,6 @@ const WatchlistComponent = (props) => {
             onValueChange={(value) => {
               setFilter(value);
               setCurrentPage(1);
-              updateWatchlist();
             }}
             items={[
               {
@@ -115,7 +114,6 @@ const WatchlistComponent = (props) => {
                 style={watchlistStyles.pageBtn}
                 onPress={() => {
                   setCurrentPage(currentPage - 1);
-                  updateWatchlist();
                 }}
               >
                 Prev
@@ -130,7 +128,6 @@ const WatchlistComponent = (props) => {
                 style={watchlistStyles.pageBtn}
                 onPress={() => {
                   setCurrentPage(currentPage + 1);
-                  updateWatchlist();
                 }}
               >
                 Next
