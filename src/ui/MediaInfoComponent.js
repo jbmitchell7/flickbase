@@ -3,9 +3,6 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  Image,
-  FlatList,
-  TouchableOpacity,
   Linking,
 } from "react-native";
 import { Button, Text } from "react-native-paper";
@@ -18,11 +15,11 @@ import TvShowInfo from "../components/TvShow/TvShowInfo";
 import { fetchGet } from "../api/tmdb";
 import ImageComponent from "./ImageComponent";
 import WatchlistBtn from "./WatchlistBtn";
-import { IMAGE_URL } from "./ImageComponent";
 import colors from "../assets/colors";
 import Streamers from "./Streamers";
 import { setMediaChoice } from "../redux/media/mediaSlice";
 import Snack from "./Snack";
+import CreditList from "./CreditList/CreditList";
 
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
@@ -150,71 +147,23 @@ const MediaInfoComponent = (props) => {
               </Text>
               <Text style={[styles.bioTextHeader, styles.bioText]}>Cast: </Text>
               {cast.length > 0 ? (
-                <>
-                  <FlatList
-                    horizontal
-                    data={cast}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={styles.personCard}
-                        onPress={() => {
-                          props.navigation.push("MediaInfo", {
-                            mediaId: item.id,
-                            mediaType: "person",
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.personImage}
-                          source={{ uri: `${IMAGE_URL}${item.profile_path}` }}
-                        />
-                        <Text
-                          style={[styles.personText, styles.personTextBold]}
-                        >
-                          {item.name}
-                        </Text>
-                        <Text style={styles.personText}>{item.character}</Text>
-                      </TouchableOpacity>
-                    )}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item, index) => index}
-                  />
-                </>
+                <CreditList
+                  list={cast}
+                  mediaType="person"
+                  listType="cast"
+                  navigation={props.navigation}
+                 />
               ) : (
                 <Text style={styles.streamText}>Cast Unavailable</Text>
               )}
               <Text style={[styles.bioTextHeader, styles.bioText]}>Crew: </Text>
               {crew.length > 0 ? (
-                <>
-                  <FlatList
-                    horizontal
-                    data={crew}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={styles.personCard}
-                        onPress={() => {
-                          props.navigation.push("MediaInfo", {
-                            mediaId: item.id,
-                            mediaType: "person",
-                          });
-                        }}
-                      >
-                        <Image
-                          style={styles.personImage}
-                          source={{ uri: `${IMAGE_URL}${item.profile_path}` }}
-                        />
-                        <Text
-                          style={[styles.personText, styles.personTextBold]}
-                        >
-                          {item.name}
-                        </Text>
-                        <Text style={styles.personText}>{item.job}</Text>
-                      </TouchableOpacity>
-                    )}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item, index) => index}
-                  />
-                </>
+                <CreditList
+                  list={crew}
+                  mediaType="person"
+                  listType="crew"
+                  navigation={props.navigation}
+                />
               ) : (
                 <Text style={styles.streamText}>Cast Unavailable</Text>
               )}
@@ -270,12 +219,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  titleText: {
-    fontWeight: "bold",
-    fontSize: 25,
-    marginVertical: 20,
-  },
-
   bioTextHeader: {
     color: colors.yellow,
   },
@@ -284,58 +227,17 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
-  bioTextSummary: {
-    marginHorizontal: 5,
-  },
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "nowrap",
     justifyContent: "center",
   },
-  watchlistBtn: {
-    marginTop: 20,
-    width: 200,
-    alignSelf: "center",
-  },
-  image: {
-    width: 60,
-    height: 60,
-    marginHorizontal: 5,
-    marginVertical: 5,
-  },
-  imageContainer: {
-    marginBottom: 10,
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
+
   streamText: {
     marginHorizontal: 20,
   },
-  personCard: {
-    display: "flex",
-    width: 80,
-  },
-  personTextBold: {
-    fontWeight: "bold",
-  },
-  personText: {
-    fontSize: 10,
-    marginHorizontal: 5,
-  },
-  personImage: {
-    width: 70,
-    height: 70,
-    marginHorizontal: 5,
-    marginVertical: 5,
-  },
-  creditImage: {
-    width: 64,
-    height: 90,
-    marginHorizontal: 5,
-    marginVertical: 5,
-  },
+
   yellowBtn: {
     marginVertical: 20,
     padding: 1,

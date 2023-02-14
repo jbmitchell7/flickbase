@@ -1,8 +1,8 @@
 import React from "react";
-import { View, TouchableOpacity, FlatList, Image } from "react-native";
+import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import { IMAGE_URL } from "../../ui/ImageComponent";
+import CreditList from "../../ui/CreditList/CreditList";
 
 const PersonInfo = (props) => {
   const {
@@ -10,8 +10,6 @@ const PersonInfo = (props) => {
     styles,
     movieCredits,
     tvCredits,
-    movieCrew,
-    tvCrew,
     navigation,
   } = props;
 
@@ -37,31 +35,10 @@ const PersonInfo = (props) => {
           <Text style={[styles.bioTextHeader, styles.bioText]}>
             Film Credits:{" "}
           </Text>
-          <FlatList
-            horizontal
-            data={movieCredits}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.personCard}
-                onPress={() => {
-                  navigation.push("MediaInfo", {
-                    mediaId: item.id,
-                    mediaType: "movie",
-                  });
-                }}
-              >
-                <Image
-                  style={styles.creditImage}
-                  source={{ uri: `${IMAGE_URL}${item.poster_path}` }}
-                />
-                <Text style={[styles.personTextBold, styles.personText]}>
-                  {item.title}
-                </Text>
-                <Text style={styles.personText}>{item.character}</Text>
-              </TouchableOpacity>
-            )}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index}
+          <CreditList
+            list={movieCredits}
+            mediaType="movie"
+            navigation={navigation}
           />
         </>
       ) : (
@@ -72,31 +49,10 @@ const PersonInfo = (props) => {
           <Text style={[styles.bioTextHeader, styles.bioText]}>
             Television Credits:{" "}
           </Text>
-          <FlatList
-            horizontal
-            data={tvCredits}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.personCard}
-                onPress={() => {
-                  navigation.push("MediaInfo", {
-                    mediaId: item.id,
-                    mediaType: "tv",
-                  });
-                }}
-              >
-                <Image
-                  style={styles.creditImage}
-                  source={{ uri: `${IMAGE_URL}${item.poster_path}` }}
-                />
-                <Text style={[styles.personTextBold, styles.personText]}>
-                  {item.name}
-                </Text>
-                <Text style={styles.personText}>{item.character}</Text>
-              </TouchableOpacity>
-            )}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index}
+          <CreditList
+            list={tvCredits}
+            mediaType="tv"
+            navigation={navigation}
           />
         </>
       ) : (

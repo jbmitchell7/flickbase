@@ -32,7 +32,7 @@ const WatchlistComponent = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
-      if (isActive) {
+      if (isActive && watchlistData.id.length > 0) {
         updateWatchlist();
       }
 
