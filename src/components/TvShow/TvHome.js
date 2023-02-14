@@ -47,7 +47,7 @@ const TvHome = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
-      const getPersonData = async () => {
+      const getTvData = async () => {
         try {
           if (isActive) {
             const newPopular = await fetchGet(`/3/tv/popular`);
@@ -72,7 +72,7 @@ const TvHome = (props) => {
         }
       };
 
-      getPersonData();
+      getTvData();
 
       return () => {
         isActive = false;

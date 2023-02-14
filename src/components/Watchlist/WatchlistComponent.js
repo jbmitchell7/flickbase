@@ -41,6 +41,7 @@ const WatchlistComponent = (props) => {
       watchlistData.watchlist.length,
       watchlistData.sortBy,
       watchlistData.page,
+      watchlistData.id
     ])
   );
 
