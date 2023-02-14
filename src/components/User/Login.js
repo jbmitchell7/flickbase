@@ -79,11 +79,6 @@ const Login = () => {
         let listId = fbListData.id;
         dispatch(setId(listId.toString()));
         await AsyncStorage.setItem("watchlistId", listId.toString());
-        const fbList = await fetchGet(
-          `/4/list/${listId}?sort_by=original_order.desc`
-        );
-        dispatch(setTotalPages(fbList.total_pages));
-        dispatch(setWatchlist(fbList.results));
       }
     } catch {
       throw new Error("watchlist not created");

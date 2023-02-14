@@ -4,6 +4,8 @@ const initialState = {
   watchlist: [],
   pages: 0,
   id: "",
+  sortBy: "original_order.desc",
+  page: 1,
 };
 
 export const watchlistSlice = createSlice({
@@ -19,9 +21,29 @@ export const watchlistSlice = createSlice({
     setId: (state, action) => {
       state.id = action.payload;
     },
+    setSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
+    setPage: (state, action) => {
+      state.page = action.payload;
+    },
+    incrementPage: (state) => {
+      state.page += 1;
+    },
+    decrementPage: (state) => {
+      state.page -= 1;
+    },
   },
 });
 
-export const { setWatchlist, setTotalPages, setId } = watchlistSlice.actions;
+export const { 
+    setWatchlist,
+    setTotalPages,
+    setId,
+    setSortBy,
+    setPage,
+    incrementPage,
+    decrementPage
+} = watchlistSlice.actions;
 
 export default watchlistSlice.reducer;

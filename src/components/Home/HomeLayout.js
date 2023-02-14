@@ -11,19 +11,14 @@ import MovieHome from "../Movie/MovieHome";
 import PersonHome from "../Person/PersonHome";
 import TvHome from "../TvShow/TvHome";
 import { setLoginStatus } from "../../redux/user/userSlice";
-import {
-  setId,
-  setTotalPages,
-  setWatchlist,
-} from "../../redux/watchlist/watchlistSlice";
-import { fetchGet } from "../../api/tmdb";
+import { setId } from "../../redux/watchlist/watchlistSlice";
 
 const HomeStack = createNativeStackNavigator();
 
 const HomeLayout = (props) => {
   const dispatch = useDispatch();
   const loginStatus = useSelector(state => state.user.loginStatus);
-  const watchlistData = useSelector((state) => state.watchlist);
+  const watchlistId = useSelector((state) => state.watchlist.id);
 
   const [media, setMedia] = useState("movie");
 
@@ -42,19 +37,12 @@ const HomeLayout = (props) => {
   const checkLogin = async () => {
     try {
       const userLoggedIn = await AsyncStorage.getItem("token");
-      const watchlistId = await AsyncStorage.getItem("watchlistId");
+      const localWatchlistId = await AsyncStorage.getItem("watchlistId");
       if (userLoggedIn && !loginStatus) {
         dispatch(setLoginStatus(true));
       }
-      if (watchlistId && watchlistData.id === "") {
-        dispatch(setId(watchlistId));
-        if (watchlistData.watchlist.length === 0) {
-          const fbList = await fetchGet(
-            `/4/list/${watchlistId}?sort_by=original_order.desc`
-          );
-          dispatch(setTotalPages(fbList.total_pages));
-          dispatch(setWatchlist(fbList.results));
-        }
+      if (localWatchlistId && watchlistId === "") {
+        dispatch(setId(localWatchlistId));
       }
     } catch {
       throw new Error("error setting Home info");

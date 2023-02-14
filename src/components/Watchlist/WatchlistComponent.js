@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Text, Button } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
@@ -14,44 +14,53 @@ import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
 import Snack from "../../ui/Snack";
 import { fetchGet } from "../../api/tmdb";
-import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
+import {
+  decrementPage,
+  incrementPage,
+  setPage,
+  setSortBy,
+  setTotalPages,
+  setWatchlist,
+} from "../../redux/watchlist/watchlistSlice";
 
 const WatchlistComponent = (props) => {
   const dispatch = useDispatch();
-  const watchlistId = useSelector((state) => state.watchlist.id);
-  const watchlist = useSelector((state) => state.watchlist.watchlist);
-  const totalPages = useSelector((state) => state.watchlist.pages);
   const loggedIn = useSelector((state) => state.user.loginStatus);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setFilter] = useState("original_order.desc");
+  const watchlistData = useSelector((state) => state.watchlist);
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
 
-      updateWatchlist();
+      if (isActive) {
+        updateWatchlist();
+      }
 
       return () => (isActive = false);
-    }, [watchlistId, watchlist, filter, currentPage])
+    }, [
+      watchlistData.watchlist.length,
+      watchlistData.sortBy,
+      watchlistData.page,
+    ])
   );
 
   const updateWatchlist = async () => {
     const updatedList = await fetchGet(
-      `/4/list/${watchlistId}?sort_by=${filter}&page=${currentPage}`
+      `/4/list/${watchlistData.id}?sort_by=${watchlistData.sortBy}&page=${watchlistData.page}`
     );
     dispatch(setWatchlist(updatedList.results));
+    dispatch(setTotalPages(updatedList.total_pages));
   };
 
   if (!loggedIn) {
     return <NotLoggedIn />;
   }
 
-  if (watchlistId.length === 0) {
+  if (watchlistData.id.length === 0) {
     return <NoWatchlist />;
   }
 
-  if (watchlist.length === 0) {
+  if (watchlistData.watchlist.length === 0) {
     return <EmptyWatchlist />;
   }
 
@@ -61,11 +70,11 @@ const WatchlistComponent = (props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={watchlistStyles.pickerContainer}>
           <RNPickerSelect
-            value={filter}
+            value={watchlistData.sortBy}
             style={pickerStyle}
             onValueChange={(value) => {
-              setFilter(value);
-              setCurrentPage(1);
+              dispatch(setSortBy(value));
+              dispatch(setPage(1));
             }}
             items={[
               {
@@ -92,7 +101,7 @@ const WatchlistComponent = (props) => {
           />
         </View>
         <FlatList
-          data={watchlist}
+          data={watchlistData.watchlist}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
@@ -103,9 +112,9 @@ const WatchlistComponent = (props) => {
             />
           )}
         />
-        {totalPages > 1 ? (
+        {watchlistData.pages > 1 ? (
           <View style={watchlistStyles.pageBtns}>
-            {currentPage != 1 ? (
+            {watchlistData.page != 1 ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
@@ -113,13 +122,13 @@ const WatchlistComponent = (props) => {
                 mode="contained"
                 style={watchlistStyles.pageBtn}
                 onPress={() => {
-                  setCurrentPage(currentPage - 1);
+                  dispatch(decrementPage());
                 }}
               >
                 Prev
               </Button>
             ) : null}
-            {currentPage != totalPages ? (
+            {watchlistData.page != watchlistData.pages ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
@@ -127,7 +136,7 @@ const WatchlistComponent = (props) => {
                 mode="contained"
                 style={watchlistStyles.pageBtn}
                 onPress={() => {
-                  setCurrentPage(currentPage + 1);
+                  dispatch(incrementPage());
                 }}
               >
                 Next
