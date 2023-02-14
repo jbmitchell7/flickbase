@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Text, Button } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
 import RNPickerSelect from "react-native-picker-select-updated";
@@ -13,8 +13,11 @@ import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent";
 import colors from "../../assets/colors";
 import Snack from "../../ui/Snack";
+import { fetchGet } from "../../api/tmdb";
+import { setWatchlist } from "../../redux/watchlist/watchlistSlice";
 
 const WatchlistComponent = (props) => {
+  const dispatch = useDispatch();
   const watchlistId = useSelector((state) => state.watchlist.id);
   const watchlist = useSelector((state) => state.watchlist.watchlist);
   const totalPages = useSelector((state) => state.watchlist.pages);
@@ -27,9 +30,18 @@ const WatchlistComponent = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
+      updateWatchlist();
+
       return () => (isActive = false);
-    }, [filter, currentPage, watchlistId, watchlist])
+    }, [watchlistId, watchlist, filter, currentPage])
   );
+
+  const updateWatchlist = async () => {
+    const updatedList = await fetchGet(
+      `/4/list/${watchlistId}?sort_by=${filter}&page=${currentPage}`
+    );
+    dispatch(setWatchlist(updatedList.results));
+  };
 
   if (!loggedIn) {
     return <NotLoggedIn />;
@@ -54,6 +66,7 @@ const WatchlistComponent = (props) => {
             onValueChange={(value) => {
               setFilter(value);
               setCurrentPage(1);
+              updateWatchlist();
             }}
             items={[
               {
@@ -100,7 +113,10 @@ const WatchlistComponent = (props) => {
                 icon="arrow-left-circle"
                 mode="contained"
                 style={watchlistStyles.pageBtn}
-                onPress={() => setCurrentPage(currentPage - 1)}
+                onPress={() => {
+                  setCurrentPage(currentPage - 1);
+                  updateWatchlist();
+                }}
               >
                 Prev
               </Button>
@@ -112,7 +128,10 @@ const WatchlistComponent = (props) => {
                 icon="arrow-right-circle"
                 mode="contained"
                 style={watchlistStyles.pageBtn}
-                onPress={() => setCurrentPage(currentPage + 1)}
+                onPress={() => {
+                  setCurrentPage(currentPage + 1);
+                  updateWatchlist();
+                }}
               >
                 Next
               </Button>
