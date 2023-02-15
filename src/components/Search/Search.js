@@ -1,53 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchGet } from "../../api/tmdb";
 import SearchForm from "./SearchForm";
 import ListCardComponent from "../../ui/ListCardComponent";
 import Snack from "../../ui/Snack";
 import colors from "../../assets/colors";
-import { setSearchResults } from "../../redux/search/searchSlice";
+import {
+  decrementCurrentPage,
+  incrementCurrentPage,
+  setSearchResults,
+} from "../../redux/search/searchSlice";
+import { fetchGet } from "../../api/tmdb";
 
 const Search = (props) => {
   const dispatch = useDispatch();
-  const snackVisible = useSelector((state) => state.snack.visible);
-  const searchResult = useSelector((state) => state.search.results);
-  const searchQuery = useSelector((state) => state.search.query);
-  const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const searchState = useSelector((state) => state.search);
 
-  let filteredResult = searchResult;
-  
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
-      const getMedia = async () => {
-        try {
-          if (isActive) {
-            const getResponse = await fetchGet(
-              `/3/search/multi?query=${searchQuery}&page=${currentPage}`
-            );
-            dispatch(setSearchResults(getResponse.results));
-            setTotalPages(getResponse.total_pages);
-          }
-        } catch (error) {
-          throw new Error("error querying for media");
-        }
-      };
-      if (searchQuery != "") {
-        getMedia();
+
+      if (isActive && searchState.query !== "") {
+        getResults();
       }
 
       return () => {
         isActive = false;
       };
-    }, [searchQuery, currentPage, snackVisible])
+    }, [searchState.query, searchState.currentPage])
   );
 
-  if (!filteredResult || filteredResult.length == 0) {
+  const getResults = async () => {
+    try {
+      const getResponse = await fetchGet(
+        `/3/search/multi?query=${searchState.query}&page=${searchState.currentPage}`
+      );
+      dispatch(setSearchResults(getResponse.results));
+    } catch {
+      throw new Error("error querying for media");
+    }
+  };
+
+  if (!searchState.results || searchState.results.length == 0) {
     return (
       <ScrollView>
         <SearchForm />
@@ -60,7 +57,7 @@ const Search = (props) => {
     <>
       <ScrollView showsVerticalScrollIndicator={false}>
         <SearchForm />
-        {filteredResult.map((item) => (
+        {searchState.results.map((item) => (
           <ListCardComponent
             key={item.id}
             media={item}
@@ -68,28 +65,32 @@ const Search = (props) => {
             type="search"
           />
         ))}
-        {totalPages > 1 ? (
+        {searchState.pages > 1 ? (
           <View style={styles.pageBtns}>
-            {currentPage != 1 ? (
+            {searchState.currentPage != 1 ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
                 icon="arrow-left-circle"
                 mode="contained"
                 style={styles.pageBtn}
-                onPress={() => setCurrentPage(currentPage - 1)}
+                onPress={() => {
+                  dispatch(decrementCurrentPage());
+                }}
               >
                 Prev
               </Button>
             ) : null}
-            {currentPage != totalPages ? (
+            {searchState.currentPage != searchState.pages ? (
               <Button
                 buttonColor={colors.yellow}
                 dark={true}
                 icon="arrow-right-circle"
                 mode="contained"
                 style={styles.pageBtn}
-                onPress={() => setCurrentPage(currentPage + 1)}
+                onPress={() => {
+                  dispatch(incrementCurrentPage());
+                }}
               >
                 Next
               </Button>

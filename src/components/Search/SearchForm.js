@@ -3,19 +3,40 @@ import { StyleSheet } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import { setSearchQuery } from "../../redux/search/searchSlice";
+import {
+  setSearchCurrentPage,
+  setSearchPages,
+  setSearchQuery,
+  setSearchResults,
+} from "../../redux/search/searchSlice";
 import colors from "../../assets/colors";
+import { fetchGet } from "../../api/tmdb";
 
 const SearchForm = () => {
-  const [searchText, setSearchText] = useState("");
   const dispatch = useDispatch();
+
+  const [searchText, setSearchText] = useState("");
+
+  const search = async () => {
+    dispatch(setSearchQuery(searchText));
+    dispatch(setSearchCurrentPage(1));
+    try {
+      const getResponse = await fetchGet(
+        `/3/search/multi?query=${searchText}&page=1`
+      );
+      dispatch(setSearchResults(getResponse.results));
+      dispatch(setSearchPages(getResponse.total_pages));
+    } catch {
+      throw new Error("error querying for media");
+    }
+  };
 
   return (
     <Searchbar
       placeholder="Movie, TV Show, or Person"
       onChangeText={(query) => setSearchText(query)}
-      onIconPress={() => dispatch(setSearchQuery(searchText))}
-      onSubmitEditing={() => dispatch(setSearchQuery(searchText))}
+      onIconPress={() => search()}
+      onSubmitEditing={() => search()}
       value={searchText}
       style={styles.searchBar}
     />
