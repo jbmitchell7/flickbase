@@ -57,22 +57,22 @@ const Account = () => {
       const accessTokenResponse = await fetchPost(`/4/auth/access_token`, {
         request_token: asyncToken,
       });
-      await AsyncStorage.setItem("userId", accessTokenResponse.account_id);
-      await AsyncStorage.setItem("token", accessTokenResponse.access_token);
       dispatch(setLoginStatus(true));
+
       const accountInfo = await fetchGet(`/3/account`);
-      dispatch(setUsername(accountInfo.username));
       await AsyncStorage.setItem("username", accountInfo.username);
-      setUserWatchlist();
+      dispatch(setUsername(accountInfo.username));
+      // token must be set after username to ensure api calls are made with correct token
+      await AsyncStorage.setItem("token", accessTokenResponse.access_token);
+      setUserWatchlist(accessTokenResponse.account_id);
     } catch {
       onToggleSnackBar("Error Logging In");
     }
   };
 
-  const setUserWatchlist = async () => {
+  const setUserWatchlist = async (userId) => {
     try {
-      const id = await AsyncStorage.getItem("userId");
-      const listRes = await fetchGet(`/4/account/${id}/lists`);
+      const listRes = await fetchGet(`/4/account/${userId}/lists`);
       let results = listRes.results;
       //searches for existing flickbase watchlist
       let fbListData = results.find((list) => list.name.includes("Flickbase"));
@@ -95,7 +95,6 @@ const Account = () => {
       });
       if (logoutStatus.success) {
         await AsyncStorage.setItem("token", "");
-        await AsyncStorage.setItem("userId", "");
         await AsyncStorage.setItem("watchlistId", "");
         await AsyncStorage.setItem("username", "");
         dispatch(setLoginStatus(false));
