@@ -7,7 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MediaInfoComponent from './src/components/pages/MediaInfo/MediaInfoComponent';
 import colors from './src/assets/colors';
-import BottomNav from './src/components/Navigation/BottomNav';
+import BottomNav from './src/components/navigation/BottomNav';
 import { store } from './src/redux/store/store';
 
 const theme = {
