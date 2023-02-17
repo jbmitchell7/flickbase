@@ -5,7 +5,7 @@ import { Text, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { setLoginStatus } from "../../../redux/user/userSlice";
+import { setLoginStatus, setUsername } from "../../../redux/user/userSlice";
 import {
   setId,
   setTotalPages,
@@ -18,7 +18,7 @@ import { setVisible, setSnackText } from "../../../redux/snack/snackSlice";
 
 const Account = () => {
   const dispatch = useDispatch();
-  const loginStatus = useSelector((state) => state.user.loginStatus);
+  const accountData = useSelector((state) => state.user);
   const snackVisible = useSelector((state) => state.snack.visible);
 
   const [approvedToken, setApprovedToken] = useState(false);
@@ -54,12 +54,15 @@ const Account = () => {
   const loginAccount = async () => {
     try {
       const asyncToken = await AsyncStorage.getItem("token");
-      const response = await fetchPost(`/4/auth/access_token`, {
+      const accessTokenResponse = await fetchPost(`/4/auth/access_token`, {
         request_token: asyncToken,
       });
-      await AsyncStorage.setItem("userId", response.account_id);
-      await AsyncStorage.setItem("token", response.access_token);
+      await AsyncStorage.setItem("userId", accessTokenResponse.account_id);
+      await AsyncStorage.setItem("token", accessTokenResponse.access_token);
       dispatch(setLoginStatus(true));
+      const accountInfo = await fetchGet(`/3/account`);
+      dispatch(setUsername(accountInfo.username));
+      await AsyncStorage.setItem("username", accountInfo.username);
       setUserWatchlist();
     } catch {
       onToggleSnackBar("Error Logging In");
@@ -94,7 +97,9 @@ const Account = () => {
         await AsyncStorage.setItem("token", "");
         await AsyncStorage.setItem("userId", "");
         await AsyncStorage.setItem("watchlistId", "");
+        await AsyncStorage.setItem("username", "");
         dispatch(setLoginStatus(false));
+        dispatch(setUsername(""));
         dispatch(setWatchlist([]));
         dispatch(setTotalPages(0));
         dispatch(setId(""));
@@ -105,7 +110,7 @@ const Account = () => {
     }
   };
 
-  if (!loginStatus) {
+  if (!accountData.loginStatus) {
     return (
       <View>
         <Text style={styles.header}>Login</Text>
@@ -143,6 +148,7 @@ const Account = () => {
     <>
       <ScrollView>
         <Text style={styles.header}>Account</Text>
+        <Text style={styles.text}>Logged in as: {accountData.username}</Text>
         <Button
           buttonColor={colors.yellow}
           mode="contained"

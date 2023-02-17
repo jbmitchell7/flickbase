@@ -10,7 +10,7 @@ import MediaBtn from "../../ui/MediaBtn"
 import MovieHome from "./layouts/MovieHome"
 import PersonHome from "./layouts/PersonHome";
 import TvHome from "./layouts/TvHome";
-import { setLoginStatus } from "../../../redux/user/userSlice";
+import { setLoginStatus, setUsername } from "../../../redux/user/userSlice";
 import { setId } from "../../../redux/watchlist/watchlistSlice";
 
 const HomeStack = createNativeStackNavigator();
@@ -38,7 +38,9 @@ const Home = (props) => {
     try {
       const userLoggedIn = await AsyncStorage.getItem("token");
       const localWatchlistId = await AsyncStorage.getItem("watchlistId");
+      const username = await AsyncStorage.getItem("username");
       if (userLoggedIn && !loginStatus) {
+        dispatch(setUsername(username));
         dispatch(setLoginStatus(true));
       }
       if (localWatchlistId && watchlistId === "") {
