@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
 import { IconButton } from "react-native-paper";
-
-import { fetchPost, fetchDelete, fetchGet } from "../api/tmdb";
-import colors from "../assets/colors";
 import { useDispatch, useSelector } from "react-redux";
-import { setTotalPages, setWatchlist } from "../redux/watchlist/watchlistSlice";
-import { setSnackText, setVisible } from "../redux/snack/snackSlice";
+
+import { fetchPost, fetchDelete, fetchGet } from "../../api/tmdb";
+import colors from "../../assets/colors";
+import { setTotalPages, setWatchlist } from "../../redux/watchlist/watchlistSlice";
+import { setSnackText, setVisible } from "../../redux/snack/snackSlice";
 
 const WatchlistBtn = (props) => {
   const { media, type, buttonType } = props;

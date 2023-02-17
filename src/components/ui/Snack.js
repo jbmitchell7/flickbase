@@ -2,7 +2,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { setSnackText, setVisible } from "../redux/snack/snackSlice";
+
+import { setSnackText, setVisible } from "../../redux/snack/snackSlice";
 
 const Snack = () => {
   const dispatch = useDispatch();

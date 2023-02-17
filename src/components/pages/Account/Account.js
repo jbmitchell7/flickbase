@@ -13,7 +13,7 @@ import {
 } from "../../../redux/watchlist/watchlistSlice";
 import { fetchPost, fetchGet, fetchDelete } from "../../../api/tmdb";
 import colors from "../../../assets/colors";
-import Snack from "../../../ui/Snack";
+import Snack from "../../ui/Snack";
 import { setVisible, setSnackText } from "../../../redux/snack/snackSlice";
 
 const Account = () => {

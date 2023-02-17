@@ -10,7 +10,7 @@ import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { fetchGet } from "../../../../api/tmdb";
-import MediaCoverComponent from "../../../../ui/MediaCoverComponent";
+import MediaCoverComponent from "../../../ui/MediaCoverComponent";
 
 const TvHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);

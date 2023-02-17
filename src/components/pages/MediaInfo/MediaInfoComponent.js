@@ -8,13 +8,13 @@ import MovieInfo from "./layouts/MovieInfo";
 import PersonInfo from "./layouts/PersonInfo";
 import TvShowInfo from "./layouts/TvShowInfo";
 import { fetchGet } from "../../../api/tmdb";
-import ImageComponent from "../../../ui/ImageComponent";
-import WatchlistBtn from "../../../ui/WatchlistBtn";
+import ImageComponent from "../../ui/ImageComponent";
+import WatchlistBtn from "../../ui/WatchlistBtn";
 import colors from "../../../assets/colors";
-import Streamers from "../../../ui/Streamers";
+import Streamers from "../../ui/Streamers";
 import { setMediaChoice } from "../../../redux/media/mediaSlice";
-import Snack from "../../../ui/Snack";
-import CreditList from "../../../ui/CreditList/CreditList";
+import Snack from "../../ui/Snack";
+import CreditList from "../../ui/CreditList/CreditList";
 
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 

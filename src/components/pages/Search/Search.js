@@ -5,8 +5,8 @@ import { Text, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
 import SearchForm from "./SearchForm";
-import ListCardComponent from "../../../ui/ListCardComponent"
-import Snack from "../../../ui/Snack";
+import ListCardComponent from "../../ui/ListCardComponent"
+import Snack from "../../ui/Snack";
 import colors from "../../../assets/colors";
 import {
   decrementCurrentPage,

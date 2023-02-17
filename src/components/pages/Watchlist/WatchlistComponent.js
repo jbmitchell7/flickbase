@@ -10,9 +10,9 @@ import NoWatchlist from "./layouts/NoWatchlist";
 import EmptyWatchlist from "./layouts/EmptyWatchlist";
 import { watchlistStyles } from "./WatchlistComponentStyles";
 import { pickerStyle } from "./WatchlistComponentStyles";
-import ListCardComponent from "../../../ui/ListCardComponent";
+import ListCardComponent from "../../ui/ListCardComponent"
 import colors from "../../../assets/colors";
-import Snack from "../../../ui/Snack";
+import Snack from "../../ui/Snack"
 import { fetchGet } from "../../../api/tmdb";
 import {
   decrementPage,
