@@ -9,37 +9,37 @@ import {
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { fetchGet } from "../../api/tmdb";
-import MediaCoverComponent from "../../ui/MediaCoverComponent";
+import { fetchGet } from "../../../../api/tmdb";
+import MediaCoverComponent from "../../../../ui/MediaCoverComponent";
 
-const TvHome = (props) => {
+const MovieHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [popularPerson, setPopularPerson] = useState([]);
-  const [airingToday, setAiringToday] = useState([]);
-  const [onTheAir, setOnTheAir] = useState([]);
-  const [topRatedTv, setTopRatedTv] = useState([]);
-  const [trendingPerson, setTrendingPerson] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [upcomingMovies, setUpcomingMovies] = useState([]);
 
   const SECTIONS = [
     {
       title: "Popular",
-      data: popularPerson,
+      data: popularMovies,
     },
     {
       title: "Trending This Week",
-      data: trendingPerson,
+      data: trendingMovies,
     },
     {
-      title: "Airing Today",
-      data: airingToday,
+      title: "Now Playing",
+      data: nowPlayingMovies,
     },
     {
-      title: "On the Air",
-      data: onTheAir,
+      title: "Upcoming",
+      data: upcomingMovies,
     },
     {
       title: "Top Rated",
-      data: topRatedTv,
+      data: topRatedMovies,
     },
   ];
 
@@ -47,23 +47,23 @@ const TvHome = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
-      const getTvData = async () => {
+      const getMovieData = async () => {
         try {
           if (isActive) {
-            const newPopular = await fetchGet(`/3/tv/popular`);
-            setPopularPerson(newPopular.results);
+            const newPopular = await fetchGet(`/3/movie/popular`);
+            setPopularMovies(newPopular.results);
 
-            const newTrending = await fetchGet(`/3/trending/tv/week`);
-            setTrendingPerson(newTrending.results);
+            const newTrending = await fetchGet(`/3/trending/movie/week`);
+            setTrendingMovies(newTrending.results);
 
-            const newTopRated = await fetchGet(`/3/tv/top_rated`);
-            setTopRatedTv(newTopRated.results);
+            const newTopRated = await fetchGet(`/3/movie/top_rated`);
+            setTopRatedMovies(newTopRated.results);
 
-            const newOnTheAir = await fetchGet(`/3/tv/on_the_air`);
-            setOnTheAir(newOnTheAir.results);
+            const newNowPlaying = await fetchGet(`/3/movie/now_playing`);
+            setNowPlayingMovies(newNowPlaying.results);
 
-            const newAiringToday = await fetchGet(`/3/tv/airing_today`);
-            setAiringToday(newAiringToday.results);
+            const newUpcoming = await fetchGet(`/3/movie/upcoming`);
+            setUpcomingMovies(newUpcoming.results);
 
             setDataLoaded(true);
           }
@@ -72,7 +72,7 @@ const TvHome = (props) => {
         }
       };
 
-      getTvData();
+      getMovieData();
 
       return () => {
         isActive = false;
@@ -95,13 +95,13 @@ const TvHome = (props) => {
                 horizontal
                 data={section.data}
                 renderItem={({ item }) => (
-                  <View style={styles.tvCard}>
+                  <View style={styles.movieCard}>
                     <MediaCoverComponent
                       media={item}
                       key={item.id}
                       navigation={props.navigation}
                     />
-                    <Text style={styles.tvText}>{item.name}</Text>
+                    <Text style={styles.movieText}>{item.title}</Text>
                   </View>
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -129,13 +129,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontSize: 20,
   },
-  tvCard: {
+  movieCard: {
     flexWrap: "nowrap",
     width: 160,
   },
-  tvText: {
+  movieText: {
     marginHorizontal: 5,
   },
 });
 
-export default TvHome;
+export default MovieHome;

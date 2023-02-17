@@ -1,5 +1,6 @@
 import { SafeAreaView } from "react-native";
 import { Text } from "react-native-paper";
+
 import { watchlistStyles } from "../WatchlistComponentStyles";
 
 const NotLoggedIn = () => {

@@ -4,17 +4,17 @@ import { Button, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
-import MovieInfo from "../components/Movie/MovieInfo";
-import PersonInfo from "../components/Person/PersonInfo";
-import TvShowInfo from "../components/TvShow/TvShowInfo";
-import { fetchGet } from "../api/tmdb";
-import ImageComponent from "./ImageComponent";
-import WatchlistBtn from "./WatchlistBtn";
-import colors from "../assets/colors";
-import Streamers from "./Streamers";
-import { setMediaChoice } from "../redux/media/mediaSlice";
-import Snack from "./Snack";
-import CreditList from "./CreditList/CreditList";
+import MovieInfo from "./layouts/MovieInfo";
+import PersonInfo from "./layouts/PersonInfo";
+import TvShowInfo from "./layouts/TvShowInfo";
+import { fetchGet } from "../../../api/tmdb";
+import ImageComponent from "../../../ui/ImageComponent";
+import WatchlistBtn from "../../../ui/WatchlistBtn";
+import colors from "../../../assets/colors";
+import Streamers from "../../../ui/Streamers";
+import { setMediaChoice } from "../../../redux/media/mediaSlice";
+import Snack from "../../../ui/Snack";
+import CreditList from "../../../ui/CreditList/CreditList";
 
 const YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 

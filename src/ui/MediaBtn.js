@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
-import colors from "../../assets/colors";
+import colors from "../assets/colors";
 
 const MediaBtn = (props) => {
   const { label, media, icon, mediaState, navigation, setMedia } = props;

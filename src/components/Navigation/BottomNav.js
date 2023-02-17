@@ -2,10 +2,10 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-import WatchlistComponent from "../Watchlist/WatchlistComponent";
-import Login from "../User/Login";
-import Search from "../Search/Search";
-import HomeLayout from "../Home/HomeLayout";
+import WatchlistComponent from "../pages/Watchlist/WatchlistComponent";
+import Account from "../pages/Account/Account";
+import Search from "../pages/Search/Search";
+import Home from "../pages/Home/Home";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +27,7 @@ const BottomNav = () => (
   >
     <Tab.Screen
       name="Home"
-      component={HomeLayout}
+      component={Home}
       options={{
         tabBarLabel: "Home",
         tabBarIcon: ({ color }) => (
@@ -62,7 +62,7 @@ const BottomNav = () => (
     />
     <Tab.Screen
       name="Account"
-      component={Login}
+      component={Account}
       options={{
         tabBarLabel: "Account",
         tabBarIcon: ({ color }) => (

@@ -5,7 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MediaInfoComponent from './src/ui/MediaInfoComponent';
+import MediaInfoComponent from './src/components/pages/MediaInfo/MediaInfoComponent';
 import colors from './src/assets/colors';
 import BottomNav from './src/components/Navigation/BottomNav';
 import { store } from './src/redux/store/store';

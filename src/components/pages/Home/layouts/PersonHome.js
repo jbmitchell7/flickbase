@@ -9,37 +9,22 @@ import {
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { fetchGet } from "../../api/tmdb";
-import MediaCoverComponent from "../../ui/MediaCoverComponent";
+import { fetchGet } from "../../../../api/tmdb";
+import MediaCoverComponent from "../../../../ui/MediaCoverComponent";
 
-const MovieHome = (props) => {
+const PersonHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [popularMovies, setPopularMovies] = useState([]);
-  const [trendingMovies, setTrendingMovies] = useState([]);
-  const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-  const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [popularPerson, setPopularPerson] = useState([]);
+  const [trendingPerson, setTrendingPerson] = useState([]);
 
   const SECTIONS = [
     {
       title: "Popular",
-      data: popularMovies,
+      data: popularPerson,
     },
     {
       title: "Trending This Week",
-      data: trendingMovies,
-    },
-    {
-      title: "Now Playing",
-      data: nowPlayingMovies,
-    },
-    {
-      title: "Upcoming",
-      data: upcomingMovies,
-    },
-    {
-      title: "Top Rated",
-      data: topRatedMovies,
+      data: trendingPerson,
     },
   ];
 
@@ -47,23 +32,14 @@ const MovieHome = (props) => {
     React.useCallback(() => {
       let isActive = true;
 
-      const getMovieData = async () => {
+      const getPersonData = async () => {
         try {
           if (isActive) {
-            const newPopular = await fetchGet(`/3/movie/popular`);
-            setPopularMovies(newPopular.results);
+            const newPopular = await fetchGet(`/3/person/popular`);
+            setPopularPerson(newPopular.results);
 
-            const newTrending = await fetchGet(`/3/trending/movie/week`);
-            setTrendingMovies(newTrending.results);
-
-            const newTopRated = await fetchGet(`/3/movie/top_rated`);
-            setTopRatedMovies(newTopRated.results);
-
-            const newNowPlaying = await fetchGet(`/3/movie/now_playing`);
-            setNowPlayingMovies(newNowPlaying.results);
-
-            const newUpcoming = await fetchGet(`/3/movie/upcoming`);
-            setUpcomingMovies(newUpcoming.results);
+            const newTrending = await fetchGet(`/3/trending/person/week`);
+            setTrendingPerson(newTrending.results);
 
             setDataLoaded(true);
           }
@@ -72,7 +48,7 @@ const MovieHome = (props) => {
         }
       };
 
-      getMovieData();
+      getPersonData();
 
       return () => {
         isActive = false;
@@ -95,13 +71,13 @@ const MovieHome = (props) => {
                 horizontal
                 data={section.data}
                 renderItem={({ item }) => (
-                  <View style={styles.movieCard}>
+                  <View style={styles.personCard}>
                     <MediaCoverComponent
                       media={item}
                       key={item.id}
                       navigation={props.navigation}
                     />
-                    <Text style={styles.movieText}>{item.title}</Text>
+                    <Text style={styles.personText}>{item.name}</Text>
                   </View>
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -129,13 +105,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontSize: 20,
   },
-  movieCard: {
+  personCard: {
     flexWrap: "nowrap",
     width: 160,
   },
-  movieText: {
+  personText: {
     marginHorizontal: 5,
   },
 });
 
-export default MovieHome;
+export default PersonHome;

@@ -1,4 +1,4 @@
-import colors from "../../assets/colors";
+import colors from "../../../assets/colors";
 import { StyleSheet } from "react-native";
 
 export const pickerStyle = {

@@ -1,12 +1,12 @@
 import { SafeAreaView } from "react-native";
 import { Text, Button } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import {fetchPost} from '../../../api/tmdb';
+import { fetchPost } from "../../../../api/tmdb";
 import { watchlistStyles } from "../WatchlistComponentStyles";
-import colors from "../../../assets/colors";
-import { setId } from "../../../redux/watchlist/watchlistSlice";
+import colors from "../../../../assets/colors";
+import { setId } from "../../../../redux/watchlist/watchlistSlice";
 
 const NoWatchlist = () => {
   const dispatch = useDispatch();

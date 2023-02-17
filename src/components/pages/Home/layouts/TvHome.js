@@ -9,12 +9,15 @@ import {
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
-import { fetchGet } from "../../api/tmdb";
-import MediaCoverComponent from "../../ui/MediaCoverComponent";
+import { fetchGet } from "../../../../api/tmdb";
+import MediaCoverComponent from "../../../../ui/MediaCoverComponent";
 
-const PersonHome = (props) => {
+const TvHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [popularPerson, setPopularPerson] = useState([]);
+  const [airingToday, setAiringToday] = useState([]);
+  const [onTheAir, setOnTheAir] = useState([]);
+  const [topRatedTv, setTopRatedTv] = useState([]);
   const [trendingPerson, setTrendingPerson] = useState([]);
 
   const SECTIONS = [
@@ -26,20 +29,41 @@ const PersonHome = (props) => {
       title: "Trending This Week",
       data: trendingPerson,
     },
+    {
+      title: "Airing Today",
+      data: airingToday,
+    },
+    {
+      title: "On the Air",
+      data: onTheAir,
+    },
+    {
+      title: "Top Rated",
+      data: topRatedTv,
+    },
   ];
 
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
 
-      const getPersonData = async () => {
+      const getTvData = async () => {
         try {
           if (isActive) {
-            const newPopular = await fetchGet(`/3/person/popular`);
+            const newPopular = await fetchGet(`/3/tv/popular`);
             setPopularPerson(newPopular.results);
 
-            const newTrending = await fetchGet(`/3/trending/person/week`);
+            const newTrending = await fetchGet(`/3/trending/tv/week`);
             setTrendingPerson(newTrending.results);
+
+            const newTopRated = await fetchGet(`/3/tv/top_rated`);
+            setTopRatedTv(newTopRated.results);
+
+            const newOnTheAir = await fetchGet(`/3/tv/on_the_air`);
+            setOnTheAir(newOnTheAir.results);
+
+            const newAiringToday = await fetchGet(`/3/tv/airing_today`);
+            setAiringToday(newAiringToday.results);
 
             setDataLoaded(true);
           }
@@ -48,7 +72,7 @@ const PersonHome = (props) => {
         }
       };
 
-      getPersonData();
+      getTvData();
 
       return () => {
         isActive = false;
@@ -71,13 +95,13 @@ const PersonHome = (props) => {
                 horizontal
                 data={section.data}
                 renderItem={({ item }) => (
-                  <View style={styles.personCard}>
+                  <View style={styles.tvCard}>
                     <MediaCoverComponent
                       media={item}
                       key={item.id}
                       navigation={props.navigation}
                     />
-                    <Text style={styles.personText}>{item.name}</Text>
+                    <Text style={styles.tvText}>{item.name}</Text>
                   </View>
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -105,13 +129,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     fontSize: 20,
   },
-  personCard: {
+  tvCard: {
     flexWrap: "nowrap",
     width: 160,
   },
-  personText: {
+  tvText: {
     marginHorizontal: 5,
   },
 });
 
-export default PersonHome;
+export default TvHome;

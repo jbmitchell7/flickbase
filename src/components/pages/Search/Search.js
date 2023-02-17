@@ -5,15 +5,15 @@ import { Text, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
 import SearchForm from "./SearchForm";
-import ListCardComponent from "../../ui/ListCardComponent";
-import Snack from "../../ui/Snack";
-import colors from "../../assets/colors";
+import ListCardComponent from "../../../ui/ListCardComponent"
+import Snack from "../../../ui/Snack";
+import colors from "../../../assets/colors";
 import {
   decrementCurrentPage,
   incrementCurrentPage,
   setSearchResults,
-} from "../../redux/search/searchSlice";
-import { fetchGet } from "../../api/tmdb";
+} from "../../../redux/search/searchSlice";
+import { fetchGet } from "../../../api/tmdb";
 
 const Search = (props) => {
   const dispatch = useDispatch();

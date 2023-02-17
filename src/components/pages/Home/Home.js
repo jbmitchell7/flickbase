@@ -6,16 +6,16 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import MediaBtn from "./MediaBtn";
-import MovieHome from "../Movie/MovieHome";
-import PersonHome from "../Person/PersonHome";
-import TvHome from "../TvShow/TvHome";
-import { setLoginStatus } from "../../redux/user/userSlice";
-import { setId } from "../../redux/watchlist/watchlistSlice";
+import MediaBtn from "../../../ui/MediaBtn";
+import MovieHome from "./layouts/MovieHome"
+import PersonHome from "./layouts/PersonHome";
+import TvHome from "./layouts/TvHome";
+import { setLoginStatus } from "../../../redux/user/userSlice";
+import { setId } from "../../../redux/watchlist/watchlistSlice";
 
 const HomeStack = createNativeStackNavigator();
 
-const HomeLayout = (props) => {
+const Home = (props) => {
   const dispatch = useDispatch();
   const loginStatus = useSelector(state => state.user.loginStatus);
   const watchlistId = useSelector((state) => state.watchlist.id);
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeLayout;
+export default Home;

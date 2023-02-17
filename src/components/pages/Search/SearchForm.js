@@ -8,9 +8,9 @@ import {
   setSearchPages,
   setSearchQuery,
   setSearchResults,
-} from "../../redux/search/searchSlice";
-import colors from "../../assets/colors";
-import { fetchGet } from "../../api/tmdb";
+} from "../../../redux/search/searchSlice";
+import colors from "../../../assets/colors";
+import { fetchGet } from "../../../api/tmdb";
 
 const SearchForm = () => {
   const dispatch = useDispatch();

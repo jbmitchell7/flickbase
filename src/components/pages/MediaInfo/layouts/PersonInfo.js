@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import CreditList from "../../ui/CreditList/CreditList";
+import CreditList from "../../../../ui/CreditList/CreditList";
 
 const PersonInfo = (props) => {
   const {

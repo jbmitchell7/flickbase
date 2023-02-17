@@ -10,10 +10,10 @@ import NoWatchlist from "./layouts/NoWatchlist";
 import EmptyWatchlist from "./layouts/EmptyWatchlist";
 import { watchlistStyles } from "./WatchlistComponentStyles";
 import { pickerStyle } from "./WatchlistComponentStyles";
-import ListCardComponent from "../../ui/ListCardComponent";
-import colors from "../../assets/colors";
-import Snack from "../../ui/Snack";
-import { fetchGet } from "../../api/tmdb";
+import ListCardComponent from "../../../ui/ListCardComponent";
+import colors from "../../../assets/colors";
+import Snack from "../../../ui/Snack";
+import { fetchGet } from "../../../api/tmdb";
 import {
   decrementPage,
   incrementPage,
@@ -21,7 +21,7 @@ import {
   setSortBy,
   setTotalPages,
   setWatchlist,
-} from "../../redux/watchlist/watchlistSlice";
+} from "../../../redux/watchlist/watchlistSlice";
 
 const WatchlistComponent = (props) => {
   const dispatch = useDispatch();

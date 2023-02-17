@@ -2,20 +2,21 @@ import React, { useState } from "react";
 import { View, StyleSheet, Linking, ScrollView } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, Button } from "react-native-paper";
-import { setLoginStatus } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
+
+import { setLoginStatus } from "../../../redux/user/userSlice";
 import {
   setId,
   setTotalPages,
   setWatchlist,
-} from "../../redux/watchlist/watchlistSlice";
-import { fetchPost, fetchGet, fetchDelete } from "../../api/tmdb";
-import colors from "../../assets/colors";
-import Snack from "../../ui/Snack";
-import { setVisible, setSnackText } from "../../redux/snack/snackSlice";
-import { useFocusEffect } from "@react-navigation/native";
+} from "../../../redux/watchlist/watchlistSlice";
+import { fetchPost, fetchGet, fetchDelete } from "../../../api/tmdb";
+import colors from "../../../assets/colors";
+import Snack from "../../../ui/Snack";
+import { setVisible, setSnackText } from "../../../redux/snack/snackSlice";
 
-const Login = () => {
+const Account = () => {
   const dispatch = useDispatch();
   const loginStatus = useSelector((state) => state.user.loginStatus);
   const snackVisible = useSelector((state) => state.snack.visible);
@@ -71,9 +72,7 @@ const Login = () => {
       const listRes = await fetchGet(`/4/account/${id}/lists`);
       let results = listRes.results;
       //searches for existing flickbase watchlist
-      let fbListData = results.find(
-        (list) => list.name.includes("Flickbase")
-      );
+      let fbListData = results.find((list) => list.name.includes("Flickbase"));
       //if it exists, set id in asyncstorage
       if (fbListData) {
         let listId = fbListData.id;
@@ -177,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Account;

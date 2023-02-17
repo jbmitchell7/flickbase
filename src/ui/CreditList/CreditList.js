@@ -1,8 +1,9 @@
 import { Text } from "react-native-paper";
 import { FlatList, TouchableOpacity, Image } from "react-native";
+import { useEffect, useState } from "react";
+
 import { IMAGE_URL } from "../ImageComponent";
 import { CreditListStyles } from "./CreditListStyles";
-import { useEffect, useState } from "react";
 
 const CreditList = (props) => {
   const { list, mediaType, listType, navigation } = props;
