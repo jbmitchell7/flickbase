@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Linking,
-} from "react-native";
+import { ScrollView, StyleSheet, View, Linking } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
@@ -152,7 +147,7 @@ const MediaInfoComponent = (props) => {
                   mediaType="person"
                   listType="cast"
                   navigation={props.navigation}
-                 />
+                />
               ) : (
                 <Text style={styles.streamText}>Cast Unavailable</Text>
               )}
@@ -227,11 +222,29 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
+  bioTextSummary: {
+        marginHorizontal: 5
+    },
+
   buttonContainer: {
     display: "flex",
     flexDirection: "row",
     flexWrap: "nowrap",
     justifyContent: "center",
+  },
+
+  imageContainer: {
+    marginBottom: 10,
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+
+  image: {
+    width: 60,
+    height: 60,
+    marginHorizontal: 5,
+    marginVertical: 5,
   },
 
   streamText: {
@@ -243,6 +256,12 @@ const styles = StyleSheet.create({
     padding: 1,
     marginHorizontal: 5,
     alignSelf: "center",
+  },
+
+  titleText: {
+    fontWeight: "bold",
+    fontSize: 25,
+    marginVertical: 20,
   },
 });
 
