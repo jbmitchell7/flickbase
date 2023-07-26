@@ -7,7 +7,7 @@ const tmdbFetch = async (url, method = "GET", payload = {}) => {
 
   let headers = {
     "Content-Type": "application/json;charset=utf-8",
-    Authorization: `Bearer ${process.env.V4KEY}`,
+    Authorization: `Bearer ${process.env.EXPO_PUBLIC_V4KEY}`,
   };
 
   try {
