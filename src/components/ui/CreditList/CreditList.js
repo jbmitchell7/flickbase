@@ -89,7 +89,9 @@ const CreditList = (props) => {
             >
               {item.name}
             </Text>
-            { item.roles.map((role) => <Text key={role} style={CreditListStyles.nameText}>{ `${role} / ` }</Text>) }
+            { item.roles.map(role => (
+              <Text key={role} style={CreditListStyles.nameText}>{item.roles.length < 2 ? role : `${role} / `}</Text>
+            ))}
           </Pressable>
         )}
         showsHorizontalScrollIndicator={false}
