@@ -6,6 +6,7 @@ import WatchlistComponent from "../pages/Watchlist/WatchlistComponent";
 import Account from "../pages/Account/Account";
 import Search from "../pages/Search/Search";
 import Home from "../pages/Home/Home";
+import colors from "../../assets/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,14 +15,14 @@ const BottomNav = () => (
     initialRouteName="Home"
     screenOptions={{
       tabBarStyle: {
-        backgroundColor: "#01C6AC",
-        borderColor: "#01C6AC",
+        backgroundColor: colors.primaryBlue,
+        borderColor: colors.primaryBlue,
         borderTopWidth: 0,
         height: 55,
       },
       tabBarShowLabel: false,
-      tabBarActiveTintColor: "white",
-      tabBarInactiveTintColor: "#cccccc",
+      tabBarActiveTintColor: colors.white,
+      tabBarInactiveTintColor: colors.mediumGray,
       headerShown: false,
     }}
   >

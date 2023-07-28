@@ -8,10 +8,22 @@ const PersonInfo = (props) => {
   const {
     person,
     styles,
-    movieCredits,
-    tvCredits,
+    movieInfo,
+    tvInfo,
     navigation,
   } = props;
+
+  let isLoading = true;
+  let profession = '';
+
+  if (person.known_for_department && movieInfo?.id && tvInfo?.id) {
+    profession = person.known_for_department === "Acting" ? 'cast' : 'crew';
+    isLoading = false;
+  }
+
+  if(isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View>
@@ -30,13 +42,14 @@ const PersonInfo = (props) => {
         <Text style={styles.bioTextHeader}>Profession: </Text>
         <Text>{person.known_for_department}</Text>
       </Text>
-      {movieCredits.length > 0 ? (
+      {movieInfo?.[profession].length > 0 ? (
         <>
           <Text style={[styles.bioTextHeader, styles.bioText]}>
             Film Credits:{" "}
           </Text>
           <CreditList
-            list={movieCredits}
+            list={movieInfo[profession]}
+            listType={profession}
             mediaType="movie"
             navigation={navigation}
           />
@@ -44,13 +57,14 @@ const PersonInfo = (props) => {
       ) : (
         <Text style={styles.bioText}>No Film Credits</Text>
       )}
-      {tvCredits.length > 0 ? (
+      {tvInfo?.[profession].length > 0 ? (
         <>
           <Text style={[styles.bioTextHeader, styles.bioText]}>
             Television Credits:{" "}
           </Text>
           <CreditList
-            list={tvCredits}
+            list={tvInfo[profession]}
+            listType={profession}
             mediaType="tv"
             navigation={navigation}
           />

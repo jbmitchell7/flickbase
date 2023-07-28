@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Image } from "react-native";
+import { Pressable, StyleSheet, Image } from "react-native";
 
 import { IMAGE_URL } from "./ImageComponent";
 
@@ -8,7 +8,7 @@ const MediaCoverComponent = (props) => {
 
   if ("gender" in media) {
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           navigation.navigate("MediaInfo", {
             mediaId: media.id,
@@ -21,13 +21,13 @@ const MediaCoverComponent = (props) => {
           style={styles.image}
           source={{ uri: `${IMAGE_URL}${media.profile_path}` }}
         />
-      </TouchableOpacity>
+      </Pressable>
     );
   }
 
   if ("first_air_date" in media) {
     return (
-      <TouchableOpacity
+      <Pressable
         onPress={() => {
           navigation.navigate("MediaInfo", {
             mediaId: media.id,
@@ -40,12 +40,12 @@ const MediaCoverComponent = (props) => {
           style={styles.image}
           source={{ uri: `${IMAGE_URL}${media.poster_path}` }}
         />
-      </TouchableOpacity>
+      </Pressable>
     );
   }
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={() => {
         navigation.navigate("MediaInfo", {
           mediaId: media.id,
@@ -58,7 +58,7 @@ const MediaCoverComponent = (props) => {
         style={styles.image}
         source={{ uri: `${IMAGE_URL}${media.poster_path}` }}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

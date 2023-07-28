@@ -27,10 +27,8 @@ const MediaInfoComponent = (props) => {
   const [freeStreamers, setFreeStreamers] = useState([]);
   const [cast, setCast] = useState([]);
   const [crew, setCrew] = useState([]);
-  const [movieCredits, setMovieCredits] = useState([]);
-  const [tvCredits, setTvCredits] = useState([]);
-  const [movieCrew, setMovieCrew] = useState([]);
-  const [tvCrew, setTvCrew] = useState([]);
+  const [personMovieInfo, setPersonMovieInfo] = useState(null);
+  const [personTvInfo, setPersonTvInfo] = useState(null);
   const [videos, setVideos] = useState([]);
   const media = useSelector((state) => state.media.value);
 
@@ -91,10 +89,8 @@ const MediaInfoComponent = (props) => {
               const tvResponse = await fetchGet(
                 `/3/${mediaType}/${mediaId}/tv_credits`
               );
-              setMovieCredits(movieResponse.cast);
-              setTvCredits(tvResponse.cast);
-              setMovieCrew(movieResponse.crew);
-              setTvCrew(tvCrew.crew);
+              setPersonMovieInfo(movieResponse);
+              setPersonTvInfo(tvResponse);
             }
           }
         } catch (error) {
@@ -123,10 +119,8 @@ const MediaInfoComponent = (props) => {
             <PersonInfo
               person={media}
               styles={styles}
-              movieCredits={movieCredits}
-              tvCredits={tvCredits}
-              movieCrew={movieCrew}
-              tvCrew={tvCrew}
+              movieInfo={personMovieInfo}
+              tvInfo={personTvInfo}
               navigation={props.navigation}
             />
           ) : (
