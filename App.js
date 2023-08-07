@@ -28,12 +28,14 @@ const paperTheme = {
     primary: colors.primaryBlue,
     background: colors.backgroundBlue,
     // button outline and other outlines
-    outline: colors.white,
+    outline: colors.yellow,
     // text color
     onSurface: colors.white,
     // disabled item theme
     surfaceDisabled: colors.lightGray,
-    onSurfaceDisabled: colors.darkGray
+    onSurfaceDisabled: colors.darkGray,
+    // search text color
+    onSurfaceVariant: colors.white
   },
 };
 

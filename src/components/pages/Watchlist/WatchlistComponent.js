@@ -1,15 +1,13 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Text, Button } from "react-native-paper";
+import { Text, Button, List } from "react-native-paper";
 import { ScrollView, View, FlatList } from "react-native";
-import RNPickerSelect from "react-native-picker-select-updated";
 
 import NotLoggedIn from "./layouts/NotLoggedIn";
 import NoWatchlist from "./layouts/NoWatchlist";
 import EmptyWatchlist from "./layouts/EmptyWatchlist";
 import { watchlistStyles } from "./WatchlistComponentStyles";
-import { pickerStyle } from "./WatchlistComponentStyles";
 import ListCardComponent from "../../ui/ListCardComponent"
 import colors from "../../../assets/colors";
 import Snack from "../../ui/Snack"
@@ -27,6 +25,7 @@ const WatchlistComponent = (props) => {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.user.loginStatus);
   const watchlistData = useSelector((state) => state.watchlist);
+  const [sortStrategiesExpanded, setExpanded] = useState(false);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -53,6 +52,39 @@ const WatchlistComponent = (props) => {
     dispatch(setTotalPages(updatedList.total_pages));
   };
 
+  const changeSortValue = (sortBy) => {
+    setExpanded(false);
+    dispatch(setSortBy(sortBy));
+    dispatch(setPage(1));
+  };
+
+  const sortStrategies = [
+    {
+      label: "Recently Added (Recents First)",
+      value: "original_order.desc",
+    },
+    {
+      label: "Recently Added (Oldest First)",
+      value: "original_order.asc",
+    },
+    {
+      label: "Release Date (Newest First)",
+      value: "release_date.desc",
+    },
+    {
+      label: "Release Date (Oldest First)",
+      value: "release_date.asc",
+    },
+    { label: "Title (A->Z)", value: "title.asc" },
+    { label: "Title (Z->A)", value: "title.desc" },
+    { label: "Rating (Highest First)", value: "vote_average.desc" },
+    { label: "Rating (Lowest First)", value: "vote_average.asc" },
+  ];
+
+  const getSortStrategyTitle = () => {
+    return sortStrategies.find(item => item.value === watchlistData.sortBy).label;
+  }
+
   if (!loggedIn) {
     return <NotLoggedIn />;
   }
@@ -70,36 +102,24 @@ const WatchlistComponent = (props) => {
       <Text style={watchlistStyles.header}>Watchlist</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={watchlistStyles.pickerContainer}>
-          <RNPickerSelect
-            value={watchlistData.sortBy}
-            style={pickerStyle}
-            onValueChange={(value) => {
-              dispatch(setSortBy(value));
-              dispatch(setPage(1));
-            }}
-            items={[
-              {
-                label: "Recently Added (Recents First)",
-                value: "original_order.desc",
-              },
-              {
-                label: "Recently Added (Oldest First)",
-                value: "original_order.asc",
-              },
-              {
-                label: "Release Date (Newest First)",
-                value: "release_date.desc",
-              },
-              {
-                label: "Release Date (Oldest First)",
-                value: "release_date.asc",
-              },
-              { label: "Title (A->Z)", value: "title.asc" },
-              { label: "Title (Z->A)", value: "title.desc" },
-              { label: "Rating (Highest First)", value: "vote_average.desc" },
-              { label: "Rating (Lowest First)", value: "vote_average.asc" },
-            ]}
-          />
+          <List.Accordion
+            expanded={sortStrategiesExpanded}
+            onPress={() => setExpanded(!sortStrategiesExpanded)}
+            title={getSortStrategyTitle()}
+            titleStyle={watchlistStyles.pickerTitle}
+            style={watchlistStyles.pickerStyle}
+          >
+            {sortStrategies
+              .filter(item => item.value !== watchlistData.sortBy)
+              .map(strategy => (
+                <List.Item
+                  style={watchlistStyles.pickerItem}
+                  key={strategy.value}
+                  onPress={() => changeSortValue(strategy.value)}
+                  title={strategy.label} />
+              ))
+            }
+          </List.Accordion>
         </View>
         <FlatList
           data={watchlistData.watchlist}

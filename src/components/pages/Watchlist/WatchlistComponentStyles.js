@@ -1,20 +1,6 @@
 import colors from "../../../assets/colors";
 import { StyleSheet } from "react-native";
 
-export const pickerStyle = {
-  inputIOS: {
-    color: "white",
-    backgroundColor: colors.yellow,
-  },
-  placeholder: {
-    color: "white",
-  },
-  inputAndroid: {
-    color: "white",
-    backgroundColor: colors.yellow,
-  },
-};
-
 export const watchlistStyles = StyleSheet.create({
   header: {
     fontSize: 25,
@@ -42,7 +28,21 @@ export const watchlistStyles = StyleSheet.create({
     marginHorizontal: 5,
   },
   pickerContainer: {
-    marginHorizontal: 50,
     marginBottom: 20,
+    marginHorizontal: 30
   },
+  pickerStyle: {
+    backgroundColor: colors.yellow,
+    borderRadius: 20
+  },
+  pickerTitle: {
+    color: colors.white
+  },
+  pickerItem: {
+    borderWidth: 1,
+    borderColor: colors.yellow,
+    borderRadius: 20,
+    marginHorizontal: 15,
+    marginTop: 8
+  }
 });

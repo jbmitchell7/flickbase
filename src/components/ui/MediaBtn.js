@@ -31,7 +31,7 @@ const MediaBtn = (props) => {
   return (
     <Button
       compact={true}
-      textColor={colors.yellow}
+      textColor={colors.white}
       dark={true}
       icon={icon}
       mode="outlined"
