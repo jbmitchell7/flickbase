@@ -2,7 +2,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = "https://api.themoviedb.org";
-const readAccess = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2I5MDBhNjMxNzgxOTBkMjU1MDIzZWVlMzhiOTE2OCIsInN1YiI6IjYxNDM3NzE1OTQ1MGZlMDA4ZWNjNTY5NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.AmUGwDike3WM66g1PBfSbuPGVfr8vU6m74KHxCxeTB4";
+const readAccess = process.env.EXPO_PUBLIC_API_KEY;
 
 const tmdbFetch = async (url, method = "GET", payload = {}) => {
 

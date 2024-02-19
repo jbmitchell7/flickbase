@@ -166,6 +166,7 @@ const MediaInfoComponent = (props) => {
                 items={streamers}
                 styles={styles}
               />
+              <Text style={styles.attributionText}>Streaming info provided by JustWatch</Text>
               <View style={styles.buttonContainer}>
                 <WatchlistBtn media={media} type={mediaType} buttonType="add" />
                 <WatchlistBtn
@@ -202,6 +203,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 20,
+  },
+
+  attributionText: {
+    fontStyle: 'italic' 
   },
 
   lastText: {
