@@ -1,0 +1,22 @@
+{
+	"name": "Flickbase",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"eamodio.gitlens",
+        "christian-kohler.npm-intellisense",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-rename-tag",
+        "github.vscode-pull-request-github",
+        "msjsdiag.vscode-react-native",
+        "dsznajder.es7-react-js-snippets"
+			]
+		}
+	}
+}
