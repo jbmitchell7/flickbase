@@ -97,7 +97,7 @@ const WatchlistComponent = (props) => {
     return <EmptyWatchlist />;
   }
 
-  const getHeader = () => {
+  return (
     <>
       <Text style={watchlistStyles.header}>Watchlist</Text>
       <View style={watchlistStyles.pickerContainer}>
@@ -120,48 +120,6 @@ const WatchlistComponent = (props) => {
           }
         </List.Accordion>
       </View>
-    </>
-  }
-
-  const getFooter = () => {
-    {
-      watchlistData.pages > 1 ? (
-        <View style={watchlistStyles.pageBtns}>
-          {watchlistData.page != 1 ? (
-            <Button
-              buttonColor={colors.yellow}
-              dark={true}
-              icon="arrow-left-circle"
-              mode="contained"
-              style={watchlistStyles.pageBtn}
-              onPress={() => {
-                dispatch(decrementPage());
-              }}
-            >
-              Prev
-            </Button>
-          ) : null}
-          {watchlistData.page != watchlistData.pages ? (
-            <Button
-              buttonColor={colors.yellow}
-              dark={true}
-              icon="arrow-right-circle"
-              mode="contained"
-              style={watchlistStyles.pageBtn}
-              onPress={() => {
-                dispatch(incrementPage());
-              }}
-            >
-              Next
-            </Button>
-          ) : null}
-        </View>
-      ) : null
-    }
-  }
-
-  return (
-    <>
       <FlatList
         data={watchlistData.watchlist}
         keyExtractor={(item) => item.id}
@@ -173,9 +131,41 @@ const WatchlistComponent = (props) => {
             type="watchlist"
           />
         )}
-        ListHeaderComponent={getHeader}
-        ListFooterComponent={getFooter}
       />
+      {
+        watchlistData.pages > 1 ? (
+          <View style={watchlistStyles.pageBtns}>
+            {watchlistData.page != 1 ? (
+              <Button
+                buttonColor={colors.yellow}
+                dark={true}
+                icon="arrow-left-circle"
+                mode="contained"
+                style={watchlistStyles.pageBtn}
+                onPress={() => {
+                  dispatch(decrementPage());
+                }}
+              >
+                Prev
+              </Button>
+            ) : null}
+            {watchlistData.page != watchlistData.pages ? (
+              <Button
+                buttonColor={colors.yellow}
+                dark={true}
+                icon="arrow-right-circle"
+                mode="contained"
+                style={watchlistStyles.pageBtn}
+                onPress={() => {
+                  dispatch(incrementPage());
+                }}
+              >
+                Next
+              </Button>
+            ) : null}
+          </View>
+        ) : null
+      }
       <Snack />
     </>
   );

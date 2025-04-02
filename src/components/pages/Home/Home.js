@@ -103,7 +103,7 @@ const Home = (props) => {
 
 const styles = StyleSheet.create({
   header: {
-    marginTop: 40,
+    marginTop: 30,
     marginBottom: 20,
     marginHorizontal: 20,
     fontSize: 25,
