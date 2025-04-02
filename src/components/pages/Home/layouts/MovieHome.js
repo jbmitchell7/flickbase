@@ -4,7 +4,6 @@ import {
   SectionList,
   FlatList,
   View,
-  ScrollView,
 } from "react-native";
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
@@ -82,7 +81,7 @@ const MovieHome = (props) => {
 
   if (dataLoaded) {
     return (
-      <ScrollView contentContainerStyle={styles.sectionContainer}>
+      <View contentContainerStyle={styles.sectionContainer}>
         <SectionList
           contentContainerStyle={{ paddingHorizontal: 10 }}
           stickySectionHeadersEnabled={false}
@@ -113,7 +112,7 @@ const MovieHome = (props) => {
             return null;
           }}
         />
-      </ScrollView>
+      </View>
     );
   }
 

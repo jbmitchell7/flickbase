@@ -3,9 +3,10 @@
     "name": "Flickbase",
     "description": "movie app using the tmdb api",
     "slug": "flickbase",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -26,7 +27,7 @@
         "backgroundColor": "#032541"
       },
       "package": "cloud.jakemitchell.flickbase",
-      "versionCode": 20
+      "versionCode": 21
     },
     "web": {
       "favicon": "./assets/favicon.png",

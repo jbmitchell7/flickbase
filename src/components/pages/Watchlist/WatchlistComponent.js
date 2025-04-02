@@ -2,7 +2,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Text, Button, List } from "react-native-paper";
-import { ScrollView, View, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 
 import NotLoggedIn from "./layouts/NotLoggedIn";
 import NoWatchlist from "./layouts/NoWatchlist";
@@ -97,75 +97,85 @@ const WatchlistComponent = (props) => {
     return <EmptyWatchlist />;
   }
 
-  return (
+  const getHeader = () => {
     <>
       <Text style={watchlistStyles.header}>Watchlist</Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={watchlistStyles.pickerContainer}>
-          <List.Accordion
-            expanded={sortStrategiesExpanded}
-            onPress={() => setExpanded(!sortStrategiesExpanded)}
-            title={getSortStrategyTitle()}
-            titleStyle={watchlistStyles.pickerTitle}
-            style={watchlistStyles.pickerStyle}
-          >
-            {sortStrategies
-              .filter(item => item.value !== watchlistData.sortBy)
-              .map(strategy => (
-                <List.Item
-                  style={watchlistStyles.pickerItem}
-                  key={strategy.value}
-                  onPress={() => changeSortValue(strategy.value)}
-                  title={strategy.label} />
-              ))
-            }
-          </List.Accordion>
+      <View style={watchlistStyles.pickerContainer}>
+        <List.Accordion
+          expanded={sortStrategiesExpanded}
+          onPress={() => setExpanded(!sortStrategiesExpanded)}
+          title={getSortStrategyTitle()}
+          titleStyle={watchlistStyles.pickerTitle}
+          style={watchlistStyles.pickerStyle}
+        >
+          {sortStrategies
+            .filter(item => item.value !== watchlistData.sortBy)
+            .map(strategy => (
+              <List.Item
+                style={watchlistStyles.pickerItem}
+                key={strategy.value}
+                onPress={() => changeSortValue(strategy.value)}
+                title={strategy.label} />
+            ))
+          }
+        </List.Accordion>
+      </View>
+    </>
+  }
+
+  const getFooter = () => {
+    {
+      watchlistData.pages > 1 ? (
+        <View style={watchlistStyles.pageBtns}>
+          {watchlistData.page != 1 ? (
+            <Button
+              buttonColor={colors.yellow}
+              dark={true}
+              icon="arrow-left-circle"
+              mode="contained"
+              style={watchlistStyles.pageBtn}
+              onPress={() => {
+                dispatch(decrementPage());
+              }}
+            >
+              Prev
+            </Button>
+          ) : null}
+          {watchlistData.page != watchlistData.pages ? (
+            <Button
+              buttonColor={colors.yellow}
+              dark={true}
+              icon="arrow-right-circle"
+              mode="contained"
+              style={watchlistStyles.pageBtn}
+              onPress={() => {
+                dispatch(incrementPage());
+              }}
+            >
+              Next
+            </Button>
+          ) : null}
         </View>
-        <FlatList
-          data={watchlistData.watchlist}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <ListCardComponent
-              media={item}
-              navigation={props.navigation}
-              type="watchlist"
-            />
-          )}
-        />
-        {watchlistData.pages > 1 ? (
-          <View style={watchlistStyles.pageBtns}>
-            {watchlistData.page != 1 ? (
-              <Button
-                buttonColor={colors.yellow}
-                dark={true}
-                icon="arrow-left-circle"
-                mode="contained"
-                style={watchlistStyles.pageBtn}
-                onPress={() => {
-                  dispatch(decrementPage());
-                }}
-              >
-                Prev
-              </Button>
-            ) : null}
-            {watchlistData.page != watchlistData.pages ? (
-              <Button
-                buttonColor={colors.yellow}
-                dark={true}
-                icon="arrow-right-circle"
-                mode="contained"
-                style={watchlistStyles.pageBtn}
-                onPress={() => {
-                  dispatch(incrementPage());
-                }}
-              >
-                Next
-              </Button>
-            ) : null}
-          </View>
-        ) : null}
-      </ScrollView>
+      ) : null
+    }
+  }
+
+  return (
+    <>
+      <FlatList
+        data={watchlistData.watchlist}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
+          <ListCardComponent
+            media={item}
+            navigation={props.navigation}
+            type="watchlist"
+          />
+        )}
+        ListHeaderComponent={getHeader}
+        ListFooterComponent={getFooter}
+      />
       <Snack />
     </>
   );
