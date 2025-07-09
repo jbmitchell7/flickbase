@@ -27,7 +27,7 @@
         "backgroundColor": "#032541"
       },
       "package": "cloud.jakemitchell.flickbase",
-      "versionCode": 22
+      "versionCode": 23
     },
     "web": {
       "favicon": "./assets/favicon.png",
