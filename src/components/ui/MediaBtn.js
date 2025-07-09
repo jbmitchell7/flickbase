@@ -1,18 +1,16 @@
-import React from "react";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
 import colors from "../../assets/colors";
 
 const MediaBtn = (props) => {
-  const { label, media, icon, mediaState, navigation, setMedia } = props;
+  const { label, media, icon, navigation, route } = props;
 
   const onButtonPress = () => {
     navigation.navigate(media);
-    setMedia(media);
   };
 
-  if (mediaState == media) {
+  if (route.name == media) {
     return (
       <Button
         compact={true}

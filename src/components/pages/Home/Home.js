@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Text } from "react-native-paper";
@@ -6,7 +6,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import MediaBtn from "../../ui/MediaBtn"
 import MovieHome from "./layouts/MovieHome"
 import PersonHome from "./layouts/PersonHome";
 import TvHome from "./layouts/TvHome";
@@ -15,12 +14,10 @@ import { setId } from "../../../redux/watchlist/watchlistSlice";
 
 const HomeStack = createNativeStackNavigator();
 
-const Home = (props) => {
+const Home = () => {
   const dispatch = useDispatch();
   const loginStatus = useSelector(state => state.user.loginStatus);
   const watchlistId = useSelector((state) => state.watchlist.id);
-
-  const [media, setMedia] = useState("movie");
 
   useFocusEffect(
     React.useCallback(() => {
@@ -54,32 +51,6 @@ const Home = (props) => {
   return (
     <View style={styles.background}>
       <Text style={styles.header}>Flickbase</Text>
-      <View style={styles.buttonContainer}>
-        <MediaBtn
-          label="Movies"
-          navigation={props.navigation}
-          setMedia={setMedia}
-          mediaState={media}
-          media="movie"
-          icon="movie-open"
-        />
-        <MediaBtn
-          label="TV"
-          navigation={props.navigation}
-          setMedia={setMedia}
-          mediaState={media}
-          media="tv"
-          icon="television-classic"
-        />
-        <MediaBtn
-          label="People"
-          navigation={props.navigation}
-          setMedia={setMedia}
-          mediaState={media}
-          media="person"
-          icon="account"
-        />
-      </View>
       <HomeStack.Navigator initialRouteName="movie">
         <HomeStack.Screen
           name="movie"

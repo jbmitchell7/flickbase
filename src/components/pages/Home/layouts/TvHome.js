@@ -4,12 +4,14 @@ import {
   SectionList,
   FlatList,
   View,
+  ScrollView
 } from "react-native";
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { fetchGet } from "../../../../api/tmdb";
 import MediaCoverComponent from "../../../ui/MediaCoverComponent";
+import HomeBtnGroup from "../../../ui/HomeButtonGroup";
 
 const TvHome = (props) => {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -81,38 +83,41 @@ const TvHome = (props) => {
 
   if (dataLoaded) {
     return (
-      <View contentContainerStyle={styles.sectionContainer}>
-        <SectionList
-          contentContainerStyle={{ paddingHorizontal: 10 }}
-          stickySectionHeadersEnabled={false}
-          sections={SECTIONS}
-          showsVerticalScrollIndicator={false}
-          renderSectionHeader={({ section }) => (
-            <>
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-              <FlatList
-                horizontal
-                data={section.data}
-                renderItem={({ item }) => (
-                  <View style={styles.tvCard}>
-                    <MediaCoverComponent
-                      media={item}
-                      key={item.id}
-                      navigation={props.navigation}
-                    />
-                    <Text style={styles.tvText}>{item.name}</Text>
-                  </View>
-                )}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item.id}
-              />
-            </>
-          )}
-          renderItem={() => {
-            return null;
-          }}
-        />
-      </View>
+      <>
+        <HomeBtnGroup navigation={props.navigation} route={props.route} />
+        <ScrollView contentContainerStyle={styles.sectionContainer}>
+          <SectionList
+            contentContainerStyle={{ paddingHorizontal: 10 }}
+            stickySectionHeadersEnabled={false}
+            sections={SECTIONS}
+            showsVerticalScrollIndicator={false}
+            renderSectionHeader={({ section }) => (
+              <>
+                <Text style={styles.sectionHeader}>{section.title}</Text>
+                <FlatList
+                  horizontal
+                  data={section.data}
+                  renderItem={({ item }) => (
+                    <View style={styles.tvCard}>
+                      <MediaCoverComponent
+                        media={item}
+                        key={item.id}
+                        navigation={props.navigation}
+                      />
+                      <Text style={styles.tvText}>{item.name}</Text>
+                    </View>
+                  )}
+                  showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item) => item.id}
+                />
+              </>
+            )}
+            renderItem={() => {
+              return null;
+            }}
+          />
+        </ScrollView>
+      </>
     );
   }
 
