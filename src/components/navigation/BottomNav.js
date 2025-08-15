@@ -18,7 +18,8 @@ const BottomNav = () => (
         backgroundColor: colors.primaryBlue,
         borderColor: colors.primaryBlue,
         borderTopWidth: 0,
-        height: 55,
+        height: 50,
+        paddingTop: 5
       },
       tabBarShowLabel: false,
       tabBarActiveTintColor: colors.white,
@@ -32,7 +33,7 @@ const BottomNav = () => (
       options={{
         tabBarLabel: "Home",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="home" color={color} size={26} />
+          <MaterialCommunityIcons name="home" color={color} size={25} />
         ),
         unmountOnBlur: true,
       }}
@@ -43,7 +44,7 @@ const BottomNav = () => (
       options={{
         tabBarLabel: "Search",
         tabBarIcon: ({ color }) => (
-          <MaterialCommunityIcons name="magnify" color={color} size={26} />
+          <MaterialCommunityIcons name="magnify" color={color} size={25} />
         ),
       }}
     />
@@ -56,7 +57,7 @@ const BottomNav = () => (
           <MaterialCommunityIcons
             name="book-plus-multiple-outline"
             color={color}
-            size={26}
+            size={25}
           />
         ),
       }}
@@ -70,7 +71,7 @@ const BottomNav = () => (
           <MaterialCommunityIcons
             name="account-circle-outline"
             color={color}
-            size={26}
+            size={25}
           />
         ),
       }}

@@ -46,7 +46,9 @@ const SearchForm = () => {
 const styles = StyleSheet.create({
   searchBar: {
     marginVertical: 40,
-    backgroundColor: colors.primaryBlue,
+    backgroundColor: colors.backgroundBlue,
+    borderColor: colors.yellow,
+    borderWidth: 2,
     width: "95%",
     alignSelf: "center",
   },
