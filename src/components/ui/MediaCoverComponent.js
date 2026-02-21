@@ -19,6 +19,7 @@ const MediaCoverComponent = (props) => {
       >
         <Image
           style={styles.image}
+          resizeMode="contain"
           source={{ uri: `${IMAGE_URL}${media.profile_path}` }}
         />
       </Pressable>
@@ -38,6 +39,7 @@ const MediaCoverComponent = (props) => {
       >
         <Image
           style={styles.image}
+          resizeMode="contain"
           source={{ uri: `${IMAGE_URL}${media.poster_path}` }}
         />
       </Pressable>
@@ -56,6 +58,7 @@ const MediaCoverComponent = (props) => {
     >
       <Image
         style={styles.image}
+        resizeMode="contain"
         source={{ uri: `${IMAGE_URL}${media.poster_path}` }}
       />
     </Pressable>

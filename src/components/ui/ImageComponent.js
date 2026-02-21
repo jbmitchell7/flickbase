@@ -21,7 +21,6 @@ const ImageComponent = (props) => {
     <View style={styles.imageContainer}>
       <Image
         style={styles.image}
-        resizeMode="contain"
         source={{ uri: `${IMAGE_URL}${item.poster_path}` }}
       />
     </View>
