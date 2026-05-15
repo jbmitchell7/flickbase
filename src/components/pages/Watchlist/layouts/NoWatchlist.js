@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { View } from "react-native";
 import { Text, Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,7 +25,7 @@ const NoWatchlist = () => {
   };
 
   return (
-    <SafeAreaView style={watchlistStyles.viewContainer}>
+    <View style={watchlistStyles.viewContainer}>
       <Text style={watchlistStyles.header}>Watchlist</Text>
       <Text style={watchlistStyles.watchlistMsg}>
         You have not created a watchlist for Flickbase yet.
@@ -42,7 +42,7 @@ const NoWatchlist = () => {
       >
         Create Flickbase Watchlist
       </Button>
-    </SafeAreaView>
+    </View>
   );
 };
 
