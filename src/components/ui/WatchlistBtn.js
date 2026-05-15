@@ -54,7 +54,7 @@ const WatchlistBtn = (props) => {
     <View>
       {buttonType == "add" ? (
         <IconButton
-          iconColor={colors.blueGreen}
+          iconColor={colors.primaryBlue}
           size={30}
           icon="book-plus-multiple"
           onPress={() => addToWatchlist()}
