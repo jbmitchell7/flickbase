@@ -3,8 +3,7 @@ import {
   StyleSheet,
   SectionList,
   FlatList,
-  View,
-  ScrollView
+  View
 } from "react-native";
 import { Text } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
@@ -85,38 +84,36 @@ const MovieHome = (props) => {
     return (
       <>
         <HomeBtnGroup navigation={props.navigation} route={props.route} />
-        <ScrollView contentContainerStyle={styles.sectionContainer}>
-          <SectionList
-            contentContainerStyle={{ paddingHorizontal: 10 }}
-            stickySectionHeadersEnabled={false}
-            sections={SECTIONS}
-            showsVerticalScrollIndicator={false}
-            renderSectionHeader={({ section }) => (
-              <>
-                <Text style={styles.sectionHeader}>{section.title}</Text>
-                <FlatList
-                  horizontal
-                  data={section.data}
-                  renderItem={({ item }) => (
-                    <View style={styles.movieCard}>
-                      <MediaCoverComponent
-                        media={item}
-                        key={item.id}
-                        navigation={props.navigation}
-                      />
-                      <Text style={styles.movieText}>{item.title}</Text>
-                    </View>
-                  )}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item) => item.id}
-                />
-              </>
-            )}
-            renderItem={() => {
-              return null;
-            }}
-          />
-        </ScrollView>
+        <SectionList
+          contentContainerStyle={styles.sectionContainer}
+          stickySectionHeadersEnabled={false}
+          sections={SECTIONS}
+          showsVerticalScrollIndicator={false}
+          renderSectionHeader={({ section }) => (
+            <>
+              <Text style={styles.sectionHeader}>{section.title}</Text>
+              <FlatList
+                horizontal
+                data={section.data}
+                renderItem={({ item }) => (
+                  <View style={styles.movieCard}>
+                    <MediaCoverComponent
+                      media={item}
+                      key={item.id}
+                      navigation={props.navigation}
+                    />
+                    <Text style={styles.movieText}>{item.title}</Text>
+                  </View>
+                )}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+              />
+            </>
+          )}
+          renderItem={() => {
+            return null;
+          }}
+        />
       </>
     );
   }
@@ -127,6 +124,7 @@ const MovieHome = (props) => {
 const styles = StyleSheet.create({
   sectionContainer: {
     paddingBottom: 40,
+    paddingHorizontal: 10
   },
   sectionHeader: {
     marginVertical: 20,

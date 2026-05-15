@@ -15,7 +15,8 @@
         "formulahendry.auto-rename-tag",
         "github.vscode-pull-request-github",
         "msjsdiag.vscode-react-native",
-        "dsznajder.es7-react-js-snippets"
+        "dsznajder.es7-react-js-snippets",
+        "expo.vscode-expo-tools"
 			]
 		}
 	}
