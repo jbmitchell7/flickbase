@@ -25,7 +25,7 @@ const BottomNav = () => {
         initialRouteName="Home"
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: colors.yellow,
+            backgroundColor: colors.darkGray,
             height: 60,
             paddingTop: 10,
             marginLeft: 8,
